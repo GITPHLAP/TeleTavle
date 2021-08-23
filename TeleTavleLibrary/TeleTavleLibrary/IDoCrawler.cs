@@ -6,5 +6,6 @@ namespace TeleTavleLibrary
 {
     interface IDoCrawler
     {
+        bool DoOnWebsite();
     }
 }
