@@ -4,7 +4,8 @@ using System.Text;
 
 namespace TeleTavleLibrary
 {
-    interface IInformationCrawler
+    interface IInformationCrawler<T,K>
     {
+        T CrawlInformation(K input); 
     }
 }
