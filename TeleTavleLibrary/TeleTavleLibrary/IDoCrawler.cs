@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TeleTavleLibrary
 {
-    interface IDoCrawler
+    public interface IDoCrawler
     {
         bool DoOnWebsite();
     }
