@@ -6,6 +6,6 @@ namespace TeleTavleLibrary
 {
      public interface IInformationCrawler<T,K>
     {
-        T CrawlInformation(K input); 
+        public T CrawlInformation(K input); 
     }
 }

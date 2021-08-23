@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TeleTavleLibrary
 {
-    class SearchResultSEF
+    public class SearchResultSEF
     {
     }
 }

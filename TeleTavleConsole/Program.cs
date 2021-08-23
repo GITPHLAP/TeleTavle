@@ -1,4 +1,5 @@
 ﻿using System;
+using TeleTavleLibrary;
 
 namespace TeleTavleConsole
 {
@@ -6,7 +7,8 @@ namespace TeleTavleConsole
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var test = new SEFBot();
+            test.CrawlInformation(null);
         }
     }
 }
