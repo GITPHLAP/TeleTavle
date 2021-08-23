@@ -15,7 +15,10 @@ namespace TeleTavleLibrary
         {
             try
             {
-                IWebDriver chromeDriver = new ChromeDriver();
+                ChromeOptions co = new ChromeOptions();
+                co.AddArguments("--headless");
+                IWebDriver chromeDriver = new ChromeDriver(co);
+                
                 return chromeDriver;
             }
             catch (Exception)

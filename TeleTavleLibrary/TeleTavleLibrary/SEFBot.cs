@@ -21,6 +21,8 @@ namespace TeleTavleLibrary
             URLManagerSearch(chromeDriver, input.searchResult);
 
             GetSEFInformation(chromeDriver, input);
+
+            chromeDriver.Quit();
         }
 
         void URLManagerSearch(IWebDriver chromeDriver, SearchResult input)
