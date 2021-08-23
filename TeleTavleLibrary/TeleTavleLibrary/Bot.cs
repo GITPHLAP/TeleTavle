@@ -4,7 +4,8 @@ using System.Text;
 
 namespace TeleTavleLibrary
 {
-    class Bot
+    abstract class Bot
     {
+        public event EventHandler LogEvent;
     }
 }
