@@ -22,7 +22,7 @@ namespace TeleTavleLibrary
             usernameBox.SendKeys(ConfigurationManager.AppSettings.Get("JUser"));
             passwordBox.SendKeys(ConfigurationManager.AppSettings.Get("JPass"));
             //Find the login button.
-            chromeDriver.FindElement(By.XPath(@"/html/body/div[1]/div/div/form/fieldset/div[4]/div/div/button")).Click();
+            chromeDriver.FindElement(By.CssSelector(@"#form-login > fieldset > div:nth-child(4) > div > div > button ")).Click();
         }
 
     }

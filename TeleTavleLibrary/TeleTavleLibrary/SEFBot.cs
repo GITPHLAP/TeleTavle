@@ -30,18 +30,19 @@ namespace TeleTavleLibrary
             //Input text to search
             chromeDriver.FindElement(By.Id("search_all")).SendKeys(input.UrlLocation);
             //Click on the search button
-            chromeDriver.FindElement(By.XPath("/html/body/div[2]/section/div/div/div[3]/form/div/div[1]/div[2]/div[2]/button[1]")).Click();
-
+            //chromeDriver.FindElement(By.XPath("/html/body/div[2]/section/div/div/div[3]/form/div/div[1]/div[2]/div[2]/button[1]")).Click();
+            chromeDriver.FindElement(By.CssSelector("#shl-main-searchbar-right-block > div.btn-group.pull-left.hidden-phone > button:nth-child(1)")).Click();
 
         }
 
         void GetSEFInformation(IWebDriver chromeDriver, SearchResultSEF searchResultSEF)
         {
-            //Find title and description from site
             try
             {
+                //Find title and description from site
                 string header = chromeDriver.FindElement(By.XPath("/html/body/div[2]/section/div/div/div[3]/form/div/div[3]/div[2]/table/tbody/tr[1]/td[4]/div/textarea")).Text;
                 string description = chromeDriver.FindElement(By.XPath("/html/body/div[2]/section/div/div/div[3]/form/div/div[3]/div[2]/table/tbody/tr[1]/td[5]/div/textarea")).Text;
+                //Add information 
                 searchResultSEF.Header = header;
                 searchResultSEF.Description = description;
             }

@@ -17,7 +17,7 @@ namespace TeleTavleConsole
             watch.Start();
             test.CrawlInformation(sss);
             watch.Stop();
-            Console.WriteLine(watch.Elapsed.Seconds);
+            Console.WriteLine(watch.Elapsed.Milliseconds);
 
             Console.WriteLine(sss.Header);
         }
