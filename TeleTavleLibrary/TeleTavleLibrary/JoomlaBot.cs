@@ -3,11 +3,30 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Text;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
 
 namespace TeleTavleLibrary
 {
-    public class JoomlaBot : Bot
+    public abstract class JoomlaBot : Bot
     {
+
+        public IWebDriver GetChromeDriver()
+        {
+            try
+            {
+                ChromeOptions co = new ChromeOptions();
+                co.AddArguments("--headless");
+                IWebDriver chromeDriver = new ChromeDriver(co);
+
+                return chromeDriver;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+
+        }
 
         public void SiteLogin(IWebDriver chromeDriver, string startUrl)
         {

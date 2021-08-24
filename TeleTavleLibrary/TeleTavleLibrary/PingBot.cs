@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TeleTavleLibrary
 {
-    class PingBot
+    public class PingBot
     {
     }
 }
