@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TeleTavleLibrary
 {
-    enum InformationType
+    public enum InformationType
     {
         Successful,
         Failed,
