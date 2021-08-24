@@ -13,10 +13,10 @@ namespace TeleTavleLibrary
         {
 
         }
-        public LogEventArgs(string message, DateTime time, InformationType type)
+        public LogEventArgs(string message, InformationType type)
         {
             this.Message = message;
-            this.Time = time;
+            this.Time = DateTime.Now;
             this.informationType = type;
         }
     }
