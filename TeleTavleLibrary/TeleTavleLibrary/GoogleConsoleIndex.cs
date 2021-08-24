@@ -12,15 +12,16 @@ namespace TeleTavleLibrary
 {
     public class GoogleConsoleIndex
     {
-        private GoogleCredential _googleCredential;
+        public event EventHandler LogEvent;
+        private GoogleCredential googleCredential;
 
         public GoogleConsoleIndex()
         {
 
-            _googleCredential = GetGoogleCredential();
+            googleCredential = GetGoogleCredential();
         }
 
-        public GoogleCredential GetGoogleCredential()
+        private GoogleCredential GetGoogleCredential()
         {
             //Path to the credentials file
             var path = Environment.CurrentDirectory + "/telefontavlen-c88ce2f3a6b5.json";
@@ -35,14 +36,14 @@ namespace TeleTavleLibrary
             return credential;
         }
         /// <summary>
-        /// Sends a request to google about indexing.URL_UPDATED OR URL_DELETED. Make sure to await, so the request is done
+        /// Sends a request to google about indexing. action could be URL_UPDATED OR URL_DELETED. Make sure to await, so the request is done.  Use .result after method
         /// </summary>
-        /// <param name="jobUrl"></param>
+        /// <param name="URLToIndex"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public Task<PublishUrlNotificationResponse> AddUpdateIndex(string jobUrl, string action)
+        public Task<PublishUrlNotificationResponse> IndexURL(string URLToIndex, string action)
         {
-            var credential = _googleCredential.UnderlyingCredential;
+            var credential = googleCredential.UnderlyingCredential;
             //Adding credentials
             var googleIndexingApiClientService = new IndexingService(new BaseClientService.Initializer
             {
@@ -51,7 +52,7 @@ namespace TeleTavleLibrary
             //The body of the post request
             var requestBody = new UrlNotification
             {
-                Url = jobUrl,
+                Url = URLToIndex,
                 Type = action
             };
 
