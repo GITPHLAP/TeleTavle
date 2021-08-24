@@ -57,6 +57,8 @@ namespace TeleTavleLibrary
             };
 
             var publishRequest = new UrlNotificationsResource.PublishRequest(googleIndexingApiClientService, requestBody);
+            
+            LogEvent?.Invoke(this, new LogEventArgs("JAA Console har indexeret", InformationType.Successful));
             //If something goes wrong, it will throw exception
             return publishRequest.ExecuteAsync();
         }
