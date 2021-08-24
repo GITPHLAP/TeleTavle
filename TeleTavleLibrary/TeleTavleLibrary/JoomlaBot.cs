@@ -10,23 +10,7 @@ namespace TeleTavleLibrary
     public abstract class JoomlaBot : Bot
     {
 
-        public IWebDriver GetChromeDriver()
-        {
-            try
-            {
-                ChromeOptions co = new ChromeOptions();
-                co.AddArguments("--headless");
-                IWebDriver chromeDriver = new ChromeDriver(co);
-
-                return chromeDriver;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-
-        }
+        
 
         public void SiteLogin(IWebDriver chromeDriver, string startUrl)
         {
