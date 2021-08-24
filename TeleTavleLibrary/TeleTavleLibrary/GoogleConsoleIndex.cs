@@ -22,10 +22,11 @@ namespace TeleTavleLibrary
 
         public GoogleCredential GetGoogleCredential()
         {
+            //Path to the credentials file
             var path = Environment.CurrentDirectory + "/telefontavlen-c88ce2f3a6b5.json";
 
             GoogleCredential credential;
-
+            //Get credentials
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
                 credential = GoogleCredential.FromStream(stream).CreateScoped(new[] { "https://www.googleapis.com/auth/indexing" });
@@ -42,12 +43,12 @@ namespace TeleTavleLibrary
         public Task<PublishUrlNotificationResponse> AddUpdateIndex(string jobUrl, string action)
         {
             var credential = _googleCredential.UnderlyingCredential;
-
+            //Adding credentials
             var googleIndexingApiClientService = new IndexingService(new BaseClientService.Initializer
             {
                 HttpClientInitializer = credential
             });
-
+            //The body of the post request
             var requestBody = new UrlNotification
             {
                 Url = jobUrl,
