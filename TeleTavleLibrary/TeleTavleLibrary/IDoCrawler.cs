@@ -6,6 +6,6 @@ namespace TeleTavleLibrary
 {
     public interface IDoCrawler
     {
-        bool DoOnWebsite();
+        bool DoOnWebsite(SearchResultSEF searchResultSEF);
     }
 }
