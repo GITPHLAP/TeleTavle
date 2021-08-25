@@ -6,6 +6,10 @@ namespace TeleTavleLibrary
 {
     public class TTManager
     {
+        public event EventHandler<LogEventArgs> LogEvent;
+
+
+        
         // globla variables
         GoogleSearchBot gSearchBot;
 
@@ -26,6 +30,9 @@ namespace TeleTavleLibrary
                 foreach (var result in searchResults)
                 {
                     SearchResultSEF sefSearchResult = SEFInformation(result);
+
+                    //TODO: TEST skal fjernes
+                    sefSearchResult.Header = "TEST123";
 
                     //Ping the result
                     PingSearchResult(sefSearchResult);
@@ -69,6 +76,22 @@ namespace TeleTavleLibrary
             pingbot = new PingBot();
 
             gConsole = new GoogleConsoleIndex();
+
+            gSearchBot.LogEvent += NewLogEvent;
+
+            sefBot.LogEvent += NewLogEvent;
+
+            pingbot.LogEvent += NewLogEvent;
+
+            gConsole.LogEvent += NewLogEvent;
+
+        }
+
+        private void NewLogEvent(object sender, LogEventArgs e)
+        {
+            LogEvent?.Invoke(sender, e);
+
+            //Console.WriteLine($"{e.Time}: {e.Message}");
 
         }
     }

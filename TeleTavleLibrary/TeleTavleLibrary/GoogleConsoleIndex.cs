@@ -12,7 +12,7 @@ namespace TeleTavleLibrary
 {
     public class GoogleConsoleIndex
     {
-        public event EventHandler LogEvent;
+        public event EventHandler<LogEventArgs> LogEvent;
         private GoogleCredential googleCredential;
 
         public GoogleConsoleIndex()

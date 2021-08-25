@@ -28,7 +28,7 @@ namespace TeleTavleLibrary
                 //the link for searchresult
                 Uri searchURL = new Uri(searchresult.SelectSingleNode(".//a").Attributes["href"].Value);
                 //if the result contains teletavle.dk 
-                if (searchURL.Host == "telefontavlen.dk")
+                if (searchURL.Host == "rainbow.simbascorner.dk")
                 {
                     //Instancer and set some properties
                     SearchResult result = new SearchResult
