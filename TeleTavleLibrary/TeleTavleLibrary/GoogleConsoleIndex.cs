@@ -15,12 +15,6 @@ namespace TeleTavleLibrary
         public event EventHandler<LogEventArgs> LogEvent;
         private GoogleCredential googleCredential;
 
-        public GoogleConsoleIndex()
-        {
-
-            googleCredential = GetGoogleCredential();
-        }
-
         private GoogleCredential GetGoogleCredential()
         {
             //Path to the credentials file
@@ -64,6 +58,11 @@ namespace TeleTavleLibrary
 
             LogEvent?.Invoke(this, new LogEventArgs($"{URLToIndex} , er indexeret", InformationType.Successful));
             return executedRequest;
+        }
+
+        public GoogleConsoleIndex()
+        {
+            googleCredential = GetGoogleCredential();
         }
 
     }
