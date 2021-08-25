@@ -25,7 +25,6 @@ namespace TeleTavleLibrary
                 throw;
             }
 
-
         }
 
         protected virtual void NewLogEvent(LogEventArgs e)
