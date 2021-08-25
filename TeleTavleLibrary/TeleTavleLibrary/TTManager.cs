@@ -10,7 +10,7 @@ namespace TeleTavleLibrary
 
 
         
-        // globla variables
+        // global variables
         GoogleSearchBot gSearchBot;
 
         SEFBot sefBot;
