@@ -9,7 +9,7 @@ namespace TeleTavleLibrary
         public event EventHandler<LogEventArgs> LogEvent;
 
 
-        
+
         // global variables
         GoogleSearchBot gSearchBot;
 
@@ -21,24 +21,28 @@ namespace TeleTavleLibrary
 
         public void StartProcess(List<string> searchWords)
         {
-
-            foreach (var searchWord in searchWords)
+            if (searchWords.Count > 0 || searchWords != null)
             {
-                //Get search information and add it to a list
-                List<SearchResult> searchResults = GetSearchInformation(searchWord);
 
-                foreach (var result in searchResults)
+                foreach (var searchWord in searchWords)
                 {
-                    SearchResultSEF sefSearchResult = SEFInformation(result);
+                    //Get search information and add it to a list
+                    List<SearchResult> searchResults = GetSearchInformation(searchWord);
 
-                    //TODO: TEST skal fjernes
-                    sefSearchResult.Header = "TEST123";
+                    foreach (var result in searchResults)
+                    {
+                        SearchResultSEF sefSearchResult = SEFInformation(result);
 
-                    //Ping the result
-                    PingSearchResult(sefSearchResult);
+                        //TODO: TEST skal fjernes
+                        sefSearchResult.Header = "TEST123";
 
-                    IndexURL(result.Url);
+                        //Ping the result
+                        PingSearchResult(sefSearchResult);
+
+                        IndexURL(result.Url);
+                    }
                 }
+                
             }
         }
 
