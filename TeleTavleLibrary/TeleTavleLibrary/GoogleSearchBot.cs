@@ -18,9 +18,22 @@ namespace TeleTavleLibrary
             //load HTML from method returning a string 
             document.LoadHtml(GetSearchPage(searchWord));
 
-            // Get all search results 
-            HtmlNode[] nodes = document.DocumentNode.SelectNodes("//div[@class='g']").ToArray();
+            // Get all search results
+            HtmlNode[] nodes = null;
+            //Send warning if the bot cant find any results
+            try
+            {
+                nodes = document.DocumentNode.SelectNodes("//div[@class='g']").ToArray();
+            }
+            catch (Exception)
+            {
+                NewLogEvent(new LogEventArgs($"Der er ikke fundet nogle søge resultater", InformationType.Warning));
+            }
 
+            if (nodes is null)
+            {
+                NewLogEvent(new LogEventArgs($"søge resultater er null", InformationType.Failed));
+            }
             //start from number one
             int rankCounter = 1;
             foreach (HtmlNode searchresult in nodes)
@@ -56,7 +69,15 @@ namespace TeleTavleLibrary
 
                 rankCounter++;
             }
-            NewLogEvent(new LogEventArgs($"Har fundet søgeresultater fra telefontavlen", InformationType.Successful));
+            if (searchResults.Count == 0)
+            {
+                //No result for search word
+                NewLogEvent(new LogEventArgs($"Der blev ikke fundet nogle resulter fra telefontavlen med søgeordet ({searchWord})", InformationType.Information));
+            }
+            else
+            {
+                NewLogEvent(new LogEventArgs($"Har fundet søgeresultater fra telefontavlen", InformationType.Successful));
+            }
             return searchResults;
         }
 
