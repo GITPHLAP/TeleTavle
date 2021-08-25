@@ -20,7 +20,7 @@ namespace TeleTavleLibrary
 
             chromeDriver.Quit();
 
-            NewLogEvent(new LogEventArgs($"Har pinget:  {searchResultSEF.searchResult.Url}", InformationType.Successful));
+            NewLogEvent(new LogEventArgs($"Har pinget:  {searchResultSEF.SearchResult.Url}", InformationType.Successful));
             
             return true;
         }
@@ -31,7 +31,7 @@ namespace TeleTavleLibrary
             chromeDriver.FindElement(By.CssSelector("#toolbar-new > button")).Click();
             //Find the inputs and send title and url
             chromeDriver.FindElement(By.Id("title")).SendKeys(searchResultSEF.Header);
-            chromeDriver.FindElement(By.Id("linkurl")).SendKeys(searchResultSEF.searchResult.Url);
+            chromeDriver.FindElement(By.Id("linkurl")).SendKeys(searchResultSEF.SearchResult.Url);
             //Save
             chromeDriver.FindElement(By.CssSelector("#toolbar-apply > button")).Click();
         }

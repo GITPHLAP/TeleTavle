@@ -18,13 +18,13 @@ namespace TeleTavleLibrary
 
             SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/index.php?option=com_sh404sef&c=metas&layout=default&view=metas");
 
-            URLManagerSearch(chromeDriver, input.searchResult);
+            URLManagerSearch(chromeDriver, input.SearchResult);
 
             GetSEFInformation(chromeDriver, input);
 
             chromeDriver.Quit();
 
-            NewLogEvent(new LogEventArgs($"Har fundet SEF information for {input.searchResult.Url}", InformationType.Successful));
+            NewLogEvent(new LogEventArgs($"Har fundet SEF information for {input.SearchResult.Url}", InformationType.Successful));
         }
 
         void URLManagerSearch(IWebDriver chromeDriver, SearchResult input)
