@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TeleTavleLibrary
 {
-    class LogEventArgs : EventArgs
+    public class LogEventArgs : EventArgs
     {
         public string Message { get;  set; }
         public DateTime Time { get; set; }

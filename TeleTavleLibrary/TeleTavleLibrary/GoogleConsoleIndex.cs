@@ -36,12 +36,13 @@ namespace TeleTavleLibrary
             return credential;
         }
         /// <summary>
-        /// Sends a request to google about indexing. action could be URL_UPDATED OR URL_DELETED. Make sure to await, so the request is done.  Use .result after method
+        /// Sends a request to google about indexing. action could be URL_UPDATED OR URL_DELETED. Make sure to await, so the request is done.  
+        /// Use .result after method
         /// </summary>
         /// <param name="URLToIndex"></param>
         /// <param name="action"></param>
         /// <returns></returns>
-        public Task<PublishUrlNotificationResponse> IndexURL(string URLToIndex, string action)
+        public PublishUrlNotificationResponse IndexURL(string URLToIndex, string action)
         {
             var credential = googleCredential.UnderlyingCredential;
             //Adding credentials
@@ -57,10 +58,12 @@ namespace TeleTavleLibrary
             };
 
             var publishRequest = new UrlNotificationsResource.PublishRequest(googleIndexingApiClientService, requestBody);
-            
-            LogEvent?.Invoke(this, new LogEventArgs("JAA Console har indexeret", InformationType.Successful));
+
             //If something goes wrong, it will throw exception
-            return publishRequest.ExecuteAsync();
+            var executedRequest = publishRequest.ExecuteAsync().Result;
+
+            LogEvent?.Invoke(this, new LogEventArgs($"{URLToIndex} , er indexeret", InformationType.Successful));
+            return executedRequest;
         }
 
     }

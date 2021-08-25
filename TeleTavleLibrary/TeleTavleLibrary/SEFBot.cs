@@ -23,6 +23,8 @@ namespace TeleTavleLibrary
             GetSEFInformation(chromeDriver, input);
 
             chromeDriver.Quit();
+
+            NewLogEvent(new LogEventArgs($"Har fundet SEF information for {input.searchResult.Url}", InformationType.Successful));
         }
 
         void URLManagerSearch(IWebDriver chromeDriver, SearchResult input)

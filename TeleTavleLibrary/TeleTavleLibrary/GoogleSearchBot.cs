@@ -55,7 +55,7 @@ namespace TeleTavleLibrary
 
                 rankCounter++;
             }
-
+            NewLogEvent(new LogEventArgs($"Har fundet søgeresultater fra telefontavlen", InformationType.Successful));
             return searchResults;
         }
 
@@ -69,8 +69,11 @@ namespace TeleTavleLibrary
             //navigate to url
             webDriver.Navigate().GoToUrl(url);
 
+            string page = webDriver.PageSource;
+
+            webDriver.Quit();
             //return page html
-            return webDriver.PageSource;
+            return page;
         }
 
     }

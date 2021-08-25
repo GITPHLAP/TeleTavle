@@ -15,7 +15,9 @@ namespace TeleTavleConsole
             Console.WriteLine(sss.searchResult.UrlLocation);
             Stopwatch watch = new Stopwatch();
             watch.Start();
-            test.CrawlInformation(sss);
+            //test.CrawlInformation(sss);
+            var j = new GoogleConsoleIndex();
+            var h = j.IndexURL("https://teletavletest.elkok.dk/testside123", "URL_UPDATED");
             watch.Stop();
             Console.WriteLine(watch.Elapsed.Milliseconds);
 

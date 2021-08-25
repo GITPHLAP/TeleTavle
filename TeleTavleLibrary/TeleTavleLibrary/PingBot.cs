@@ -20,6 +20,8 @@ namespace TeleTavleLibrary
 
             chromeDriver.Quit();
 
+            NewLogEvent(new LogEventArgs($"Har pinget:  {searchResultSEF.searchResult.Url}", InformationType.Successful));
+            
             return true;
         }
 

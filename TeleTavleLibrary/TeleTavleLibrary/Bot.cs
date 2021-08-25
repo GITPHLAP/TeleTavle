@@ -8,7 +8,7 @@ namespace TeleTavleLibrary
 {
     public abstract class Bot
     {
-        public event EventHandler LogEvent;
+        public event EventHandler<LogEventArgs> LogEvent;
 
         public IWebDriver GetChromeDriver()
         {
@@ -26,6 +26,11 @@ namespace TeleTavleLibrary
             }
 
 
+        }
+
+        protected virtual void NewLogEvent(LogEventArgs e)
+        {
+            LogEvent?.Invoke(this, e);
         }
 
     }
