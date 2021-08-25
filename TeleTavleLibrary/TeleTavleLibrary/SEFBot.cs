@@ -53,7 +53,6 @@ namespace TeleTavleLibrary
                 //TODO: implement log to tell user something is wrong.
 
             }
-            //Put title and description into object
 
         }
 
