@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using HtmlAgilityPack;
 using System.Linq;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace TeleTavleLibrary
 {
@@ -18,12 +21,20 @@ namespace TeleTavleLibrary
             //load HTML from method returning a string 
             document.LoadHtml(GetSearchPage(searchWord));
 
+            
+            
             // Get all search results
             HtmlNode[] nodes = null;
             //Send warning if the bot cant find any results
+
+
+            
+
             try
             {
+                //nodes = document.DocumentNode.SelectNodes("//div[@class='g']").ToArray();
                 nodes = document.DocumentNode.SelectNodes("//div[@class='g']").ToArray();
+
             }
             catch (Exception)
             {
@@ -90,12 +101,43 @@ namespace TeleTavleLibrary
 
             //navigate to url
             webDriver.Navigate().GoToUrl(url);
-
+          
             string page = webDriver.PageSource;
+            
+            HtmlDocument document = new HtmlDocument();
+            //load HTML from method returning a string 
+            document.LoadHtml(page);
+
+
+            if (CheckForReCaptcha(document))
+            {
+                //something
+                new WebDriverWait(webDriver, TimeSpan.FromSeconds(3)).Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt(By.XPath("//iframe[@title='reCAPTCHA']")));
+                var check = webDriver.FindElement(By.Id("recaptcha-anchor"));
+                check.Click();
+            }
+
+            page = webDriver.PageSource;
 
             webDriver.Quit();
             //return page html
             return page;
+        }
+
+        bool CheckForReCaptcha(HtmlDocument document)
+        {
+            HtmlNode[] nodes = null;
+
+            try
+            {
+                nodes = document.DocumentNode.SelectNodes("//iframe[@title='reCAPTCHA']").ToArray();
+                return true;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
         }
 
     }
