@@ -15,20 +15,35 @@ namespace TeleTavleLibrary
         public event EventHandler<LogEventArgs> LogEvent;
         private GoogleCredential googleCredential;
 
+        /// <summary>
+        /// Used to read the credentials from the json file
+        /// </summary>
+        /// <returns></returns>
         private GoogleCredential GetGoogleCredential()
         {
-            //Path to the credentials file
-            var path = Environment.CurrentDirectory + "/telefontavlen-c88ce2f3a6b5.json";
-
-            GoogleCredential credential;
-            //Get credentials
-            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            try
             {
-                credential = GoogleCredential.FromStream(stream).CreateScoped(new[] { "https://www.googleapis.com/auth/indexing" });
-            }
+                //Path to the credentials file
+                var path = Environment.CurrentDirectory + "/telefontavlen-c88ce2f3a6b5.json";
 
-            return credential;
+                GoogleCredential credential;
+                //Get credentials
+                using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                {
+                    credential = GoogleCredential.FromStream(stream).CreateScoped(new[] { "https://www.googleapis.com/auth/indexing" });
+                }
+
+                return credential;
+            }
+            catch (Exception e)
+            {
+                LogEvent?.Invoke(this,new LogEventArgs($"GoogleConsoleIndex kunne ikke finde bruger oplysninger (json filen)...  {e}",
+                    InformationType.Failed));
+                return null;
+            }
+            
         }
+
         /// <summary>
         /// Sends a request to google about indexing. action could be URL_UPDATED OR URL_DELETED. Make sure to await, so the request is done.  
         /// Use .result after method
@@ -38,6 +53,7 @@ namespace TeleTavleLibrary
         /// <returns></returns>
         public PublishUrlNotificationResponse IndexURL(string URLToIndex, string action)
         {
+
             var credential = googleCredential.UnderlyingCredential;
             //Adding credentials
             var googleIndexingApiClientService = new IndexingService(new BaseClientService.Initializer
@@ -53,11 +69,19 @@ namespace TeleTavleLibrary
 
             var publishRequest = new UrlNotificationsResource.PublishRequest(googleIndexingApiClientService, requestBody);
 
-            //If something goes wrong, it will throw exception
-            var executedRequest = publishRequest.ExecuteAsync().Result;
-
-            LogEvent?.Invoke(this, new LogEventArgs($"{URLToIndex} , er indexeret", InformationType.Successful));
-            return executedRequest;
+            try
+            {
+                //If something goes wrong, it will throw exception
+                var executedRequest = publishRequest.ExecuteAsync().Result;
+                LogEvent?.Invoke(this, new LogEventArgs($"{URLToIndex} , er indexeret", InformationType.Successful));
+                return executedRequest;
+            }
+            catch (Exception e)
+            {
+                LogEvent?.Invoke(this, new LogEventArgs($"GoogleConsoleIndex kunne ikke sende anmodning om indeksering...  {e}",
+                    InformationType.Failed));
+            }
+            return null;
         }
 
         public GoogleConsoleIndex()

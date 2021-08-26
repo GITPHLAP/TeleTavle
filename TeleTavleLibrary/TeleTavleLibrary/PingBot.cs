@@ -15,28 +15,51 @@ namespace TeleTavleLibrary
             IWebDriver chromeDriver = GetChromeDriver();
 
             SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/index.php?option=com_jmap&task=pingomatic.display");
-            CreateAndSavePing(searchResultSEF, chromeDriver);
-            SendPing(chromeDriver);
+
+            if (!string.IsNullOrEmpty(searchResultSEF.Header))
+            {
+                CreateAndSavePing(searchResultSEF, chromeDriver);
+            }
+
+            try
+            {
+                SendPing(chromeDriver);
+            }
+            catch (Exception e)
+            {
+                NewLogEvent(new LogEventArgs($"Fejl i at sende ping:  ''{searchResultSEF.SearchResult.Url}''  {e}",
+                    InformationType.Failed));
+            }
 
             chromeDriver.Quit();
 
             NewLogEvent(new LogEventArgs($"Har pinget:  {searchResultSEF.SearchResult.Url}", InformationType.Successful));
-            
+
             return true;
         }
 
-        private static void CreateAndSavePing(SearchResultSEF searchResultSEF, IWebDriver chromeDriver)
+        private void CreateAndSavePing(SearchResultSEF searchResultSEF, IWebDriver chromeDriver)
         {
-            //Click new ping
-            chromeDriver.FindElement(By.CssSelector("#toolbar-new > button")).Click();
-            //Find the inputs and send title and url
-            chromeDriver.FindElement(By.Id("title")).SendKeys(searchResultSEF.Header);
-            chromeDriver.FindElement(By.Id("linkurl")).SendKeys(searchResultSEF.SearchResult.Url);
-            //Save
-            chromeDriver.FindElement(By.CssSelector("#toolbar-apply > button")).Click();
+            try
+            {
+                //Click new ping
+                chromeDriver.FindElement(By.CssSelector("#toolbar-new > button")).Click();
+                //Find the inputs and send title and url
+                chromeDriver.FindElement(By.Id("title")).SendKeys(searchResultSEF.Header);
+                chromeDriver.FindElement(By.Id("linkurl")).SendKeys(searchResultSEF.SearchResult.Url);
+                //Save
+                chromeDriver.FindElement(By.CssSelector("#toolbar-apply > button")).Click();
+            }
+            catch (Exception e)
+            {
+
+                NewLogEvent(new LogEventArgs($"Fejl i at pinge:  ''{searchResultSEF.SearchResult.Url}'' Kunne ikke oprette eller gemme ping...  {e}",
+                    InformationType.Failed));
+            }
+
         }
 
-        private static void SendPing(IWebDriver chromeDriver)
+        private void SendPing(IWebDriver chromeDriver)
         {
             //Click send pings
             chromeDriver.FindElement(By.CssSelector("#toolbar-broadcast > button")).Click();
