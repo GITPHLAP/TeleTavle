@@ -44,6 +44,10 @@ namespace TeleTavleLibrary
                 }
                 
             }
+            else
+            {
+                NewLogEvent(this, new LogEventArgs("Der er ingen søgeord i listen, kan ikke fortsætte...", InformationType.Warning));
+            }
         }
 
         List<SearchResult> GetSearchInformation(string searchWords)

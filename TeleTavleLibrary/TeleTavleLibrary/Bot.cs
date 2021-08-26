@@ -20,9 +20,10 @@ namespace TeleTavleLibrary
 
                 return chromeDriver; 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                NewLogEvent(new LogEventArgs($"Kunne ikke oprette chromedriver... {e}",InformationType.Failed));
+                return null;
             }
 
         }
