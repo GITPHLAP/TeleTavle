@@ -6,12 +6,31 @@
         xmlns:local="clr-namespace:TelefonTavlenWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        <!--Add all styles for the application-->
+        <Style TargetType="{x:Type TextBox}" x:Key="searchtextbox">
+            <Setter Property="FontSize" Value="20"></Setter>
+        </Style>
+        <Style TargetType="{x:Type Label}" x:Key="headerLabel">
+            <Setter Property="FontSize" Value="20"></Setter>
+        </Style>
+        
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="5"></Setter>
+                </Style>
+            </Style.Resources>
+        </Style>
+
+    </Window.Resources>
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-
+        <!--Top panel with mail draft, searchword list, start button, input to add search word and button to add search word-->
         <Grid Grid.Row="0" Background="Aqua" x:Name="TopPanel" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -21,7 +40,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-
+            
+            <!--start button search word adder--> 
             <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
                 <Grid x:Name="searchwordGrid" MinWidth="200" Margin="20">
                     <Grid.ColumnDefinitions>
@@ -31,26 +51,54 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <TextBox Grid.Column="0" x:Name="searchwordInput" ></TextBox>
+                    <TextBox Grid.Column="0" x:Name="searchwordInput" Style="{StaticResource searchtextbox}"></TextBox>
 
                     <Button x:Name="AddSearchWord" Grid.Column="1" Margin="8,0,0,0" Content="Tilføj" Click="AddSearchWord_Click"></Button>
                 </Grid>
-                <Button x:Name="Startbtn" MinHeight="20" Margin="2" Content="Start" Click="Startbtn_Click"></Button>
+                    <Button x:Name="Startbtn" MinHeight="20" Margin="2" Content="Start" Click="Startbtn_Click"/>
             </StackPanel>
+            
+            <!--list with searchwords--> 
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Margin="5">
-                <Label Content="Søgeord" HorizontalAlignment="Center"></Label>
+                <Label Content="Søgeord" HorizontalAlignment="Center" Style="{StaticResource headerLabel}"></Label>
                 <ListBox x:Name="SearchWordListbox" SelectionChanged="SearchWordListbox_SelectionChanged">
+                    <!--TODO: Test data-->
                     <ListBoxItem>ListBox Item #1</ListBoxItem>
                     <ListBoxItem>ListBox Item #2</ListBoxItem>
                     <ListBoxItem>ListBox Item #3</ListBoxItem>
                 </ListBox>
             </StackPanel>
+            
+            <!--mail draft-->
             <TextBox Grid.Column="2" x:Name="MailDraftTextBox" Margin="5"></TextBox>
         </Grid>
 
-        <StackPanel Grid.Row="1" Background="Red" x:Name="BottomPanel">
+        <Grid Grid.Row="1" Background="Red" x:Name="BottomPanel">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             
-        </StackPanel>
+            <!--status list and restart button--> 
+            <StackPanel Grid.Column="0">
+                <ListBox x:Name="statusListBox" Margin="5">
+                    
+                </ListBox>
+                <Button Content="Start forfra" Margin="2,10,2,10" x:Name="restartbtn" ></Button>
+            </StackPanel>
+            
+            <!--searchwords to facebook post-->
+            <StackPanel Grid.Column="1">
+                <Label Content="Søgeord til facebook" Style="{StaticResource headerLabel}" HorizontalAlignment="Center"></Label>
+                <ListBox x:Name="facebookpostList" Margin="5">
+
+                </ListBox>
+            </StackPanel>
+            <!--facebook textbox-->
+            <TextBox Grid.Column="2" x:Name="fbTextBox" Margin="5"></TextBox>
+
+        </Grid>
 
     </Grid>
 </Window>
