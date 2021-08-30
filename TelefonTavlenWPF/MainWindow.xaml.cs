@@ -34,7 +34,8 @@ namespace TelefonTavlenWPF
 
         private void TTManager_LogEvent(object sender, LogEventArgs e)
         {
-            Console.Out.WriteLine(e.Message);
+            Dispatcher.Invoke(new Action(() => { consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message))); }));
+
         }
 
         private void AddSearchWord_Click(object sender, RoutedEventArgs e)
@@ -78,12 +79,19 @@ namespace TelefonTavlenWPF
 
         private void restartbtn_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
 
         private void facebookpostList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
+        }
+
+        private void CopyObjectText(object sender, MouseButtonEventArgs e)
+        {
+            var textBox = (TextBox)sender;
+            
+            Clipboard.SetText(textBox.Text);
         }
     }
 }

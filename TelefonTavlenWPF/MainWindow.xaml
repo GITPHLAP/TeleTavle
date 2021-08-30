@@ -70,7 +70,7 @@
             </StackPanel>
             
             <!--mail draft-->
-            <TextBox Grid.Column="2" x:Name="MailDraftTextBox" Margin="5"></TextBox>
+            <TextBox Grid.Column="2" x:Name="MailDraftTextBox" Margin="5" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True"></TextBox>
         </Grid>
 
         <Grid Grid.Row="1" Background="Red" x:Name="BottomPanel">
@@ -82,9 +82,9 @@
             
             <!--status list and restart button--> 
             <StackPanel Grid.Column="0">
-                <ListBox x:Name="statusListBox" Margin="5">
+                <RichTextBox x:Name="consoleStatusBox" Margin="5" Height="150">
                     
-                </ListBox>
+                </RichTextBox>
                 <Button Content="Start forfra" Margin="2,10,2,10" x:Name="restartbtn" Click="restartbtn_Click" />
             </StackPanel>
             
@@ -94,7 +94,7 @@
                 <ListBox x:Name="facebookpostList" Margin="5" SelectionChanged="facebookpostList_SelectionChanged"/>
             </StackPanel>
             <!--facebook textbox-->
-            <TextBox Grid.Column="2" x:Name="fbTextBox" Margin="5"></TextBox>
+            <TextBox Grid.Column="2" x:Name="fbTextBox" Margin="5" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True"/>
 
         </Grid>
 
