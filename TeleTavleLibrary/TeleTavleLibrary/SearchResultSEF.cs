@@ -6,9 +6,13 @@ namespace TeleTavleLibrary
 {
     public class SearchResultSEF
     {
-        public SearchResult SearchResult;
-        public string Header;
-        public string Description;
+        SearchResult searchResult;
+        string header;
+        string description;
+
+        public string Description { get => description; set => description = value; }
+        public string Header { get => header; set => header = value; }
+        public SearchResult SearchResult { get => searchResult; set => searchResult = value; }
 
         public SearchResultSEF(SearchResult searchresult)
         {
