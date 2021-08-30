@@ -85,15 +85,13 @@
                 <ListBox x:Name="statusListBox" Margin="5">
                     
                 </ListBox>
-                <Button Content="Start forfra" Margin="2,10,2,10" x:Name="restartbtn" Click="restartbtn_Click" ></Button>
+                <Button Content="Start forfra" Margin="2,10,2,10" x:Name="restartbtn" Click="restartbtn_Click" />
             </StackPanel>
             
             <!--searchwords to facebook post-->
             <StackPanel Grid.Column="1">
                 <Label Content="Søgeord til facebook" Style="{StaticResource headerLabel}" HorizontalAlignment="Center"></Label>
-                <ListBox x:Name="facebookpostList" Margin="5" SelectionChanged="facebookpostList_SelectionChanged">
-
-                </ListBox>
+                <ListBox x:Name="facebookpostList" Margin="5" SelectionChanged="facebookpostList_SelectionChanged"/>
             </StackPanel>
             <!--facebook textbox-->
             <TextBox Grid.Column="2" x:Name="fbTextBox" Margin="5"></TextBox>

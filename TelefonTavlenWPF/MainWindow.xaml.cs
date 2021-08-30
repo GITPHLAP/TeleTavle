@@ -75,5 +75,15 @@ namespace TelefonTavlenWPF
         {
 
         }
+
+        private void restartbtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void facebookpostList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }
