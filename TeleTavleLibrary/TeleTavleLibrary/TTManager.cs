@@ -51,7 +51,7 @@ namespace TeleTavleLibrary
             }
         }
 
-        public async Task StartProcessParallelAsync(List<string> searchWords)
+        public async Task<List<SearchResultSEF>> StartProcessParallelAsync(List<string> searchWords)
         {
             if (searchWords.Count > 0 || searchWords != null)
             {
@@ -60,23 +60,38 @@ namespace TeleTavleLibrary
 
                 Parallel.ForEach(searchWords, searchWord => { tasks.Add(Task.Run(() => GetSearchInformation(searchWord))); });
 
+                //Search results that need to find their SEF
                 List<SearchResult>[] searchResults = await Task.WhenAll(tasks);
+
+                //This is where all the found SEF's are saved
+                List<SearchResultSEF> searchResultSEFList = new List<SearchResultSEF>();
 
                 Parallel.ForEach(searchResults, searchResult =>
                     {
-                        IndexPingAndFindSEF(searchResult);
+                        List<SearchResultSEF> foundSEFs = IndexPingAndFindSEF(searchResult);
+                        
+                        //add the found SEF to another list with all the SEF
+                        for(int i = 0; i < foundSEFs.Count; i++)
+                        {
+                            searchResultSEFList.Add(foundSEFs[i]);
+                        }
+                        
                     });
 
+                return searchResultSEFList;
             }
             else
             {
                 NewLogEvent(this, new LogEventArgs("Der er ingen søgeord i listen, kan ikke fortsætte...", InformationType.Warning));
+                return null;
             }
         }
 
         //TODO: Refactory this method name dont make sense 
-        void IndexPingAndFindSEF(List<SearchResult> searchResult)
+        List<SearchResultSEF> IndexPingAndFindSEF(List<SearchResult> searchResult)
         {
+            List<SearchResultSEF> sefResults = new List<SearchResultSEF>();
+
             foreach (SearchResult result in searchResult)
             {
                 SearchResultSEF sefSearchResult = SEFInformation(result);
@@ -84,11 +99,14 @@ namespace TeleTavleLibrary
                 //TODO: TEST skal fjernes
                 sefSearchResult.Header = "TEST123";
 
+                sefResults.Add(sefSearchResult);
+
                 //Ping the result
                 PingSearchResult(sefSearchResult);
 
                 IndexURL(result.Url);
             }
+            return sefResults;
         }
 
         //TODO:Test SKAL FJERNES
