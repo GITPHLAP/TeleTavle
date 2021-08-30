@@ -54,6 +54,10 @@ namespace TelefonTavlenWPF
             List<string> searchwords = SearchWordListbox.Items.Cast<string>().ToList();
 
             List<SearchResultSEF> searchResultSEFs = await ttManager.StartProcessParallelAsync(searchwords);
+
+            //add fb results to FB post list
+            facebookpostList.DataContext = searchResultSEFs;
+
         }
 
         private void SearchWordListbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -79,12 +83,26 @@ namespace TelefonTavlenWPF
 
         private void restartbtn_Click(object sender, RoutedEventArgs e)
         {
+            //facebookpostList.DataContext = PhilipMethods.testSEF();
             
         }
 
         private void facebookpostList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //cast to listbox
+            ListBox searchresults = (ListBox)sender;
+            //Remove the item clicked on
+            //If null dont do anything
+            if (searchresults.SelectedItem == null)
+            {
+                return;
+            }
 
+            //create the text in right format
+            string fbText = ((SearchResultSEF)searchresults.SelectedItem).Header + "\n" + ((SearchResultSEF)searchresults.SelectedItem).Description;
+
+            //set fb text to textbox
+            fbTextBox.Text = fbText;
         }
 
         private void CopyObjectText(object sender, MouseButtonEventArgs e)
