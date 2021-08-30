@@ -84,7 +84,7 @@ namespace TelefonTavlenWPF
         private void restartbtn_Click(object sender, RoutedEventArgs e)
         {
             //facebookpostList.DataContext = PhilipMethods.testSEF();
-            
+
         }
 
         private void facebookpostList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -100,6 +100,9 @@ namespace TelefonTavlenWPF
 
             //create the text in right format
             string fbText = ((SearchResultSEF)searchresults.SelectedItem).Header + "\n" + ((SearchResultSEF)searchresults.SelectedItem).Description;
+
+            //set text to clipboard
+            Clipboard.SetText(fbText);
 
             //set fb text to textbox
             fbTextBox.Text = fbText;
