@@ -6,7 +6,51 @@
         xmlns:local="clr-namespace:TelefonTavlenWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
+    <Grid x:Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="Aqua" x:Name="TopPanel" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
+                <Grid x:Name="searchwordGrid" MinWidth="200" Margin="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBox Grid.Column="0" x:Name="searchwordInput" ></TextBox>
+
+                    <Button x:Name="AddSearchWord" Grid.Column="1" Margin="8,0,0,0" Content="Tilføj" Click="AddSearchWord_Click"></Button>
+                </Grid>
+                <Button x:Name="Startbtn" MinHeight="20" Margin="2" Content="Start" Click="Startbtn_Click"></Button>
+            </StackPanel>
+            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Margin="5">
+                <Label Content="Søgeord" HorizontalAlignment="Center"></Label>
+                <ListBox x:Name="SearchWordListbox" SelectionChanged="SearchWordListbox_SelectionChanged">
+                    <ListBoxItem>ListBox Item #1</ListBoxItem>
+                    <ListBoxItem>ListBox Item #2</ListBoxItem>
+                    <ListBoxItem>ListBox Item #3</ListBoxItem>
+                </ListBox>
+            </StackPanel>
+            <TextBox Grid.Column="2" x:Name="MailDraftTextBox" Margin="5"></TextBox>
+        </Grid>
+
+        <StackPanel Grid.Row="1" Background="Red" x:Name="BottomPanel">
+            
+        </StackPanel>
 
     </Grid>
 </Window>

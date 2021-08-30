@@ -24,5 +24,21 @@ namespace TelefonTavlenWPF
         {
             InitializeComponent();
         }
+
+        private void AddSearchWord_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Startbtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SearchWordListbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
     }
 }
