@@ -68,7 +68,7 @@ namespace TeleTavleLibrary
             while (isPinging)
             {
                 //After click, check if the ping is still being sent.
-                Task.Delay(300);
+                Task.Delay(300).Wait();
                 //If the element is still there, it is still being pinged.
                 try
                 {
