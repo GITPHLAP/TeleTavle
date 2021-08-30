@@ -389,3 +389,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 TeleTavleConsole/App.config
+TelefonTavlenWPF/App.config
