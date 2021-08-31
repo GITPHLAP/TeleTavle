@@ -19,7 +19,7 @@ namespace TeleTavleLibrary
         /// Used to read the credentials from the json file
         /// </summary>
         /// <returns></returns>
-        private GoogleCredential GetGoogleCredential()
+        public void GetGoogleCredential()
         {
             try
             {
@@ -33,13 +33,12 @@ namespace TeleTavleLibrary
                     credential = GoogleCredential.FromStream(stream).CreateScoped(new[] { "https://www.googleapis.com/auth/indexing" });
                 }
 
-                return credential;
+                googleCredential = credential;
             }
             catch (Exception e)
             {
-                LogEvent?.Invoke(this,new LogEventArgs($"GoogleConsoleIndex kunne ikke finde bruger oplysninger (json filen)...  {e}",
-                    InformationType.Failed));
-                return null;
+                LogEvent?.Invoke(this,new LogEventArgs($"GoogleConsoleIndex kunne ikke finde bruger oplysninger (json filen telefontavlen-c88ce2f3a6b5)...  {e}",
+                    InformationType.Warning));
             }
             
         }
@@ -53,7 +52,10 @@ namespace TeleTavleLibrary
         /// <returns></returns>
         public PublishUrlNotificationResponse IndexURL(string URLToIndex, string action)
         {
-
+            if (googleCredential == null)
+            {
+                return null;
+            }
             var credential = googleCredential.UnderlyingCredential;
             //Adding credentials
             var googleIndexingApiClientService = new IndexingService(new BaseClientService.Initializer
@@ -86,7 +88,7 @@ namespace TeleTavleLibrary
 
         public GoogleConsoleIndex()
         {
-            googleCredential = GetGoogleCredential();
+
         }
 
     }

@@ -33,6 +33,7 @@ namespace TeleTavleLibrary
             catch (Exception e)
             {
                 NewLogEvent(new LogEventArgs($"Kunne ikke oprette chromedriver... {e}", InformationType.Failed));
+
                 return null;
             }
 

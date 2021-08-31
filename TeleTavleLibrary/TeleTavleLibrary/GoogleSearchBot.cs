@@ -18,8 +18,13 @@ namespace TeleTavleLibrary
             List<SearchResult> searchResults = new List<SearchResult>();
             // Get search page 
             HtmlDocument document = new HtmlDocument();
+            var sp = GetSearchPage(searchWord);
+            if (sp == null)
+            {
+                return null;
+            }
             //load HTML from method returning a string 
-            document.LoadHtml(GetSearchPage(searchWord));
+            document.LoadHtml(sp);
 
             
             
@@ -98,7 +103,11 @@ namespace TeleTavleLibrary
             string url = "https://www.google.com/search?q=" + searchword;
 
             IWebDriver webDriver = GetChromeDriver();
-
+            
+            if (webDriver == null)
+            {
+                return null;
+            }
             //navigate to url
             webDriver.Navigate().GoToUrl(url);
           

@@ -32,17 +32,39 @@ namespace TelefonTavlenWPF
 
             ttManager = new TTManager();
             ttManager.LogEvent += TTManager_LogEvent;
+            ttManager.SubscribeEvents();
             cancellationTokenSource = new CancellationTokenSource();
             processToken = cancellationTokenSource.Token;
         }
 
         private void TTManager_LogEvent(object sender, LogEventArgs e)
         {
-            cancellationTokenSource.Cancel();
+            
             //The main thread is the only one to add text to control.
             Dispatcher.Invoke(new Action(() =>
             {
-                consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
+                var brush = Brushes.Black;
+                switch (e.informationType)
+                {
+                    case InformationType.Successful: 
+                        brush = Brushes.Green;
+                        break;
+                    case InformationType.Failed:
+                        brush = Brushes.Red;
+                        cancellationTokenSource.Cancel();
+                        consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run("STOPPET") { Foreground = brush }));
+                        break;
+                    case InformationType.Information:
+                        brush = Brushes.Black;
+                        break;
+                    case InformationType.Warning:
+                        brush = Brushes.Orange;
+                        break;
+                    default:
+                        break;
+                }
+                //Write text to the consolebox and add the color.
+                consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message) { Foreground = brush}));
                 consoleStatusBox.ScrollToEnd();
             }));
 
@@ -72,15 +94,15 @@ namespace TelefonTavlenWPF
 
                 await Task.Run(async () =>
                 {
-                    searchResultSEFs = await ttManager.StartProcessParallelAsync(searchwords);
+                    searchResultSEFs = await ttManager.StartProcessParallelAsync(searchwords, processToken);
 
 
                 }, processToken);
             }
-            catch (Exception)
+            catch (OperationCanceledException)
             {
+                
 
-                throw;
             }
 
             //add fb results to FB post list
