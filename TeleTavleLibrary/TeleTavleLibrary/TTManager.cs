@@ -179,8 +179,6 @@ namespace TeleTavleLibrary
 
             gConsole = new GoogleConsoleIndex();
 
-            SubscribeEvents();
-
         }
 
         public void SubscribeEvents()
