@@ -10,4 +10,19 @@
     <ProjectReference Include="..\TeleTavleLibrary\TeleTavleLibrary\TeleTavleLibrary.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Images\Error.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\Information.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\Succesful.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Images\Warning.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
