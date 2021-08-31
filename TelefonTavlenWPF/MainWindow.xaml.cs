@@ -25,6 +25,7 @@ namespace TelefonTavlenWPF
         TTManager ttManager;
         CancellationTokenSource cancellationTokenSource;
         CancellationToken processToken;
+        bool ProcessStarted = false;
 
         public MainWindow()
         {
@@ -39,20 +40,22 @@ namespace TelefonTavlenWPF
 
         private void TTManager_LogEvent(object sender, LogEventArgs e)
         {
-            
+
             //The main thread is the only one to add text to control.
             Dispatcher.Invoke(new Action(() =>
             {
                 var brush = Brushes.Black;
                 switch (e.informationType)
                 {
-                    case InformationType.Successful: 
+                    case InformationType.Successful:
                         brush = Brushes.Green;
                         break;
                     case InformationType.Failed:
                         brush = Brushes.Red;
                         cancellationTokenSource.Cancel();
                         consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run("STOPPET") { Foreground = brush }));
+                        var popup = new MsgPopUpWindow(e.informationType, e.Message);
+                        popup.ShowDialog();
                         break;
                     case InformationType.Information:
                         brush = Brushes.Black;
@@ -64,7 +67,7 @@ namespace TelefonTavlenWPF
                         break;
                 }
                 //Write text to the consolebox and add the color.
-                consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message) { Foreground = brush}));
+                consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message) { Foreground = brush }));
                 consoleStatusBox.ScrollToEnd();
             }));
 
@@ -75,11 +78,15 @@ namespace TelefonTavlenWPF
             //If the input is not empty add it to the list.
             if (!string.IsNullOrWhiteSpace(searchwordInput.Text))
             {
-                //Add to list with search words
-                SearchWordListbox.Items.Add(searchwordInput.Text);
+                //Make sure it doesent already exist
+                if (!SearchWordListbox.Items.Contains(searchwordInput.Text))
+                {
+                    //Add to list with search words
+                    SearchWordListbox.Items.Add(searchwordInput.Text);
 
-                //Delete the text because it is put into a list
-                searchwordInput.Text = "";
+                    //Delete the text because it is put into a list
+                    searchwordInput.Clear();
+                }
             }
         }
 
@@ -101,7 +108,7 @@ namespace TelefonTavlenWPF
             }
             catch (OperationCanceledException)
             {
-                
+
 
             }
 
@@ -126,15 +133,23 @@ namespace TelefonTavlenWPF
             Task.Delay(100).Wait();
         }
 
-        private void SearchWordListbox_Selected(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void restartbtn_Click(object sender, RoutedEventArgs e)
         {
             //facebookpostList.DataContext = PhilipMethods.testSEF();
 
+            //Empty everything
+            SearchWordListbox.Items.Clear();
+            facebookpostList.Items.Clear();
+            consoleStatusBox.Document.Blocks.Clear();
+            MailDraftTextBox.Clear();
+            fbTextBox.Clear();
+            searchwordInput.Clear();
+
+            //Enable for input
+            SearchWordListbox.IsEnabled = true;
+            restartbtn.IsEnabled = false;
+            AddSearchWord.IsEnabled = true;
         }
 
         private void facebookpostList_SelectionChanged(object sender, SelectionChangedEventArgs e)
