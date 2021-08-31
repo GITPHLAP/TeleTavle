@@ -23,6 +23,8 @@ namespace TelefonTavlenWPF
     public partial class MainWindow : Window
     {
         TTManager ttManager;
+        CancellationTokenSource cancellationTokenSource;
+        CancellationToken processToken;
 
         public MainWindow()
         {
@@ -30,11 +32,19 @@ namespace TelefonTavlenWPF
 
             ttManager = new TTManager();
             ttManager.LogEvent += TTManager_LogEvent;
+            cancellationTokenSource = new CancellationTokenSource();
+            processToken = cancellationTokenSource.Token;
         }
 
         private void TTManager_LogEvent(object sender, LogEventArgs e)
         {
-            Dispatcher.Invoke(new Action(() => { consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message))); }));
+            cancellationTokenSource.Cancel();
+            //The main thread is the only one to add text to control.
+            Dispatcher.Invoke(new Action(() =>
+            {
+                consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
+                consoleStatusBox.ScrollToEnd();
+            }));
 
         }
 
@@ -45,15 +55,33 @@ namespace TelefonTavlenWPF
             {
                 //Add to list with search words
                 SearchWordListbox.Items.Add(searchwordInput.Text);
+
+                //Delete the text because it is put into a list
+                searchwordInput.Text = "";
             }
         }
 
         private async void Startbtn_Click(object sender, RoutedEventArgs e)
         {
-
+            //Get the list from the control
             List<string> searchwords = SearchWordListbox.Items.Cast<string>().ToList();
+            List<SearchResultSEF> searchResultSEFs = new List<SearchResultSEF>();
+            //Start the process
+            try
+            {
 
-            List<SearchResultSEF> searchResultSEFs = await ttManager.StartProcessParallelAsync(searchwords);
+                await Task.Run(async () =>
+                {
+                    searchResultSEFs = await ttManager.StartProcessParallelAsync(searchwords);
+
+
+                }, processToken);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
             //add fb results to FB post list
             facebookpostList.DataContext = searchResultSEFs;
@@ -111,7 +139,7 @@ namespace TelefonTavlenWPF
         private void CopyObjectText(object sender, MouseButtonEventArgs e)
         {
             var textBox = (TextBox)sender;
-            
+
             Clipboard.SetText(textBox.Text);
         }
     }
