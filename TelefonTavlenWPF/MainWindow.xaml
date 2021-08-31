@@ -31,7 +31,7 @@
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <!--Top panel with mail draft, searchword list, start button, input to add search word and button to add search word-->
-        <Grid Grid.Row="0" Background="Aqua" x:Name="TopPanel" >
+        <Grid Grid.Row="0" x:Name="TopPanel" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="*"></ColumnDefinition>
@@ -70,10 +70,10 @@
             </StackPanel>
             
             <!--mail draft-->
-            <TextBox Grid.Column="2" x:Name="MailDraftTextBox" Margin="5" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True"></TextBox>
+            <RichTextBox Grid.Column="2" x:Name="MailDraftTextBox" Margin="5" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True"></RichTextBox>
         </Grid>
 
-        <Grid Grid.Row="1" Background="Red" x:Name="BottomPanel">
+        <Grid Grid.Row="1" x:Name="BottomPanel">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -82,7 +82,7 @@
             
             <!--status list and restart button--> 
             <StackPanel Grid.Column="0">
-                <RichTextBox x:Name="consoleStatusBox" Margin="5" Height="150">
+                <RichTextBox x:Name="consoleStatusBox" Margin="5" Height="150" IsReadOnly="True">
                     
                 </RichTextBox>
                 <Button Content="Start forfra" Margin="2,10,2,10" x:Name="restartbtn" Click="restartbtn_Click" />

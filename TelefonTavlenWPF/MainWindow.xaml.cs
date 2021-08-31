@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -25,7 +26,6 @@ namespace TelefonTavlenWPF
         TTManager ttManager;
         CancellationTokenSource cancellationTokenSource;
         CancellationToken processToken;
-        bool ProcessStarted = false;
 
         public MainWindow()
         {
@@ -126,6 +126,10 @@ namespace TelefonTavlenWPF
             //add fb results to FB post list
             facebookpostList.DataContext = searchResultSEFs;
 
+            //Create and show mail draft
+            MailDraft mailDraft = new MailDraft();
+            MailDraftTextBox.Document = mailDraft.CreateMailDraft(searchResultSEFs);
+
             restartbtn.IsEnabled = true;
         }
 
@@ -155,13 +159,11 @@ namespace TelefonTavlenWPF
 
         private void restartbtn_Click(object sender, RoutedEventArgs e)
         {
-            //facebookpostList.DataContext = PhilipMethods.testSEF();
-
             //Empty everything
             SearchWordListbox.ItemsSource = null;
             facebookpostList.ItemsSource = null;
             consoleStatusBox.Document.Blocks.Clear();
-            MailDraftTextBox.Clear();
+            MailDraftTextBox.Document.Blocks.Clear();
             fbTextBox.Clear();
             searchwordInput.Clear();
 
@@ -200,16 +202,41 @@ namespace TelefonTavlenWPF
 
         private void CopyObjectText(object sender, MouseButtonEventArgs e)
         {
-            //Get control
-            var textBox = (TextBox)sender;
 
-            try
+            if (sender is RichTextBox box)
             {
-                Clipboard.SetText(textBox.Text);
+                string rtfText;
+                RichTextBox rtb = box;
+
+                TextRange range = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+
+                //create a empty memory stream where the text can be saved in 
+                MemoryStream stream = new MemoryStream();
+                range.Save(stream, DataFormats.Rtf);
+
+                //Set beginning position for the stream
+                stream.Seek(0, SeekOrigin.Begin);
+
+                //read the memory stream
+                StreamReader reader = new StreamReader(stream);
+                rtfText = reader.ReadToEnd();
+
+                Clipboard.SetText(rtfText, TextDataFormat.Rtf);
+
             }
-            catch (Exception ex)
+            else
             {
-                WriteToConsole(new LogEventArgs($"problemer med at kopiere {ex.Message}", InformationType.Warning));
+                //Get control
+                var textBox = (TextBox)sender;
+
+                try
+                {
+                    Clipboard.SetText(textBox.Text);
+                }
+                catch (Exception ex)
+                {
+                    WriteToConsole(new LogEventArgs($"problemer med at kopiere {ex.Message}", InformationType.Warning));
+                }
             }
         }
     }
