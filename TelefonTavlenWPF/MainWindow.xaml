@@ -91,7 +91,7 @@
             <!--searchwords to facebook post-->
             <StackPanel Grid.Column="1">
                 <Label Content="Søgeord til facebook" Style="{StaticResource headerLabel}" HorizontalAlignment="Center"></Label>
-                <ListBox x:Name="facebookpostList" Margin="5" SelectionChanged="facebookpostList_SelectionChanged" ItemsSource="{Binding}" DisplayMemberPath="SearchResult.SearchWord" />
+                <ListBox x:Name="facebookpostList" Margin="5" SelectionChanged="facebookpostList_SelectionChanged" ItemsSource="{Binding}" DisplayMemberPath="SearchResult.SearchWordWithNum" />
             </StackPanel>
             <!--facebook textbox-->
             <TextBox Grid.Column="2" x:Name="fbTextBox" Margin="5" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True"/>
