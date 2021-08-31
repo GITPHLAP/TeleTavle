@@ -16,12 +16,13 @@ namespace TeleTavleLibrary
         public string SearchWord { get => searchWord; set => searchWord = value; }
         public string Url { get => url; set => url = value; }
         public string FeaturedSnippet { get => featuredSnippet; set => featuredSnippet = value; }
-        public string UrlLocation
+        public string UrlLocation => new Uri(Url).AbsolutePath.Remove(0, 1);
+        public string SearchWordWithNum
         {
-            get
-            {
-                return new Uri(Url).AbsolutePath.Remove(0,1);
-            }
+            get => SearchWordWithNum;
+
+            set => SearchWordWithNum = value;
+
         }
     }
 }
