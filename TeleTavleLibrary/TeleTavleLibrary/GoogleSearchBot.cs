@@ -61,6 +61,7 @@ namespace TeleTavleLibrary
                         Url = searchURL.ToString(),
                         Rank = rankCounter,
                         SearchWord = searchWord,
+                        SearchWordWithNum = searchWord + rankCounter
                     };
 
                     //If the rank is 1 then check if the result is are featured snippet
