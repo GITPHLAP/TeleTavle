@@ -53,7 +53,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <TextBox Grid.Column="0" x:Name="searchwordInput" Style="{StaticResource searchtextbox}"></TextBox>
+                    <TextBox Grid.Column="0" x:Name="searchwordInput" Style="{StaticResource searchtextbox}" KeyDown="searchwordInput_KeyDown"></TextBox>
 
                     <Button x:Name="AddSearchWord" Grid.Column="1" Margin="8,0,0,0" Content="Tilføj" Click="AddSearchWord_Click"></Button>
                 </Grid>
