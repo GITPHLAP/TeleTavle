@@ -239,5 +239,13 @@ namespace TelefonTavlenWPF
                 }
             }
         }
+
+        private void searchwordInput_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                AddSearchWord_Click(this, new RoutedEventArgs());
+            }
+        }
     }
 }
