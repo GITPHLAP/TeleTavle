@@ -30,8 +30,7 @@ namespace TelefonTavlenWPF
             draftflow.Blocks.Add(par);
 
 
-            par = new Paragraph(new Run("Det koster ikke ekstra"));
-            par.FontWeight = FontWeights.Bold;
+            par = new Paragraph(new Bold(new Run("Det koster ikke ekstra")));
             draftflow.Blocks.Add(par);
 
             //to create a empty line
@@ -110,8 +109,7 @@ namespace TelefonTavlenWPF
                 currentRow.Cells.Add(new TableCell(new Paragraph(new Run(result.SearchWord))));
 
                 //Add a paragraph for the next cell
-                par = new Paragraph(new Run("Her kommer dine annoncer frem på Google som nr. "));
-                par.FontWeight = FontWeights.Bold;
+                par = new Paragraph(new Bold(new Run("Her kommer dine annoncer frem på Google som nr. ")));
 
                 if (result.Rank.Count > 1)
                 {
@@ -136,4 +134,5 @@ namespace TelefonTavlenWPF
                 currentRow.Cells.Add(new TableCell(par));
             }
         }
+    }
 }
