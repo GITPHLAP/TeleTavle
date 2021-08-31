@@ -25,6 +25,7 @@ namespace TelefonTavlenWPF
         TTManager ttManager;
         CancellationTokenSource cancellationTokenSource;
         CancellationToken processToken;
+        bool ProcessStarted = false;
 
         public MainWindow()
         {
@@ -32,20 +33,52 @@ namespace TelefonTavlenWPF
 
             ttManager = new TTManager();
             ttManager.LogEvent += TTManager_LogEvent;
+            ttManager.SubscribeEvents();
+
             cancellationTokenSource = new CancellationTokenSource();
             processToken = cancellationTokenSource.Token;
+
+            EnableButtonsForStart();
         }
 
         private void TTManager_LogEvent(object sender, LogEventArgs e)
         {
-            cancellationTokenSource.Cancel();
+
             //The main thread is the only one to add text to control.
             Dispatcher.Invoke(new Action(() =>
             {
-                consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
-                consoleStatusBox.ScrollToEnd();
+                WriteToConsole(e);
             }));
 
+        }
+
+        private void WriteToConsole(LogEventArgs e)
+        {
+            var brush = Brushes.Black;
+            switch (e.informationType)
+            {
+                case InformationType.Successful:
+                    brush = Brushes.Green;
+                    break;
+                case InformationType.Failed:
+                    brush = Brushes.Red;
+                    cancellationTokenSource.Cancel();
+                    consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run("STOPPET") { Foreground = brush }));
+                    var popup = new MsgPopUpWindow(e.informationType, e.Message);
+                    popup.ShowDialog();
+                    break;
+                case InformationType.Information:
+                    brush = Brushes.Black;
+                    break;
+                case InformationType.Warning:
+                    brush = Brushes.Orange;
+                    break;
+                default:
+                    break;
+            }
+            //Write text to the consolebox and add the color.
+            consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message) { Foreground = brush }));
+            consoleStatusBox.ScrollToEnd();
         }
 
         private void AddSearchWord_Click(object sender, RoutedEventArgs e)
@@ -53,39 +86,54 @@ namespace TelefonTavlenWPF
             //If the input is not empty add it to the list.
             if (!string.IsNullOrWhiteSpace(searchwordInput.Text))
             {
-                //Add to list with search words
-                SearchWordListbox.Items.Add(searchwordInput.Text);
+                //Make sure it doesent already exist
+                if (!SearchWordListbox.Items.Contains(searchwordInput.Text))
+                {
+                    //Add to list with search words
+                    SearchWordListbox.Items.Add(searchwordInput.Text);
 
-                //Delete the text because it is put into a list
-                searchwordInput.Text = "";
+                    //Delete the text because it is put into a list
+                    searchwordInput.Clear();
+
+                    //Enable start btn
+                    Startbtn.IsEnabled = true;
+                }
             }
         }
 
         private async void Startbtn_Click(object sender, RoutedEventArgs e)
         {
+            //Make sure the source is new, so that its not already canceled.
+            cancellationTokenSource = new CancellationTokenSource();
+            StartProcessBtns();
+
             //Get the list from the control
             List<string> searchwords = SearchWordListbox.Items.Cast<string>().ToList();
             List<SearchResultSEF> searchResultSEFs = new List<SearchResultSEF>();
             //Start the process
             try
             {
-
+                processToken = cancellationTokenSource.Token;
                 await Task.Run(async () =>
                 {
-                    searchResultSEFs = await ttManager.StartProcessParallelAsync(searchwords);
-
-
+                    searchResultSEFs = await ttManager.StartProcessParallelAsync(searchwords, processToken);
                 }, processToken);
             }
-            catch (Exception)
+            catch (OperationCanceledException)
             {
-
-                throw;
             }
 
             //add fb results to FB post list
             facebookpostList.DataContext = searchResultSEFs;
 
+            restartbtn.IsEnabled = true;
+        }
+
+        private void StartProcessBtns()
+        {
+            Startbtn.IsEnabled = false;
+            AddSearchWord.IsEnabled = false;
+            SearchWordListbox.IsEnabled = false;
         }
 
         private void SearchWordListbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -104,15 +152,29 @@ namespace TelefonTavlenWPF
             Task.Delay(100).Wait();
         }
 
-        private void SearchWordListbox_Selected(object sender, RoutedEventArgs e)
-        {
-
-        }
 
         private void restartbtn_Click(object sender, RoutedEventArgs e)
         {
             //facebookpostList.DataContext = PhilipMethods.testSEF();
 
+            //Empty everything
+            SearchWordListbox.ItemsSource = null;
+            facebookpostList.ItemsSource = null;
+            consoleStatusBox.Document.Blocks.Clear();
+            MailDraftTextBox.Clear();
+            fbTextBox.Clear();
+            searchwordInput.Clear();
+
+            //Enable for input
+            EnableButtonsForStart();
+        }
+
+        private void EnableButtonsForStart()
+        {
+            SearchWordListbox.IsEnabled = true;
+            restartbtn.IsEnabled = false;
+            AddSearchWord.IsEnabled = true;
+            Startbtn.IsEnabled = false;
         }
 
         private void facebookpostList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -138,9 +200,17 @@ namespace TelefonTavlenWPF
 
         private void CopyObjectText(object sender, MouseButtonEventArgs e)
         {
+            //Get control
             var textBox = (TextBox)sender;
 
-            Clipboard.SetText(textBox.Text);
+            try
+            {
+                Clipboard.SetText(textBox.Text);
+            }
+            catch (Exception ex)
+            {
+                WriteToConsole(new LogEventArgs($"problemer med at kopiere {ex.Message}", InformationType.Warning));
+            }
         }
     }
 }
