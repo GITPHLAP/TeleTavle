@@ -43,7 +43,7 @@
             
             <!--start button search word adder--> 
             <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
-                <Grid x:Name="searchwordGrid" MinWidth="200" Margin="20">
+                <Grid x:Name="searchwordGrid" MinWidth="200" Margin="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"></ColumnDefinition>
                         <ColumnDefinition Width="*"></ColumnDefinition>
@@ -62,10 +62,6 @@
             <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Margin="5">
                 <Label Content="Søgeord" HorizontalAlignment="Center" Style="{StaticResource headerLabel}"></Label>
                 <ListBox x:Name="SearchWordListbox" SelectionChanged="SearchWordListbox_SelectionChanged">
-                    <!--TODO: Test data-->
-                    <ListBoxItem>ListBox Item #1</ListBoxItem>
-                    <ListBoxItem>ListBox Item #2</ListBoxItem>
-                    <ListBoxItem>ListBox Item #3</ListBoxItem>
                 </ListBox>
             </StackPanel>
             
