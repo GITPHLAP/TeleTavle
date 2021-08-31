@@ -39,7 +39,7 @@
                 <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
 
-            <Image Grid.Column="0" Margin="2" x:Name="msgTypeIcon" Source="/Images/Succesful.png"/>
+            <Image Grid.Column="0" Margin="2" x:Name="msgTypeIcon"/>
 
             <Label Grid.Column="1" x:Name="msgTitle" Margin="5"></Label>
         </Grid>
