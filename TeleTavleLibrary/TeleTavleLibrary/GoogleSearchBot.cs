@@ -26,14 +26,9 @@ namespace TeleTavleLibrary
             //load HTML from method returning a string 
             document.LoadHtml(sp);
 
-            
-            
             // Get all search results
             HtmlNode[] nodes = null;
             //Send warning if the bot cant find any results
-
-
-            
 
             try
             {
@@ -117,14 +112,19 @@ namespace TeleTavleLibrary
             //load HTML from method returning a string 
             document.LoadHtml(page);
 
-
             if (CheckForReCaptcha(document))
             {
-                //something
-                new WebDriverWait(webDriver, TimeSpan.FromSeconds(3)).Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt(By.XPath("//iframe[@title='reCAPTCHA']")));
-                var check = webDriver.FindElement(By.Id("recaptcha-anchor"));
-                check.Click();
+                return null;
             }
+
+            //TODO: Remove code old and useless code
+            //if (CheckForReCaptcha(document))
+            //{
+            //    //something
+            //    new WebDriverWait(webDriver, TimeSpan.FromSeconds(3)).Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt(By.XPath("//iframe[@title='reCAPTCHA']")));
+            //    var check = webDriver.FindElement(By.Id("recaptcha-anchor"));
+            //    check.Click();
+            //}
 
             page = webDriver.PageSource;
 
@@ -135,11 +135,12 @@ namespace TeleTavleLibrary
 
         bool CheckForReCaptcha(HtmlDocument document)
         {
-            HtmlNode[] nodes = null;
+            HtmlNode[] nodes;
 
             try
             {
                 nodes = document.DocumentNode.SelectNodes("//iframe[@title='reCAPTCHA']").ToArray();
+                NewLogEvent(new LogEventArgs($"Processen kan ikke søge på søgeord da der er en reCAPTCHA ", InformationType.Failed));
                 return true;
             }
             catch (Exception)
