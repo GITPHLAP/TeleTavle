@@ -64,7 +64,6 @@ namespace TeleTavleLibrary
             }
             catch (Exception)
             {
-                //TODO: implement log to tell user something is wrong.
                 NewLogEvent(new LogEventArgs($"SEFBot kan ikke finde overskrift og beskrivelse til facebook opslaget", InformationType.Failed));
 
             }
