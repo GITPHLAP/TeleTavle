@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TelefonTavlenWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" MinHeight="450" MinWidth="800">
     <Window.Resources>
         <!--Add all styles for the application-->
         <Style TargetType="{x:Type TextBox}" x:Key="searchtextbox">

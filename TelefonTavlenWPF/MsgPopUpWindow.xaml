@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TelefonTavlenWPF"
         mc:Ignorable="d"
-        Title="MsgPopUpWindow" Height="250" Width="400">
+        Title="MsgPopUpWindow" MinHeight="250" MinWidth="510" MaxHeight="250" MaxWidth="510" ResizeMode="NoResize">
     <Window.Resources>
         <!--Add all styles for the window-->
         <Style TargetType="{x:Type TextBox}" x:Key="searchtextbox">
@@ -13,7 +13,7 @@
         </Style>
         
         <Style TargetType="{x:Type Label}" x:Key="headerLabel">
-            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="FontSize" Value="16"></Setter>
         </Style>
 
         <Style TargetType="{x:Type Button}">
@@ -36,19 +36,23 @@
         <Grid x:Name="TopGrid" Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
 
             <Image Grid.Column="0" Margin="2" x:Name="msgTypeIcon"/>
 
-            <Label Grid.Column="1" x:Name="msgTitle" Margin="5"></Label>
+            <Label Grid.Column="1" x:Name="msgTitle" Margin="5" Style="{StaticResource headerLabel}"></Label>
         </Grid>
         
         <!--details and OK button-->
-        <StackPanel Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom">
-            <TextBox x:Name="msgdetailsTextBox" Visibility="Collapsed" Margin="5"></TextBox>
-            <Button x:Name="OkBtn" Content="OK" MaxWidth="50" Margin="20" Click="OkBtn_Click" ></Button>
-        </StackPanel>
+        <Grid Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBox Grid.Row="0" x:Name="msgdetailsTextBox"  Margin="5" IsReadOnly="True" TextWrapping="WrapWithOverflow"></TextBox>
+            <Button Grid.Row="1" x:Name="OkBtn" Content="OK" MaxWidth="50" Margin="20" Click="OkBtn_Click" ></Button>
+        </Grid>
 
     </Grid>
 </Window>
