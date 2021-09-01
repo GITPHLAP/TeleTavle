@@ -165,7 +165,7 @@ namespace TelefonTavlenWPF
         private void restartbtn_Click(object sender, RoutedEventArgs e)
         {
             //Empty everything
-            SearchWordListbox.ItemsSource = null;
+            SearchWordListbox.Items.Clear();
             facebookpostList.ItemsSource = null;
             consoleStatusBox.Document.Blocks.Clear();
             MailDraftTextBox.Document.Blocks.Clear();
