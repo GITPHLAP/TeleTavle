@@ -38,7 +38,7 @@ namespace TeleTavleLibrary
             catch (Exception e)
             {
                 LogEvent?.Invoke(this,new LogEventArgs($"GoogleConsoleIndex kunne ikke finde bruger oplysninger (json filen telefontavlen-c88ce2f3a6b5)...  {e}",
-                    InformationType.Warning));
+                    InformationType.Failed));
             }
             
         }

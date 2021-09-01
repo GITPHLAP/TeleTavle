@@ -30,13 +30,14 @@ namespace TelefonTavlenWPF
         public MainWindow()
         {
             InitializeComponent();
+            //Tokens for stopping program
+            cancellationTokenSource = new CancellationTokenSource();
+            processToken = cancellationTokenSource.Token;
 
             ttManager = new TTManager();
             ttManager.LogEvent += TTManager_LogEvent;
             ttManager.SubscribeEvents();
 
-            cancellationTokenSource = new CancellationTokenSource();
-            processToken = cancellationTokenSource.Token;
 
             EnableButtonsForStart();
         }
@@ -118,19 +119,20 @@ namespace TelefonTavlenWPF
                 {
                     searchResultSEFs = await ttManager.StartProcessParallelAsync(searchwords, processToken);
                 }, processToken);
+
+                //add fb results to FB post list
+                facebookpostList.DataContext = searchResultSEFs;
+
+                //Create and show mail draft
+                MailDraft mailDraft = new MailDraft();
+                MailDraftTextBox.Document = mailDraft.CreateMailDraft(searchResultSEFs);
+
+                restartbtn.IsEnabled = true;
             }
             catch (OperationCanceledException)
             {
             }
 
-            //add fb results to FB post list
-            facebookpostList.DataContext = searchResultSEFs;
-
-            //Create and show mail draft
-            MailDraft mailDraft = new MailDraft();
-            MailDraftTextBox.Document = mailDraft.CreateMailDraft(searchResultSEFs);
-
-            restartbtn.IsEnabled = true;
         }
 
         private void StartProcessBtns()
