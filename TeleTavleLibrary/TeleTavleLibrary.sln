@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeleTavleLibrary", "TeleTav
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeleTavleConsole", "..\TeleTavleConsole\TeleTavleConsole.csproj", "{E65D3FDD-FEBE-422A-B2D4-0DD1BFC497F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelefonTavlenWPF", "..\TelefonTavlenWPF\TelefonTavlenWPF.csproj", "{DE615802-DD44-46F7-9238-D4EF7399916F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeleTavleHjælperen", "..\TelefonTavlenWPF\TeleTavleHjælperen.csproj", "{DE615802-DD44-46F7-9238-D4EF7399916F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

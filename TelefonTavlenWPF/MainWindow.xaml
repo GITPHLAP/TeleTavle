@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TelefonTavlenWPF"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="450" MinWidth="800">
+        Title="TeleTavle Hjælperen" MinHeight="450" MinWidth="800">
     <Window.Resources>
         <!--Add all styles for the application-->
         <Style TargetType="{x:Type TextBox}" x:Key="searchtextbox">
@@ -68,7 +68,7 @@
             </StackPanel>
             
             <!--mail draft-->
-            <RichTextBox Grid.Column="2" x:Name="MailDraftTextBox" Margin="5" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True"></RichTextBox>
+            <RichTextBox Grid.Column="2" x:Name="MailDraftTextBox" Margin="5" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True" ToolTip="Copired"></RichTextBox>
         </Grid>
 
         <Grid Grid.Row="1" x:Name="BottomPanel">
