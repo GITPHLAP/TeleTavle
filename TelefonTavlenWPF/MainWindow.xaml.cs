@@ -128,6 +128,9 @@ namespace TelefonTavlenWPF
                 MailDraftTextBox.Document = mailDraft.CreateMailDraft(searchResultSEFs);
 
                 restartbtn.IsEnabled = true;
+
+                MsgPopUpWindow popup = new MsgPopUpWindow(InformationType.Successful, null);
+                popup.ShowDialog();
             }
             catch (OperationCanceledException)
             {
