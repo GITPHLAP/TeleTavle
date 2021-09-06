@@ -66,7 +66,8 @@ namespace TelefonTavlenWPF
                     brush = Brushes.Red;
                     cancellationTokenSource.Cancel();
                     consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run("STOPPET") { Foreground = brush }));
-                    var popup = new MsgPopUpWindow(e.informationType, e.Message);
+                    MsgPopUpWindow popup = new MsgPopUpWindow(e.informationType, e.Message);
+                    popup.Owner = this;
                     popup.ShowDialog();
                     break;
                 case InformationType.Information:
@@ -132,6 +133,7 @@ namespace TelefonTavlenWPF
                 restartbtn.IsEnabled = true;
 
                 MsgPopUpWindow popup = new MsgPopUpWindow(InformationType.Successful, null);
+                popup.Owner = this;
                 popup.ShowDialog();
             }
             catch (OperationCanceledException)
