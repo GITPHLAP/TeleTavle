@@ -17,6 +17,9 @@
     <None Update="Images\Information.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Images\LogoIcon.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Images\Succesful.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

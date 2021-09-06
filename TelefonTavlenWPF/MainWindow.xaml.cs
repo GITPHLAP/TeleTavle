@@ -30,6 +30,8 @@ namespace TelefonTavlenWPF
         public MainWindow()
         {
             InitializeComponent();
+
+            Icon = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Images\LogoIcon.ico"));
             //Tokens for stopping program
             cancellationTokenSource = new CancellationTokenSource();
             processToken = cancellationTokenSource.Token;
@@ -37,7 +39,6 @@ namespace TelefonTavlenWPF
             ttManager = new TTManager();
             ttManager.LogEvent += TTManager_LogEvent;
             ttManager.SubscribeEvents();
-
 
             EnableButtonsForStart();
         }
