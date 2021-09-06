@@ -53,7 +53,7 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <TextBox Grid.Column="0" x:Name="searchwordInput" Style="{StaticResource searchtextbox}" KeyDown="searchwordInput_KeyDown"></TextBox>
+                    <TextBox Grid.Column="0" x:Name="searchwordInput" Style="{StaticResource searchtextbox}" KeyDown="SearchwordInput_KeyDown"></TextBox>
 
                     <Button x:Name="AddSearchWord" Grid.Column="1" Margin="8,0,0,0" Content="Tilføj" Click="AddSearchWord_Click"></Button>
                 </Grid>
@@ -83,13 +83,13 @@
                 <RichTextBox x:Name="consoleStatusBox" Margin="5" Height="150" IsReadOnly="True">
                     
                 </RichTextBox>
-                <Button Content="Start forfra" Margin="2,10,2,10" x:Name="restartbtn" Click="restartbtn_Click" />
+                <Button Content="Start forfra" Margin="2,10,2,10" x:Name="restartbtn" Click="Restartbtn_Click" />
             </StackPanel>
             
             <!--searchwords to facebook post-->
             <StackPanel Grid.Column="1">
                 <Label Content="Søgeord til facebook" Style="{StaticResource headerLabel}" HorizontalAlignment="Center"></Label>
-                <ListBox x:Name="facebookpostList" Margin="5" SelectionChanged="facebookpostList_SelectionChanged" ItemsSource="{Binding}" DisplayMemberPath="SearchResult.SearchWordWithNum" />
+                <ListBox x:Name="facebookpostList" Margin="5" SelectionChanged="FacebookpostList_SelectionChanged" ItemsSource="{Binding}" DisplayMemberPath="SearchResult.SearchWordWithNum" />
             </StackPanel>
             <!--facebook textbox-->
             <TextBox Grid.Column="2" x:Name="fbTextBox" Margin="5" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True"/>

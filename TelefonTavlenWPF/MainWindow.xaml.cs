@@ -163,7 +163,7 @@ namespace TelefonTavlenWPF
         }
 
 
-        private void restartbtn_Click(object sender, RoutedEventArgs e)
+        private void Restartbtn_Click(object sender, RoutedEventArgs e)
         {
             //Empty everything
             SearchWordListbox.Items.Clear();
@@ -185,7 +185,7 @@ namespace TelefonTavlenWPF
             Startbtn.IsEnabled = false;
         }
 
-        private void facebookpostList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void FacebookpostList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             //cast to listbox
             ListBox searchresults = (ListBox)sender;
@@ -249,7 +249,7 @@ namespace TelefonTavlenWPF
             }
         }
 
-        private void searchwordInput_KeyDown(object sender, KeyEventArgs e)
+        private void SearchwordInput_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -260,8 +260,10 @@ namespace TelefonTavlenWPF
         private async void CreateCopyToolTip(Control box)
         {
             // ToolTip to show that the text is copied
-            ToolTip toolTip = new ToolTip();
-            toolTip.Content = "Kopieret";
+            ToolTip toolTip = new ToolTip
+            {
+                Content = "Kopieret"
+            };
 
             ToolTipService.SetToolTip(box, toolTip);
             
