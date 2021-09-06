@@ -161,6 +161,12 @@ namespace TelefonTavlenWPF
             searchWords.Items.Remove(searchWords.SelectedItem);
             //Must wait because event gets fired like 3 times if not.
             Task.Delay(100).Wait();
+
+            //Disable start button if searchword list is empty 
+            if (searchWords.Items.IsEmpty)
+            {
+                EnableButtonsForStart();
+            }
         }
 
 
