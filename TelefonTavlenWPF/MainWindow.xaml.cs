@@ -78,7 +78,8 @@ namespace TelefonTavlenWPF
                     break;
             }
             //Write text to the consolebox and add the color.
-            consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message) { Foreground = brush }));
+            //consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message) { Foreground = brush }));
+            consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time + ": " + e.Message) { Foreground = brush })); //TODO:remove this
             consoleStatusBox.ScrollToEnd();
         }
 
@@ -210,6 +211,8 @@ namespace TelefonTavlenWPF
 
             if (sender is RichTextBox box)
             {
+                CreateCopyToolTip(box);
+
                 string rtfText;
                 RichTextBox rtb = box;
 
@@ -232,7 +235,8 @@ namespace TelefonTavlenWPF
             else
             {
                 //Get control
-                var textBox = (TextBox)sender;
+                TextBox textBox = (TextBox)sender;
+                CreateCopyToolTip(textBox);
 
                 try
                 {
@@ -251,6 +255,25 @@ namespace TelefonTavlenWPF
             {
                 AddSearchWord_Click(this, new RoutedEventArgs());
             }
+        }
+
+        private async void CreateCopyToolTip(Control box)
+        {
+            // ToolTip to show that the text is copied
+            ToolTip toolTip = new ToolTip();
+            toolTip.Content = "Kopieret";
+
+            ToolTipService.SetToolTip(box, toolTip);
+            
+            ((ToolTip)box.ToolTip).IsOpen = true;
+
+            //wait for the task so ToolTip only is visible 2 seconds
+            await Task.Delay(2000);
+
+            ((ToolTip)box.ToolTip).IsOpen = false;
+
+            //Set tooltip to null so its not show when hover over the box
+            ToolTipService.SetToolTip(box, null);
         }
     }
 }
