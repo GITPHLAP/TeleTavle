@@ -51,12 +51,16 @@ namespace TeleTavleLibrary
                 NewLogEvent(this, new LogEventArgs("Der er ingen søgeord i listen, kan ikke fortsætte...", InformationType.Warning));
             }
         }
-
+        /// <summary>
+        /// This starts the whole proces
+        /// </summary>
+        /// <param name="searchWords"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task<List<SearchResultSEF>> StartProcessParallelAsync(List<string> searchWords, CancellationToken token)
         {
             if (searchWords.Count > 0 || searchWords != null)
             {
-
                 List<Task<List<SearchResult>>> tasks = new List<Task<List<SearchResult>>>();
 
                 CheckToken(token);
@@ -70,7 +74,6 @@ namespace TeleTavleLibrary
                     CheckToken(token);
                 }
 
-
                 //Search results that need to find their SEF
                 List<SearchResult>[] searchResults = await Task.WhenAll(tasks);
 
@@ -79,18 +82,24 @@ namespace TeleTavleLibrary
                 //This is where all the found SEF's are saved
                 List<SearchResultSEF> searchResultSEFList = new List<SearchResultSEF>();
 
+                //Find all the sef information and ping and index the result
                 Parallel.ForEach(searchResults, searchResult =>
                     {
                         CheckToken(token);
-                        List<SearchResultSEF> foundSEFs = IndexPingAndFindSEF(searchResult, token);
+                        searchResultSEFList = FindSefs(searchResult, token);
 
-                        //add the found SEF to another list with all the SEF
-                        for (int i = 0; i < foundSEFs.Count; i++)
+                        //Ping and index the results
+                        foreach (var sef in searchResultSEFList)
                         {
-                            CheckToken(token);
-                            searchResultSEFList.Add(foundSEFs[i]);
-                        }
+                            //Ping the result
+                            PingSearchResult(sef);
 
+                            CheckToken(token);
+
+                            IndexURL(sef.SearchResult.Url);
+
+                            CheckToken(token);
+                        }
                     });
 
                 return searchResultSEFList;
@@ -102,11 +111,11 @@ namespace TeleTavleLibrary
             }
         }
 
-        //TODO: Refactor this method name dont make sense 
-        List<SearchResultSEF> IndexPingAndFindSEF(List<SearchResult> searchResult, CancellationToken token)
+        List<SearchResultSEF> FindSefs(List<SearchResult> searchResult, CancellationToken token)
         {
             List<SearchResultSEF> sefResults = new List<SearchResultSEF>();
 
+            //TODO Eventually put this in parallel?
             foreach (SearchResult result in searchResult)
             {
                 CheckToken(token);
@@ -117,14 +126,6 @@ namespace TeleTavleLibrary
 
                 sefResults.Add(sefSearchResult);
 
-                //Ping the result
-                PingSearchResult(sefSearchResult);
-
-                CheckToken(token);
-
-                IndexURL(result.Url);
-
-                CheckToken(token);
             }
             return sefResults;
         }
@@ -191,10 +192,14 @@ namespace TeleTavleLibrary
 
             gConsole.LogEvent += NewLogEvent;
 
-            //Must read the credentials from file after event
+            //Must read the credentials from file after events
             gConsole.GetGoogleCredential();
         }
 
+        /// <summary>
+        /// Checks if the user has cancelled the token
+        /// </summary>
+        /// <param name="token"></param>
         void CheckToken(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
