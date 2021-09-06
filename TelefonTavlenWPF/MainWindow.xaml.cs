@@ -89,11 +89,11 @@ namespace TelefonTavlenWPF
             //If the input is not empty add it to the list.
             if (!string.IsNullOrWhiteSpace(searchwordInput.Text))
             {
-                //Make sure it doesent already exist
-                if (!SearchWordListbox.Items.Contains(searchwordInput.Text))
+                //Make sure it doesent already exist 
+                if (!SearchWordListbox.Items.Contains(searchwordInput.Text.Trim().ToLower()))
                 {
                     //Add to list with search words
-                    SearchWordListbox.Items.Add(searchwordInput.Text);
+                    SearchWordListbox.Items.Add(searchwordInput.Text.Trim().ToLower());
 
                     //Delete the text because it is put into a list
                     searchwordInput.Clear();
