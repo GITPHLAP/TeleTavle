@@ -159,11 +159,16 @@
             </Border>
             <!--list with searchwords-->
             <Border CornerRadius="15" Grid.Column="1" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
-                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Margin="5">
-                    <Label Content="Søgeord" HorizontalAlignment="Center" Style="{StaticResource headerLabel}" ></Label>
-                    <ListBox x:Name="SearchWordListbox" BorderBrush="{x:Null}" MouseUp="SearchWordListbox_MouseUp">
-                    </ListBox>
-                </StackPanel>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Content="Søgeord" HorizontalAlignment="Center" Style="{StaticResource headerLabel}" Width="85" />
+                    <ListBox Grid.Row="1" x:Name="SearchWordListbox" BorderBrush="{x:Null}" MouseUp="SearchWordListbox_MouseUp" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,5,0,0"/>
+                </Grid>
+
             </Border>
             <!--mail draft-->
             <Border CornerRadius="15" Grid.Column="2" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
@@ -188,10 +193,14 @@
             </Border>
             <!--searchwords to facebook post-->
             <Border CornerRadius="15" Grid.Column="1" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
-                <StackPanel Grid.Column="1">
-                    <Label Content="Søgeord til facebook" Style="{StaticResource headerLabel}" HorizontalAlignment="Center"></Label>
-                    <ListBox x:Name="facebookpostList" Margin="5" SelectionChanged="FacebookpostList_SelectionChanged" ItemsSource="{Binding}" DisplayMemberPath="SearchResult.SearchWordWithNum"/>
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Søgeord til facebook" Style="{StaticResource headerLabel}" HorizontalAlignment="Center"></Label>
+                    <ListBox Grid.Row="1" x:Name="facebookpostList" Margin="5" SelectionChanged="FacebookpostList_SelectionChanged" ItemsSource="{Binding}" DisplayMemberPath="SearchResult.SearchWordWithNum" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                </Grid>
             </Border>
             <!--facebook textbox-->
             <Border CornerRadius="15" Grid.Column="2" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
