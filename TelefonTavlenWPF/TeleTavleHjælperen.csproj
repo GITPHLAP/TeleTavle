@@ -7,8 +7,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\Roboto-Black.ttf" />
+    <None Remove="Fonts\Roboto-Bold.ttf" />
+    <None Remove="Fonts\Roboto-Light.ttf" />
+  </ItemGroup>
+
+
+  <ItemGroup>
     <ProjectReference Include="..\TeleTavleLibrary\TeleTavleLibrary\TeleTavleLibrary.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\Roboto-Black.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Roboto-Bold.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Fonts\Roboto-Light.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>  
 
   <ItemGroup>
     <None Update="Images\Error.png">

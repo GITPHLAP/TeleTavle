@@ -3,7 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TelefonTavlenWPF"
              StartupUri="MainWindow.xaml">
+
     <Application.Resources>
-         
+
+        <ResourceDictionary>
+            <FontFamily x:Key="Roboto">pack://application:,,,/Fonts/#Roboto-Black</FontFamily>
+            <SolidColorBrush x:Key="PrimaryBrush" Color="#7e5fba"/>
+            <SolidColorBrush x:Key="SecondaryBrush" Color="#343948"/>
+            <SolidColorBrush x:Key="BackgroundSecondaryBrush" Color="#222838" />
+            <SolidColorBrush x:Key="FontColorBrush" Color="#e1e5ee" />
+            <SolidColorBrush x:Key="FontColorDisabledBrush" Color="#e1e5ee" />
+            
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
