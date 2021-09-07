@@ -298,19 +298,20 @@ namespace TelefonTavlenWPF
                 {
                     Content = "Kopieret"
                 };
+                if (((ToolTip)box.ToolTip) == null)
+                {
+                    ToolTipService.SetToolTip(box, toolTip);
 
-                ToolTipService.SetToolTip(box, toolTip);
+                    ((ToolTip)box.ToolTip).IsOpen = true;
 
-                ((ToolTip)box.ToolTip).IsOpen = true;
+                    //wait for the task so ToolTip only is visible 2 seconds
+                    await Task.Delay(2000);
 
-                //wait for the task so ToolTip only is visible 2 seconds
-                await Task.Delay(2000);
+                    ((ToolTip)box.ToolTip).IsOpen = false;
 
-                ((ToolTip)box.ToolTip).IsOpen = false;
-
-                //Set tooltip to null so its not show when hover over the box
-                ToolTipService.SetToolTip(box, null);
-
+                    //Set tooltip to null so its not show when hover over the box
+                    ToolTipService.SetToolTip(box, null);
+                }
             }
             catch (Exception e)
             {
