@@ -51,7 +51,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" x:Name="msgdetailsTextBox"  Margin="5" IsReadOnly="True" TextWrapping="WrapWithOverflow"></TextBox>
+            <TextBox Grid.Row="0" x:Name="msgdetailsTextBox"  Margin="5" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"></TextBox>
             <Button Grid.Row="1" x:Name="OkBtn" Content="OK" MaxWidth="50" Margin="20" Click="OkBtn_Click" ></Button>
         </Grid>
 

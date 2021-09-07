@@ -66,17 +66,13 @@ namespace TelefonTavlenWPF
                     brush = Brushes.Red;
                     cancellationTokenSource.Cancel();
                     consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run("STOPPET") { Foreground = brush }));
-                    MsgPopUpWindow popup = new MsgPopUpWindow(e.informationType, e.Message);
 
-                    //It will fail if the mainwindow is not shown when trying set owner on popup
-                    if (this.Visibility == Visibility.Visible)
-                    {
-                        popup.Owner = this;
-                    }
-                    popup.ShowDialog();
+                    ShowMsgPopUp(e);
                     break;
                 case InformationType.Information:
                     brush = Brushes.Black;
+
+                    ShowMsgPopUp(e);
                     break;
                 case InformationType.Warning:
                     brush = Brushes.Orange;
@@ -88,6 +84,17 @@ namespace TelefonTavlenWPF
             //consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message) { Foreground = brush }));
             consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time + ": " + e.Message) { Foreground = brush })); //TODO:remove this
             consoleStatusBox.ScrollToEnd();
+        }
+
+        private void ShowMsgPopUp(LogEventArgs e)
+        {
+            MsgPopUpWindow popup = new MsgPopUpWindow(e.informationType, e.Message);
+            //It will fail if the mainwindow is not shown when trying set owner on popup
+            if (this.Visibility == Visibility.Visible)
+            {
+                popup.Owner = this;
+            }
+            popup.ShowDialog();
         }
 
         private void AddSearchWord_Click(object sender, RoutedEventArgs e)
