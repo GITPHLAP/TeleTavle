@@ -162,36 +162,6 @@ namespace TelefonTavlenWPF
             SearchWordListbox.IsEnabled = false;
         }
 
-        private void SearchWordListbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            try
-            {
-                //cast to listbox
-                ListBox searchWords = (ListBox)sender;
-                //Remove the item clicked on
-                //If null dont do anything
-                if (searchWords.SelectedItem == null)
-                {
-                    return;
-                }
-                //Remove selected item
-                searchWords.Items.Remove(searchWords.SelectedItem);
-                //Must wait because event gets fired like 3 times if not.
-                Task.Delay(100).Wait();
-
-                //Disable start button if searchword list is empty 
-                if (searchWords.Items.IsEmpty)
-                {
-                    EnableButtonsForStart();
-                }
-            }
-            catch (Exception ee)
-            {
-                WriteToErrorLog(ee.ToString());
-            }
-        }
-
-
         private void Restartbtn_Click(object sender, RoutedEventArgs e)
         {
             //Empty everything
@@ -343,6 +313,35 @@ namespace TelefonTavlenWPF
             sw.Flush();
 
             sw.Close();
+        }
+
+        private void SearchWordListbox_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                //cast to listbox
+                ListBox searchWords = (ListBox)sender;
+                //Remove the item clicked on
+                //If null dont do anything
+                if (searchWords.SelectedItem == null)
+                {
+                    return;
+                }
+                //Remove selected item
+                searchWords.Items.Remove(searchWords.SelectedItem);
+                //Must wait because event gets fired like 3 times if not.
+                Task.Delay(100).Wait();
+
+                //Disable start button if searchword list is empty 
+                if (searchWords.Items.IsEmpty)
+                {
+                    EnableButtonsForStart();
+                }
+            }
+            catch (Exception ee)
+            {
+                WriteToErrorLog(ee.ToString());
+            }
         }
     }
 }
