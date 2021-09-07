@@ -136,8 +136,9 @@ namespace TelefonTavlenWPF
                 popup.Owner = this;
                 popup.ShowDialog();
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException oe)
             {
+                WriteToErrorLog(oe.ToString());
             }
 
         }
@@ -151,23 +152,30 @@ namespace TelefonTavlenWPF
 
         private void SearchWordListbox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //cast to listbox
-            ListBox searchWords = (ListBox)sender;
-            //Remove the item clicked on
-            //If null dont do anything
-            if (searchWords.SelectedItem == null)
+            try
             {
-                return;
-            }
-            //Remove selected item
-            searchWords.Items.Remove(searchWords.SelectedItem);
-            //Must wait because event gets fired like 3 times if not.
-            Task.Delay(100).Wait();
+                //cast to listbox
+                ListBox searchWords = (ListBox)sender;
+                //Remove the item clicked on
+                //If null dont do anything
+                if (searchWords.SelectedItem == null)
+                {
+                    return;
+                }
+                //Remove selected item
+                searchWords.Items.Remove(searchWords.SelectedItem);
+                //Must wait because event gets fired like 3 times if not.
+                Task.Delay(100).Wait();
 
-            //Disable start button if searchword list is empty 
-            if (searchWords.Items.IsEmpty)
+                //Disable start button if searchword list is empty 
+                if (searchWords.Items.IsEmpty)
+                {
+                    EnableButtonsForStart();
+                }
+            }
+            catch (Exception ee)
             {
-                EnableButtonsForStart();
+                WriteToErrorLog(ee.ToString());
             }
         }
 
@@ -196,65 +204,80 @@ namespace TelefonTavlenWPF
 
         private void FacebookpostList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //cast to listbox
-            ListBox searchresults = (ListBox)sender;
-            //Remove the item clicked on
-            //If null dont do anything
-            if (searchresults.SelectedItem == null)
+            try
             {
-                return;
+
+
+                //cast to listbox
+                ListBox searchresults = (ListBox)sender;
+                //Remove the item clicked on
+                //If null dont do anything
+                if (searchresults.SelectedItem == null)
+                {
+                    return;
+                }
+
+                //create the text in right format
+                string fbText = ((SearchResultSEF)searchresults.SelectedItem).Header + "\n" + ((SearchResultSEF)searchresults.SelectedItem).Description;
+
+                //set text to clipboard
+                Clipboard.SetText(fbText);
+
+                //set fb text to textbox
+                fbTextBox.Text = fbText;
             }
-
-            //create the text in right format
-            string fbText = ((SearchResultSEF)searchresults.SelectedItem).Header + "\n" + ((SearchResultSEF)searchresults.SelectedItem).Description;
-
-            //set text to clipboard
-            Clipboard.SetText(fbText);
-
-            //set fb text to textbox
-            fbTextBox.Text = fbText;
+            catch (Exception ee)
+            {
+                WriteToErrorLog(ee.ToString());
+            }
         }
 
         private void CopyObjectText(object sender, MouseButtonEventArgs e)
         {
-
-            if (sender is RichTextBox box)
+            try
             {
-                CreateCopyToolTip(box);
+                if (sender is RichTextBox box)
+                {
+                    CreateCopyToolTip(box);
 
-                string rtfText;
-                RichTextBox rtb = box;
+                    string rtfText;
+                    RichTextBox rtb = box;
 
-                TextRange range = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+                    TextRange range = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
 
-                //create a empty memory stream where the text can be saved in 
-                MemoryStream stream = new MemoryStream();
-                range.Save(stream, DataFormats.Rtf);
+                    //create a empty memory stream where the text can be saved in 
+                    MemoryStream stream = new MemoryStream();
+                    range.Save(stream, DataFormats.Rtf);
 
-                //Set beginning position for the stream
-                stream.Seek(0, SeekOrigin.Begin);
+                    //Set beginning position for the stream
+                    stream.Seek(0, SeekOrigin.Begin);
 
-                //read the memory stream
-                StreamReader reader = new StreamReader(stream);
-                rtfText = reader.ReadToEnd();
+                    //read the memory stream
+                    StreamReader reader = new StreamReader(stream);
+                    rtfText = reader.ReadToEnd();
 
-                Clipboard.SetText(rtfText, TextDataFormat.Rtf);
+                    Clipboard.SetText(rtfText, TextDataFormat.Rtf);
 
+                }
+                else
+                {
+                    //Get control
+                    TextBox textBox = (TextBox)sender;
+                    CreateCopyToolTip(textBox);
+
+                    try
+                    {
+                        Clipboard.SetText(textBox.Text);
+                    }
+                    catch (Exception ex)
+                    {
+                        WriteToConsole(new LogEventArgs($"problemer med at kopiere {ex.Message}", InformationType.Warning));
+                    }
+                }
             }
-            else
+            catch (Exception ee)
             {
-                //Get control
-                TextBox textBox = (TextBox)sender;
-                CreateCopyToolTip(textBox);
-
-                try
-                {
-                    Clipboard.SetText(textBox.Text);
-                }
-                catch (Exception ex)
-                {
-                    WriteToConsole(new LogEventArgs($"problemer med at kopiere {ex.Message}", InformationType.Warning));
-                }
+                WriteToErrorLog(ee.ToString());
             }
         }
 
@@ -268,23 +291,45 @@ namespace TelefonTavlenWPF
 
         private async void CreateCopyToolTip(Control box)
         {
-            // ToolTip to show that the text is copied
-            ToolTip toolTip = new ToolTip
+            try
             {
-                Content = "Kopieret"
-            };
+                // ToolTip to show that the text is copied
+                ToolTip toolTip = new ToolTip
+                {
+                    Content = "Kopieret"
+                };
 
-            ToolTipService.SetToolTip(box, toolTip);
-            
-            ((ToolTip)box.ToolTip).IsOpen = true;
+                ToolTipService.SetToolTip(box, toolTip);
 
-            //wait for the task so ToolTip only is visible 2 seconds
-            await Task.Delay(2000);
+                ((ToolTip)box.ToolTip).IsOpen = true;
 
-            ((ToolTip)box.ToolTip).IsOpen = false;
+                //wait for the task so ToolTip only is visible 2 seconds
+                await Task.Delay(2000);
 
-            //Set tooltip to null so its not show when hover over the box
-            ToolTipService.SetToolTip(box, null);
+                ((ToolTip)box.ToolTip).IsOpen = false;
+
+                //Set tooltip to null so its not show when hover over the box
+                ToolTipService.SetToolTip(box, null);
+
+            }
+            catch (Exception e)
+            {
+                WriteToErrorLog(e.ToString());
+            }
+        }
+
+        //TODO: DELETE THIS 
+        private void WriteToErrorLog(string message)
+        {
+            string filename = "ErrorLog.txt";
+
+            StreamWriter sw = new StreamWriter(filename, true);
+
+            sw.WriteLine($"[{DateTime.Now.ToString("T")}]  {message}");
+
+            sw.Flush();
+
+            sw.Close();
         }
     }
 }
