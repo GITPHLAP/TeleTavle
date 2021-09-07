@@ -338,7 +338,7 @@ namespace TelefonTavlenWPF
 
             StreamWriter sw = new StreamWriter(filename, true);
 
-            sw.WriteLine($"[{DateTime.Now.ToString("T")}]  {message}");
+            sw.WriteLine($"[{DateTime.Now.ToString("G")}]  {message}");
 
             sw.Flush();
 
