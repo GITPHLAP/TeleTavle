@@ -67,7 +67,12 @@ namespace TelefonTavlenWPF
                     cancellationTokenSource.Cancel();
                     consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run("STOPPET") { Foreground = brush }));
                     MsgPopUpWindow popup = new MsgPopUpWindow(e.informationType, e.Message);
-                    popup.Owner = this;
+
+                    //It will fail if the mainwindow is not shown when trying set owner on popup
+                    if (this.Visibility == Visibility.Visible)
+                    {
+                        popup.Owner = this;
+                    }
                     popup.ShowDialog();
                     break;
                 case InformationType.Information:
