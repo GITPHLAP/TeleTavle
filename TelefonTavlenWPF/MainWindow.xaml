@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TelefonTavlenWPF"
         mc:Ignorable="d"
-        Title="TeleTavle Hjælperen" MinHeight="450" MinWidth="800">
+        Title="TeleTavle Hjælperen" MinHeight="500" MinWidth="800">
     <Window.Resources>
         <!--Add all styles for the application-->
 
@@ -83,7 +83,7 @@
         <Style TargetType="{x:Type Button}">
             <Setter Property="FontSize" Value="20"></Setter>
             <Setter Property="Background" Value="{StaticResource ResourceKey=ButtonBrush}"/>
-            <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource FontColorButtonBrush}"/>
             <Setter Property="BorderBrush" Value="{x:Null}"/>
             <Setter Property="Cursor" Value="Hand"/>
             <!--<Setter Property="BitmapEffect">
@@ -106,6 +106,8 @@
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="{StaticResource BackgroundSecondaryBrush}"/>
                     <Setter Property="BorderBrush" Value="{StaticResource FieldBrush}"/>
+                    <Setter Property="BorderThickness" Value="3"/>
+                    <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{StaticResource SelectedBrush}"/>
