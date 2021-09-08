@@ -15,7 +15,7 @@
             <SolidColorBrush x:Key="BackgroundBrush" Color="#e2e4f0" />
             <SolidColorBrush x:Key="BackgroundSecondaryBrush" Color="#ffffff" />
             <!--Font-->
-            <SolidColorBrush x:Key="FontColorBrush" Color="#474770" />
+            <SolidColorBrush x:Key="FontColorBrush" Color="Black" />
             <SolidColorBrush x:Key="FontColorDisabledBrush" Color="#e1e5ee"/>
             <SolidColorBrush x:Key="FontColorButtonBrush" Color="#ffffff"/>
             
