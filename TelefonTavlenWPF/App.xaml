@@ -8,13 +8,26 @@
 
         <ResourceDictionary>
             <FontFamily x:Key="Roboto">pack://application:,,,/Fonts/#Roboto-Black</FontFamily>
-            <SolidColorBrush x:Key="PrimaryBrush" Color="#7e5fba"/>
-            <SolidColorBrush x:Key="SecondaryBrush" Color="#343948"/>
+            <SolidColorBrush x:Key="ButtonBrush" Color="#8676ff"/>
+            <SolidColorBrush x:Key="FieldBrush" Color="#edeef5"/>
+            <SolidColorBrush x:Key="SelectedBrush" Color="#936fd9"/>
+            <!--Background-->
+            <SolidColorBrush x:Key="BackgroundBrush" Color="#e2e4f0" />
+            <SolidColorBrush x:Key="BackgroundSecondaryBrush" Color="#ffffff" />
+            <!--Font-->
+            <SolidColorBrush x:Key="FontColorBrush" Color="#474770" />
+            <SolidColorBrush x:Key="FontColorDisabledBrush" Color="#e1e5ee"/>
+            <SolidColorBrush x:Key="FontColorButtonBrush" Color="#ffffff"/>
+            
+            
+            <!--Darkmode-->
+            <!--<SolidColorBrush x:Key="ButtonBrush" Color="#7e5fba"/>
+            <SolidColorBrush x:Key="FieldBrush" Color="#343948"/>
             <SolidColorBrush x:Key="SelectedBrush" Color="#936fd9"/>
             <SolidColorBrush x:Key="BackgroundBrush" Color="#161d24" />
             <SolidColorBrush x:Key="BackgroundSecondaryBrush" Color="#222838" />
             <SolidColorBrush x:Key="FontColorBrush" Color="#e1e5ee" />
-            <SolidColorBrush x:Key="FontColorDisabledBrush" Color="#e1e5ee" />
+            <SolidColorBrush x:Key="FontColorDisabledBrush" Color="#e1e5ee" />-->
             
         </ResourceDictionary>
     </Application.Resources>
