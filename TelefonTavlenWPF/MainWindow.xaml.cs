@@ -136,7 +136,7 @@ namespace TelefonTavlenWPF
                 }, processToken);
 
                 //add fb results to FB post list
-                facebookpostList.DataContext = searchResultSEFs;
+                facebookpostList.ItemsSource = searchResultSEFs;
 
                 //Create and show mail draft
                 MailDraft mailDraft = new MailDraft();
