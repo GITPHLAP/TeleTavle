@@ -57,52 +57,51 @@ namespace TeleTavleLibrary
         /// <param name="searchWords"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<List<SearchResultSEF>> StartProcessParallelAsync(List<string> searchWords, CancellationToken token)
+        public List<SearchResultSEF> StartProcessParallelAsync(List<string> searchWords, CancellationToken token)
         {
             if (searchWords.Count > 0 || searchWords != null)
             {
-                List<Task<List<SearchResult>>> tasks = new List<Task<List<SearchResult>>>();
+                //List<Task<List<SearchResult>>> tasks = new List<Task<List<SearchResult>>>();
 
+                List<SearchResult> searchResults = new List<SearchResult>();
                 CheckToken(token);
                 try
                 {
-                    Parallel.ForEach(searchWords, searchWord => { tasks.Add(Task.Run(() => GetSearchInformation(searchWord))); });
-
+                    //create parallel foreach with every searchword for every searchword add every searchresult from GetSearchInformation to searchResults
+                    Parallel.ForEach(searchWords, searchWord => GetSearchInformation(searchWord).ForEach(searchresult => searchResults.Add(searchresult)));
                 }
                 catch (Exception)
                 {
                     CheckToken(token);
                 }
 
-                //Search results that need to find their SEF
-                List<SearchResult>[] searchResults = await Task.WhenAll(tasks);
-
                 CheckToken(token);
 
                 //This is where all the found SEF's are saved
-                List<SearchResultSEF> searchResultSEFList = new List<SearchResultSEF>();
+                List<SearchResultSEF> finalSEFList = new List<SearchResultSEF>();
 
                 //Find all the sef information and ping and index the result
                 Parallel.ForEach(searchResults, searchResult =>
                     {
                         CheckToken(token);
-                        searchResultSEFList = FindSefs(searchResult, token);
+
+                        SearchResultSEF foundSefs = FindSef(searchResult, token);
+
+                        //add found sef to final sef list
+                        finalSEFList.Add(foundSefs);
 
                         //Ping and index the results
-                        foreach (var sef in searchResultSEFList)
-                        {
-                            //Ping the result
-                            PingSearchResult(sef);
+                        PingSearchResult(foundSefs);
 
-                            CheckToken(token);
+                        CheckToken(token);
 
-                            IndexURL(sef.SearchResult.Url);
+                        IndexURL(foundSefs.SearchResult.Url);
 
-                            CheckToken(token);
-                        }
+                        CheckToken(token);
+
                     });
 
-                return searchResultSEFList;
+                return finalSEFList;
             }
             else
             {
@@ -111,23 +110,17 @@ namespace TeleTavleLibrary
             }
         }
 
-        List<SearchResultSEF> FindSefs(List<SearchResult> searchResult, CancellationToken token)
+        SearchResultSEF FindSef(SearchResult searchResult, CancellationToken token)
         {
-            List<SearchResultSEF> sefResults = new List<SearchResultSEF>();
+            //SearchResultSEF sefResults = new SearchResultSEF();
 
-            //TODO Eventually put this in parallel?
-            foreach (SearchResult result in searchResult)
-            {
-                CheckToken(token);
-                SearchResultSEF sefSearchResult = SEFInformation(result);
+            CheckToken(token);
+            SearchResultSEF sefSearchResult = SEFInformation(searchResult);
 
-                //TODO: TEST skal fjernes
-                sefSearchResult.Header = "TEST123";
+            //TODO: TEST skal fjernes
+            sefSearchResult.Header = "TEST123";
 
-                sefResults.Add(sefSearchResult);
-
-            }
-            return sefResults;
+            return sefSearchResult;
         }
 
         //TODO:Test SKAL FJERNES
