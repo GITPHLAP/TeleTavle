@@ -31,7 +31,6 @@ namespace TelefonTavlenWPF
         {
             InitializeComponent();
 
-            Icon = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Images\LogoIcon.ico"));
             //Tokens for stopping program
             cancellationTokenSource = new CancellationTokenSource();
             processToken = cancellationTokenSource.Token;
