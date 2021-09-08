@@ -161,6 +161,7 @@ namespace TelefonTavlenWPF
             Startbtn.IsEnabled = false;
             AddSearchWord.IsEnabled = false;
             SearchWordListbox.IsEnabled = false;
+            searchwordInput.IsEnabled = false;
         }
 
         private void Restartbtn_Click(object sender, RoutedEventArgs e)
@@ -180,6 +181,7 @@ namespace TelefonTavlenWPF
         private void EnableButtonsForStart()
         {
             SearchWordListbox.IsEnabled = true;
+            searchwordInput.IsEnabled = true;
             restartbtn.IsEnabled = false;
             AddSearchWord.IsEnabled = true;
             Startbtn.IsEnabled = false;
