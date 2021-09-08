@@ -60,7 +60,7 @@ namespace TelefonTavlenWPF
             switch (e.informationType)
             {
                 case InformationType.Successful:
-                    brush = Brushes.Green;
+                    brush = Brushes.LimeGreen;
                     break;
                 case InformationType.Failed:
                     brush = Brushes.Red;
@@ -75,7 +75,7 @@ namespace TelefonTavlenWPF
                     everyinformationEvents += e.Message + "\n";
                     break;
                 case InformationType.Warning:
-                    brush = Brushes.Orange;
+                    brush = Brushes.DarkOrange;
                     break;
                 default:
                     break;
