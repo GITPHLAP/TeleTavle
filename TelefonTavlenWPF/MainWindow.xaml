@@ -17,7 +17,7 @@
         <!--ITEMS INSIDE LISTBOX-->
         <Style TargetType="{x:Type ListBoxItem}" >
             <Setter Property="FontSize" Value="16"></Setter>
-            <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+            <Setter Property="Background" Value="{StaticResource FieldBrush}"/>
             <Style.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="10"/>
@@ -63,7 +63,7 @@
             </Setter>
         </Style>
         <Style TargetType="Control" x:Key="TextFields">
-            <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+            <Setter Property="Background" Value="{StaticResource FieldBrush}"/>
             <Setter Property="BorderThickness" Value="0"/>
             <Setter Property="Margin" Value="10,10,10,10"/>
             <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
@@ -82,7 +82,7 @@
         <!--BUTTON-->
         <Style TargetType="{x:Type Button}">
             <Setter Property="FontSize" Value="20"></Setter>
-            <Setter Property="Background" Value="{StaticResource ResourceKey=PrimaryBrush}"/>
+            <Setter Property="Background" Value="{StaticResource ResourceKey=ButtonBrush}"/>
             <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
             <Setter Property="BorderBrush" Value="{x:Null}"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -105,7 +105,7 @@
             <Style.Triggers>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="{StaticResource BackgroundSecondaryBrush}"/>
-                    <Setter Property="BorderBrush" Value="{StaticResource SecondaryBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource FieldBrush}"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="{StaticResource SelectedBrush}"/>
@@ -188,7 +188,7 @@
                 <StackPanel Grid.Column="0">
                     <RichTextBox x:Name="consoleStatusBox" Height="150" IsReadOnly="True" Style="{StaticResource TextFields}">
                     </RichTextBox>
-                    <Button Content="Start forfra" Margin="2,10,2,10" x:Name="restartbtn" Click="Restartbtn_Click" />
+                    <Button Content="Start forfra" Margin="10,10,10,10" x:Name="restartbtn" Click="Restartbtn_Click" />
                 </StackPanel>
             </Border>
             <!--searchwords to facebook post-->
