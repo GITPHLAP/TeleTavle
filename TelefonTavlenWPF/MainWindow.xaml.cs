@@ -23,6 +23,7 @@ namespace TelefonTavlenWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        string everyinformationEvents = "";
         TTManager ttManager;
         CancellationTokenSource cancellationTokenSource;
         CancellationToken processToken;
@@ -70,8 +71,8 @@ namespace TelefonTavlenWPF
                     break;
                 case InformationType.Information:
                     brush = Brushes.Black;
-
-                    ShowMsgPopUp(e);
+                    //add the information event to a list, when the process is done then the whole list will be in details section
+                    everyinformationEvents += e.Message + "\n";
                     break;
                 case InformationType.Warning:
                     brush = Brushes.Orange;
@@ -81,7 +82,7 @@ namespace TelefonTavlenWPF
             }
             //Write text to the consolebox and add the color.
             //consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message) { Foreground = brush }));
-            consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time + ": " + e.Message) { Foreground = brush })); //TODO:remove this
+            consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time.Minute +" . " + e.Time.Second + " . " +e.Time.Millisecond + ": " + e.Message) { Foreground = brush })); //TODO:remove this
             consoleStatusBox.ScrollToEnd();
         }
 
@@ -143,7 +144,8 @@ namespace TelefonTavlenWPF
 
                 restartbtn.IsEnabled = true;
 
-                MsgPopUpWindow popup = new MsgPopUpWindow(InformationType.Successful, null);
+                //every information events will be add as message
+                MsgPopUpWindow popup = new MsgPopUpWindow(InformationType.Successful, everyinformationEvents);
                 popup.Owner = this;
                 popup.ShowDialog();
             }

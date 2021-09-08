@@ -40,7 +40,9 @@ namespace TelefonTavlenWPF
 
                     //msg title
                     msgTitle.Content = "Processen er fuldført";
-                    
+
+                    SetMsgdetails(msgdetails);
+
                     break;
                 case InformationType.Failed:
                     bitImg = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Images\Error.png"));
