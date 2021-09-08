@@ -130,9 +130,9 @@ namespace TelefonTavlenWPF
             try
             {
                 processToken = cancellationTokenSource.Token;
-                await Task.Run(async () =>
+                await Task.Run(() =>
                 {
-                    searchResultSEFs = await ttManager.StartProcessParallelAsync(searchwords, processToken);
+                    searchResultSEFs = ttManager.StartProcessParallel(searchwords, processToken);
                 }, processToken);
 
                 //add fb results to FB post list

@@ -57,7 +57,7 @@ namespace TeleTavleLibrary
         /// <param name="searchWords"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public List<SearchResultSEF> StartProcessParallelAsync(List<string> searchWords, CancellationToken token)
+        public List<SearchResultSEF> StartProcessParallel(List<string> searchWords, CancellationToken token)
         {
             if (searchWords.Count > 0 || searchWords != null)
             {
