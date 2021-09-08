@@ -108,7 +108,7 @@
                     <Setter Property="BorderBrush" Value="{StaticResource SecondaryBrush}"/>
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                    <Setter Property="Background" Value="{StaticResource SelectedBrush}"/>
                 </Trigger>
             </Style.Triggers>
             <Style.Resources>
@@ -120,7 +120,7 @@
 
         </Style>
     </Window.Resources>
-    <Grid x:Name="MainGrid" Background="#161d24">
+    <Grid x:Name="MainGrid" Background="{StaticResource BackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>

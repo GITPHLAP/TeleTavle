@@ -10,6 +10,8 @@
             <FontFamily x:Key="Roboto">pack://application:,,,/Fonts/#Roboto-Black</FontFamily>
             <SolidColorBrush x:Key="PrimaryBrush" Color="#7e5fba"/>
             <SolidColorBrush x:Key="SecondaryBrush" Color="#343948"/>
+            <SolidColorBrush x:Key="SelectedBrush" Color="#936fd9"/>
+            <SolidColorBrush x:Key="BackgroundBrush" Color="#161d24" />
             <SolidColorBrush x:Key="BackgroundSecondaryBrush" Color="#222838" />
             <SolidColorBrush x:Key="FontColorBrush" Color="#e1e5ee" />
             <SolidColorBrush x:Key="FontColorDisabledBrush" Color="#e1e5ee" />
