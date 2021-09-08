@@ -140,7 +140,7 @@ namespace TelefonTavlenWPF
 
                 //Create and show mail draft
                 MailDraft mailDraft = new MailDraft();
-                MailDraftTextBox.Document = mailDraft.CreateMailDraft(searchResultSEFs);
+                MailDraftTextBox.Document = mailDraft.CreateMailDraft(searchResultSEFs, searchwords);
 
                 restartbtn.IsEnabled = true;
 

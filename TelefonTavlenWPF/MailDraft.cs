@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -9,7 +9,7 @@ namespace TelefonTavlenWPF
 {
     public class MailDraft
     {
-        public FlowDocument CreateMailDraft(List<SearchResultSEF> searchResults)
+        public FlowDocument CreateMailDraft(List<SearchResultSEF> searchResults, List<string> searchwords)
         {
             #region default draft
             FlowDocument draftflow = new FlowDocument();
@@ -50,7 +50,7 @@ namespace TelefonTavlenWPF
 
             #endregion
 
-            CreateSearchWordTable(draftflow, searchResults);
+            CreateSearchWordTable(draftflow, searchResults, searchwords);
 
             #region default draft - Lastline
             //to create a empty line
@@ -63,7 +63,7 @@ namespace TelefonTavlenWPF
             return draftflow;
         }
 
-        private void CreateSearchWordTable(FlowDocument document, List<SearchResultSEF> searchResults)
+        private void CreateSearchWordTable(FlowDocument document, List<SearchResultSEF> searchResults, List<string> searchwords)
         {
             Paragraph par = new Paragraph();
 
@@ -96,8 +96,11 @@ namespace TelefonTavlenWPF
 
             int searchwordscount = 0;
 
+            //groupe search result by the searchword and the nmake a list of ranks
+            var groupedsearchResults = searchResults.GroupBy(re => re.SearchResult.SearchWord, re => re.SearchResult.Rank, (key, r) => new { SearchWord = key, Rank = r.ToList() });
+
             //GroupBy searchword and create a list with rank 
-            foreach (var result in searchResults.GroupBy(re => re.SearchResult.SearchWord, re => re.SearchResult.Rank, (key, r) => new { SearchWord = key, Rank = r.ToList() }))
+            foreach (string searchword in searchwords)
             {
                 searchwordscount++;
 
@@ -106,33 +109,45 @@ namespace TelefonTavlenWPF
                 currentRow = searchWordTable.RowGroups[0].Rows[searchwordscount];
 
                 //the first cell in the currentrow set to the searchword
-                currentRow.Cells.Add(new TableCell(new Paragraph(new Run(result.SearchWord))));
+                currentRow.Cells.Add(new TableCell(new Paragraph(new Run(searchword))));
 
-                //Add a paragraph for the next cell
-                par = new Paragraph(new Bold(new Run("Her kommer dine annoncer frem på Google som nr. ")));
+                //if search word match the grouped list then it should return the list else it will return null
+                var result = groupedsearchResults.Where(r => r.SearchWord == searchword).FirstOrDefault();
 
-                if (result.Rank.Count > 1)
+                if (result == null)
                 {
-                    //add the first rank
-                    par.Inlines.Add(new Bold(new Run(result.Rank[0].ToString())));
-                    //remove the first rank
-                    result.Rank.RemoveAt(0);
-                    //foreach rank add it to the line
-                    foreach (var rank in result.Rank)
-                    {
-                        par.Inlines.Add(new Bold(new Run(" og ")));
-                        par.Inlines.Add(new Bold(new Run(rank.ToString())));
-                    }
+                    par = new Paragraph(new Bold(new Run("Der blev ikke fundet nogle søge resultater for dette søgeord")));
                 }
                 else
                 {
-                    //if only one rank then just add it
-                    par.Inlines.Add(new Bold(new Run(result.Rank.First().ToString())));
+                    //Add a paragraph for the next cell
+                    par = new Paragraph(new Bold(new Run("Her kommer dine annoncer frem på Google som nr. ")));
 
+                    if (result.Rank.Count > 1)
+                    {
+                        //add the first rank
+                        par.Inlines.Add(new Bold(new Run(result.Rank[0].ToString())));
+                        //remove the first rank
+                        result.Rank.RemoveAt(0);
+                        //foreach rank add it to the line
+                        foreach (int rank in result.Rank)
+                        {
+                            par.Inlines.Add(new Bold(new Run(" og ")));
+                            par.Inlines.Add(new Bold(new Run(rank.ToString())));
+                        }
+                    }
+                    else
+                    {
+                        //if only one rank then just add it
+                        par.Inlines.Add(new Bold(new Run(result.Rank.First().ToString())));
+
+                    }
                 }
+                
                 //add the paragraph to the cell
                 currentRow.Cells.Add(new TableCell(par));
             }
+
         }
     }
 }
