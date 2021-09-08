@@ -97,9 +97,13 @@ namespace TelefonTavlenWPF
         }
         private void SetMsgdetails(string msgdetails)
         {
-            msgdetailsTextBox.Text = msgdetails;
-            //Show textbox
-            msgdetailsTextBox.Visibility = Visibility.Visible;
+            if (msgdetails != null || msgdetails != "")
+            {
+                msgdetailsTextBox.Text = msgdetails;
+
+                //Show textbox
+                msgdetailsTextBox.Visibility = Visibility.Visible;
+            }
         }
 
         private void OkBtn_Click(object sender, RoutedEventArgs e)
