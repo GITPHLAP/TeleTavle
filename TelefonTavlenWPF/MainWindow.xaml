@@ -8,26 +8,119 @@
         Title="TeleTavle Hjælperen" MinHeight="450" MinWidth="800">
     <Window.Resources>
         <!--Add all styles for the application-->
-        <Style TargetType="{x:Type TextBox}" x:Key="searchtextbox">
-            <Setter Property="FontSize" Value="20"></Setter>
-        </Style>
+
         <Style TargetType="{x:Type Label}" x:Key="headerLabel">
             <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
+
         </Style>
-        <Style TargetType="{x:Type ListBoxItem}">
+        <!--ITEMS INSIDE LISTBOX-->
+        <Style TargetType="{x:Type ListBoxItem}" >
             <Setter Property="FontSize" Value="16"></Setter>
-        </Style>
-        <Style TargetType="{x:Type Button}">
-            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
             <Style.Resources>
                 <Style TargetType="Border">
-                    <Setter Property="CornerRadius" Value="5"></Setter>
+                    <Setter Property="CornerRadius" Value="10"/>
                 </Style>
             </Style.Resources>
-        </Style>
 
+        </Style>
+        <!--LISTBOX-->
+        <Style TargetType="{x:Type ListBox}">
+            <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
+            <Setter Property="Template">
+
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBox}">
+                        <Border Name="Border"
+                BorderThickness="1"
+                CornerRadius="10">
+                            <ScrollViewer Margin="0"
+                        Focusable="false">
+                                <StackPanel Margin="2"
+                        IsItemsHost="True" />
+                            </ScrollViewer>
+                        </Border>
+                        <!--TRIGGERS-->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled"
+                   Value="false">
+                                <Setter TargetName="Border"
+                    Property="Background" Value="{StaticResource BackgroundSecondaryBrush}"/>
+
+                                <Setter TargetName="Border"
+                    Property="BorderBrush" Value="{StaticResource BackgroundSecondaryBrush}"/>
+
+                            </Trigger>
+                            <Trigger Property="IsGrouping"
+                   Value="true">
+                                <Setter Property="ScrollViewer.CanContentScroll"
+                    Value="false" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="Control" x:Key="TextFields">
+            <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Margin" Value="10,10,10,10"/>
+            <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
+
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"/>
+                </Style>
+            </Style.Resources>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Foreground" Value="{StaticResource BackgroundSecondaryBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <!--BUTTON-->
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Background" Value="{StaticResource ResourceKey=PrimaryBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource FontColorBrush}"/>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <!--<Setter Property="BitmapEffect">
+                <Setter.Value>
+                    <DropShadowBitmapEffect Color="Black" ShadowDepth="4" Softness="0.7"/>
+                </Setter.Value>
+            </Setter>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <Border x:Name="Border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Padding="{TemplateBinding Padding}">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{StaticResource BackgroundSecondaryBrush}"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource SecondaryBrush}"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{StaticResource SecondaryBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+            <Style.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"></Setter>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </Style.Resources>
+
+        </Style>
     </Window.Resources>
-    <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid" Background="#161d24">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -42,33 +135,45 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
-            
-            <!--start button search word adder--> 
-            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
-                <Grid x:Name="searchwordGrid" MinWidth="200" Margin="2">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*"></ColumnDefinition>
-                        <ColumnDefinition Width="*"></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <TextBox Grid.Column="0" x:Name="searchwordInput" Style="{StaticResource searchtextbox}" KeyDown="SearchwordInput_KeyDown"></TextBox>
 
-                    <Button x:Name="AddSearchWord" Grid.Column="1" Margin="8,0,0,0" Content="Tilføj" Click="AddSearchWord_Click"></Button>
+            <!--start button search word adder-->
+
+            <Border CornerRadius="15" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
+                <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">
+                    <Grid x:Name="searchwordGrid" MinWidth="200" Margin="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"></ColumnDefinition>
+                            <ColumnDefinition Width="*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <TextBox Grid.Column="0" x:Name="searchwordInput" Style="{StaticResource TextFields}" KeyDown="SearchwordInput_KeyDown" Margin="10,0,0,0" FontSize="20"></TextBox>
+
+
+                        <Button x:Name="AddSearchWord" Grid.Column="1" Margin="8,0,10,0" Content="Tilføj" Click="AddSearchWord_Click"></Button>
+                    </Grid>
+                    <Button x:Name="Startbtn" MinHeight="20" Margin="10" Content="Start" Click="Startbtn_Click"/>
+
+                </StackPanel>
+            </Border>
+            <!--list with searchwords-->
+            <Border CornerRadius="15" Grid.Column="1" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Content="Søgeord" HorizontalAlignment="Center" Style="{StaticResource headerLabel}" Width="85" />
+                    <ListBox Grid.Row="1" x:Name="SearchWordListbox" BorderBrush="{x:Null}" MouseUp="SearchWordListbox_MouseUp" ScrollViewer.VerticalScrollBarVisibility="Hidden" Margin="0,5,0,0"/>
                 </Grid>
-                    <Button x:Name="Startbtn" MinHeight="20" Margin="2" Content="Start" Click="Startbtn_Click"/>
-            </StackPanel>
-            
-            <!--list with searchwords--> 
-            <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Margin="5">
-                <Label Content="Søgeord" HorizontalAlignment="Center" Style="{StaticResource headerLabel}"></Label>
-                <ListBox x:Name="SearchWordListbox" SelectionChanged="SearchWordListbox_SelectionChanged">
-                </ListBox>
-            </StackPanel>
-            
+
+            </Border>
             <!--mail draft-->
-            <RichTextBox Grid.Column="2" x:Name="MailDraftTextBox" Margin="5" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True" ToolTip="Copired"></RichTextBox>
+            <Border CornerRadius="15" Grid.Column="2" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
+                <RichTextBox Grid.Column="2" x:Name="MailDraftTextBox" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True" Style="{StaticResource TextFields}"></RichTextBox>
+            </Border>
         </Grid>
 
         <Grid Grid.Row="1" x:Name="BottomPanel">
@@ -77,23 +182,30 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            
-            <!--status list and restart button--> 
-            <StackPanel Grid.Column="0">
-                <RichTextBox x:Name="consoleStatusBox" Margin="5" Height="150" IsReadOnly="True">
-                    
-                </RichTextBox>
-                <Button Content="Start forfra" Margin="2,10,2,10" x:Name="restartbtn" Click="Restartbtn_Click" />
-            </StackPanel>
-            
-            <!--searchwords to facebook post-->
-            <StackPanel Grid.Column="1">
-                <Label Content="Søgeord til facebook" Style="{StaticResource headerLabel}" HorizontalAlignment="Center"></Label>
-                <ListBox x:Name="facebookpostList" Margin="5" SelectionChanged="FacebookpostList_SelectionChanged" ItemsSource="{Binding}" DisplayMemberPath="SearchResult.SearchWordWithNum" />
-            </StackPanel>
-            <!--facebook textbox-->
-            <TextBox Grid.Column="2" x:Name="fbTextBox" Margin="5" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True"/>
 
+            <!--status list and restart button-->
+            <Border CornerRadius="15" Grid.Column="0" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
+                <StackPanel Grid.Column="0">
+                    <RichTextBox x:Name="consoleStatusBox" Height="150" IsReadOnly="True" Style="{StaticResource TextFields}">
+                    </RichTextBox>
+                    <Button Content="Start forfra" Margin="2,10,2,10" x:Name="restartbtn" Click="Restartbtn_Click" />
+                </StackPanel>
+            </Border>
+            <!--searchwords to facebook post-->
+            <Border CornerRadius="15" Grid.Column="1" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" Content="Søgeord til facebook" Style="{StaticResource headerLabel}" HorizontalAlignment="Center"></Label>
+                    <ListBox Grid.Row="1" x:Name="facebookpostList" Margin="5" SelectionChanged="FacebookpostList_SelectionChanged" ItemsSource="{Binding}" DisplayMemberPath="SearchResult.SearchWordWithNum" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                </Grid>
+            </Border>
+            <!--facebook textbox-->
+            <Border CornerRadius="15" Grid.Column="2" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
+                <TextBox Grid.Column="2" x:Name="fbTextBox" PreviewMouseLeftButtonDown="CopyObjectText" IsReadOnly="True" Style="{StaticResource TextFields}"/>
+            </Border>
         </Grid>
 
     </Grid>
