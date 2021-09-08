@@ -21,7 +21,6 @@ namespace TeleTavleLibrary
             IWebDriver chromeDriver = GetChromeDriver();
 
             SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/index.php?option=com_sh404sef&c=metas&layout=default&view=metas");
-            //SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/indx.php?");
 
             URLManagerSearch(chromeDriver, input.SearchResult);
 
