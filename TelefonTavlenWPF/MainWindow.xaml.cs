@@ -141,7 +141,7 @@ namespace TelefonTavlenWPF
                 MailDraft mailDraft = new MailDraft();
                 MailDraftTextBox.Document = mailDraft.CreateMailDraft(searchResultSEFs, searchwords);
 
-                restartbtn.IsEnabled = true;
+                
 
                 //every information events will be add as message
                 MsgPopUpWindow popup = new MsgPopUpWindow(InformationType.Successful, everyinformationEvents);
@@ -152,6 +152,7 @@ namespace TelefonTavlenWPF
             {
                 WriteToErrorLog(oe.ToString());
             }
+            restartbtn.IsEnabled = true;
 
         }
 

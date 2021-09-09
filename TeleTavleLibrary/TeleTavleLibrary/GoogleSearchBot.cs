@@ -35,12 +35,9 @@ namespace TeleTavleLibrary
             catch (Exception ex)
             {
                 NewLogEvent(new LogEventArgs($"Der er ikke fundet nogle søge resultater... {ex.Message}", InformationType.Failed));
+                return searchResults;
             }
 
-            //if (nodes is null)
-            //{
-            //    NewLogEvent(new LogEventArgs($"søge resultater er null", InformationType.Failed));
-            //}
             //start from number one
             int rankCounter = 1;
             foreach (HtmlNode searchresult in nodes)
