@@ -390,3 +390,6 @@ FodyWeavers.xsd
 
 TeleTavleConsole/App.config
 TelefonTavlenWPF/App.config
+TelefonTavlenWPF/chromedriver.exe
+TelefonTavlenWPF/PhilipMethods.cs
+TelefonTavlenWPF/telefontavlen-c88ce2f3a6b5.json
