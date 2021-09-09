@@ -2,18 +2,13 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using TeleTavleLibrary;
 
 namespace TelefonTavlenWPF
@@ -81,7 +76,7 @@ namespace TelefonTavlenWPF
                     break;
             }
             //Write text to the consolebox and add the color.
-            //consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Message) { Foreground = brush }));
+            //TODO: Use this: consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time + ": " + e.Message) { Foreground = brush }));
             consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time.Minute +" . " + e.Time.Second + " . " +e.Time.Millisecond + ": " + e.Message) { Foreground = brush })); //TODO:remove this
             consoleStatusBox.ScrollToEnd();
         }
@@ -310,8 +305,8 @@ namespace TelefonTavlenWPF
             string filename = "ErrorLog.txt";
 
             StreamWriter sw = new StreamWriter(filename, true);
-
-            sw.WriteLine($"[{DateTime.Now.ToString("G")}]  {message}");
+            //DataTime.Now:G is the same as .ToString("G")
+            sw.WriteLine($"[{DateTime.Now:G}]  {message}");
 
             sw.Flush();
 
