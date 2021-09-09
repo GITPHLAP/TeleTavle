@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using System.Configuration;
-using System.Collections.Specialized;
 
 namespace TeleTavleLibrary
 {
@@ -20,7 +15,9 @@ namespace TeleTavleLibrary
             //Get driver
             IWebDriver chromeDriver = GetChromeDriver();
 
-            SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/index.php?option=com_sh404sef&c=metas&layout=default&view=metas");
+            //TODO: This part is for test issue changed it
+            //SiteLogin(chromeDriver, "https://telefontavlen.dk/administrator/index.php?option=com_sh404sef&c=metas&layout=default&view=metas");
+            SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/index.php?option=com_sh404sef&c=metas&layout=default&view=metas"); 
 
             URLManagerSearch(chromeDriver, input.SearchResult);
 
@@ -46,7 +43,6 @@ namespace TeleTavleLibrary
                 NewLogEvent(new LogEventArgs($"SEFBot kan ikke søge efter url", InformationType.Failed));
 
             }
-
 
         }
 

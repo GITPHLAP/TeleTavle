@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 
 namespace TeleTavleLibrary
 {
@@ -13,6 +10,9 @@ namespace TeleTavleLibrary
         {
             //Get driver
             IWebDriver chromeDriver = GetChromeDriver();
+
+            //TODO: This part is for test issue changed it
+            //SiteLogin(chromeDriver, "https://telefontavlen.dk/administrator/index.php?option=com_jmap&task=pingomatic.display");
 
             SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/index.php?option=com_jmap&task=pingomatic.display");
 

@@ -1,8 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TeleTavleLibrary
 {
@@ -18,12 +16,15 @@ namespace TeleTavleLibrary
                 ChromeDriverService cDS = ChromeDriverService.CreateDefaultService();
                 cDS.SuppressInitialDiagnosticInformation = true;
                 cDS.HideCommandPromptWindow = true;
-                //Chrome options 
+
+                //Chrome options to hide chrome application  
                 ChromeOptions co = new ChromeOptions();
                 co.AddArguments("headless");
-                //This prevent reCAPTCHAR
+
+                //This useragent prevent reCAPTCHAR
                 co.AddArguments("--user-agent=Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 92.0.4515.131 Safari / 537.36");
-                //do not log so much with this code
+                
+                //does not log so much with this argument
                 co.AddArgument("--log-level=3");
 
                 IWebDriver chromeDriver = new ChromeDriver(cDS, co);

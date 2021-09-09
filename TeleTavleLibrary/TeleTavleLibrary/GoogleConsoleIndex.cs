@@ -3,10 +3,7 @@ using Google.Apis.Indexing.v3;
 using Google.Apis.Indexing.v3.Data;
 using Google.Apis.Services;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TeleTavleLibrary
 {
@@ -24,11 +21,11 @@ namespace TeleTavleLibrary
             try
             {
                 //Path to the credentials file
-                var path = Environment.CurrentDirectory + "/telefontavlen-c88ce2f3a6b5.json";
+                string path = Environment.CurrentDirectory + "/telefontavlen-c88ce2f3a6b5.json";
 
                 GoogleCredential credential;
                 //Get credentials
-                using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+                using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
                 {
                     credential = GoogleCredential.FromStream(stream).CreateScoped(new[] { "https://www.googleapis.com/auth/indexing" });
                 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,8 +8,6 @@ namespace TeleTavleLibrary
     public class TTManager
     {
         public event EventHandler<LogEventArgs> LogEvent;
-
-
 
         // global variables
         GoogleSearchBot gSearchBot;
@@ -21,36 +18,6 @@ namespace TeleTavleLibrary
 
         GoogleConsoleIndex gConsole;
 
-        public void StartProcess(List<string> searchWords)
-        {
-            if (searchWords.Count > 0 || searchWords != null)
-            {
-
-                foreach (var searchWord in searchWords)
-                {
-                    //Get search information and add it to a list
-                    List<SearchResult> searchResults = GetSearchInformation(searchWord);
-
-                    foreach (var result in searchResults)
-                    {
-                        SearchResultSEF sefSearchResult = SEFInformation(result);
-
-                        //TODO: TEST skal fjernes
-                        sefSearchResult.Header = "TEST123";
-
-                        //Ping the result
-                        PingSearchResult(sefSearchResult);
-
-                        IndexURL(result.Url);
-                    }
-                }
-
-            }
-            else
-            {
-                NewLogEvent(this, new LogEventArgs("Der er ingen søgeord i listen, kan ikke fortsætte...", InformationType.Warning));
-            }
-        }
         /// <summary>
         /// This starts the whole proces
         /// </summary>
@@ -112,18 +79,16 @@ namespace TeleTavleLibrary
 
         SearchResultSEF FindSef(SearchResult searchResult, CancellationToken token)
         {
-            //SearchResultSEF sefResults = new SearchResultSEF();
-
             CheckToken(token);
             SearchResultSEF sefSearchResult = SEFInformation(searchResult);
 
-            //TODO: TEST skal fjernes
-            sefSearchResult.Header = "TEST123";
+            
+            sefSearchResult.Header = "TEST123"; //TODO: This line is for test issue remove it
 
             return sefSearchResult;
         }
 
-        //TODO:Test SKAL FJERNES
+        //TODO: This part is for test issue remove it
         List<SearchResult> GetSearchInformationTest(string searchWords)
         {
             List<SearchResult> test = new List<SearchResult>();

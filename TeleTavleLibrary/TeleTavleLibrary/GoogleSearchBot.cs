@@ -1,38 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using HtmlAgilityPack;
 using System.Linq;
-using System.Threading.Tasks;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
 
 namespace TeleTavleLibrary
 {
     public class GoogleSearchBot : Bot
     {
-
         public List<SearchResult> CrawlInformation(string searchWord)
         {
             List<SearchResult> searchResults = new List<SearchResult>();
+
             // Get search page 
             HtmlDocument document = new HtmlDocument();
-            var sp = GetSearchPage(searchWord);
+            string sp = GetSearchPage(searchWord);
             if (sp == null)
             {
                 return null;
             }
+
             //load HTML from method returning a string 
             document.LoadHtml(sp);
 
             // Get all search results
             HtmlNode[] nodes = null;
-            //Send warning if the bot cant find any results
 
+            //Send warning if the bot cant find any results
             try
             {
-                //nodes = document.DocumentNode.SelectNodes("//div[@class='g']").ToArray();
                 nodes = document.DocumentNode.SelectNodes("//div[@class='g']").ToArray();
 
             }
@@ -51,9 +47,9 @@ namespace TeleTavleLibrary
             {
                 //the link for searchresult
                 Uri searchURL = new Uri(searchresult.SelectSingleNode(".//a").Attributes["href"].Value);
-                //if the result contains teletavle.dk 
-                //TODO: Skift til telefontavlen
-                if (searchURL.Host == "rainbow.simbascorner.dk")
+
+                //if the result contains telefontavlen.dk 
+                if (searchURL.Host == "rainbow.simbascorner.dk") //TODO: this line is for test change it to telefontavlen.dk
                 {
                     //Instancer and set some properties
                     SearchResult result = new SearchResult
@@ -117,15 +113,6 @@ namespace TeleTavleLibrary
             {
                 return null;
             }
-
-            //TODO: Remove code old and useless code
-            //if (CheckForReCaptcha(document))
-            //{
-            //    //something
-            //    new WebDriverWait(webDriver, TimeSpan.FromSeconds(3)).Until(ExpectedConditions.FrameToBeAvailableAndSwitchToIt(By.XPath("//iframe[@title='reCAPTCHA']")));
-            //    var check = webDriver.FindElement(By.Id("recaptcha-anchor"));
-            //    check.Click();
-            //}
 
             page = webDriver.PageSource;
 
