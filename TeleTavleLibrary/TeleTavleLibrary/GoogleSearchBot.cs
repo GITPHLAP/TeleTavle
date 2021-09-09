@@ -32,15 +32,15 @@ namespace TeleTavleLibrary
                 nodes = document.DocumentNode.SelectNodes("//div[@class='g']").ToArray();
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                NewLogEvent(new LogEventArgs($"Der er ikke fundet nogle søge resultater", InformationType.Warning));
+                NewLogEvent(new LogEventArgs($"Der er ikke fundet nogle søge resultater... {ex.Message}", InformationType.Failed));
             }
 
-            if (nodes is null)
-            {
-                NewLogEvent(new LogEventArgs($"søge resultater er null", InformationType.Failed));
-            }
+            //if (nodes is null)
+            //{
+            //    NewLogEvent(new LogEventArgs($"søge resultater er null", InformationType.Failed));
+            //}
             //start from number one
             int rankCounter = 1;
             foreach (HtmlNode searchresult in nodes)

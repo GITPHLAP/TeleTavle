@@ -166,6 +166,7 @@ namespace TelefonTavlenWPF
             facebookpostList.ItemsSource = null;
             consoleStatusBox.Document.Blocks.Clear();
             MailDraftTextBox.Document.Blocks.Clear();
+            everyinformationEvents = "";
             fbTextBox.Clear();
             searchwordInput.Clear();
 
