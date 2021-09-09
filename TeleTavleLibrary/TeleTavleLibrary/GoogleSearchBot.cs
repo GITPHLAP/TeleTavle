@@ -95,16 +95,16 @@ namespace TeleTavleLibrary
             string url = "https://www.google.com/search?q=" + searchword;
 
             IWebDriver webDriver = GetChromeDriver();
-            
+
             if (webDriver == null)
             {
                 return null;
             }
             //navigate to url
             webDriver.Navigate().GoToUrl(url);
-          
+
             string page = webDriver.PageSource;
-            
+
             HtmlDocument document = new HtmlDocument();
             //load HTML from method returning a string 
             document.LoadHtml(page);
@@ -123,19 +123,16 @@ namespace TeleTavleLibrary
 
         bool CheckForReCaptcha(HtmlDocument document)
         {
-            HtmlNode[] nodes;
 
-            try
+            if (document.DocumentNode.SelectNodes("//iframe[@title='reCAPTCHA']") is HtmlNodeCollection)
             {
-                nodes = document.DocumentNode.SelectNodes("//iframe[@title='reCAPTCHA']").ToArray();
+
                 NewLogEvent(new LogEventArgs($"Processen kan ikke søge på søgeord da der er en reCAPTCHA ", InformationType.Failed));
                 return true;
             }
-            catch (Exception)
-            {
 
-                return false;
-            }
+            return false;
+
         }
 
     }
