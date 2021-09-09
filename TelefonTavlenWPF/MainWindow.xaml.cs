@@ -109,6 +109,10 @@ namespace TelefonTavlenWPF
                     //Enable start btn
                     Startbtn.IsEnabled = true;
                 }
+                else
+                {
+                    ShowMsgPopUp(new LogEventArgs("Søgeordet findes allerede", InformationType.Information));
+                }
             }
         }
 

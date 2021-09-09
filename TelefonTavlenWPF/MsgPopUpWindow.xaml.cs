@@ -67,6 +67,22 @@ namespace TelefonTavlenWPF
                     SetMsgdetails(msgdetails);
 
                     break;
+                case InformationType.Information:
+                    bitImg = new BitmapImage(new Uri(Environment.CurrentDirectory + @"\Images\Information.png"));
+
+                    //set window title and icon
+                    Title = "Information";
+                    Icon = bitImg;
+
+                    //Set icon image 
+                    msgTypeIcon.Source = bitImg;
+
+                    //msg title
+                    msgTitle.Content = "OBS: Se nedenstående besked";
+
+                    SetMsgdetails(msgdetails);
+
+                    break;
                 default:
                     break;
             }
