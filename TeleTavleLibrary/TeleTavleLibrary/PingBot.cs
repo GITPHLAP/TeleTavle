@@ -70,16 +70,7 @@ namespace TeleTavleLibrary
                 //After click, check if the ping is still being sent.
                 Task.Delay(300).Wait();
                 //If the element is still there, it is still being pinged.
-                try
-                {
-                    chromeDriver.FindElement(By.Id("progressModal1"));
-
-                }
-                catch (Exception)
-                {
-                    //If element is not there
-                    isPinging = false;
-                }
+                isPinging = chromeDriver.FindElements(By.Id("progressModal1")).Count > 0;
             }
         }
     }
