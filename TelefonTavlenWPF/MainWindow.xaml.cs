@@ -36,6 +36,12 @@ namespace TelefonTavlenWPF
             ttManager.SubscribeEvents();
 
             EnableButtonsForStart();
+
+            //TODO: testData
+            foreach (string item in TestSearcWords())
+            {
+                SearchWordListbox.Items.Add(item);
+            }
         }
 
         private void TTManager_LogEvent(object sender, LogEventArgs e)
@@ -322,6 +328,33 @@ namespace TelefonTavlenWPF
                 sw.Close();
             }
 
+        }
+
+        //TODO:TEST data
+        private List<string> TestSearcWords()
+        {
+            List<string> searchwords = new List<string>();
+
+
+            searchwords.Add("Private fester Sydsjælland");
+            searchwords.Add("fester private lokaler ”Sydsjælland”");
+            searchwords.Add("festlokaler på Sydsjælland");
+            searchwords.Add("Selskabslokaler på Sydsjælland");
+            searchwords.Add("Lokaler til foredrag Sydsjælland");
+            searchwords.Add("Seminarer lokaler Sydsjælland");
+            searchwords.Add("Kurser lokaler på Sydsjælland");
+            searchwords.Add("Handicapvenlige forsamlingshuse sydsjælland");
+            searchwords.Add("Forretningsmøder på Sydsjælland");
+            searchwords.Add("Lokaler fortrolige møder på sydsjælland");
+            searchwords.Add("Strikkeklubber Sydsjælland");
+            searchwords.Add("lokaler barnedåb på Sydsjælland");
+            searchwords.Add("Lokaler til baby shower på sydsjælland");
+            searchwords.Add("Fortælleraftener lokaler Sydsjælland");
+            searchwords.Add("konfirmation lokaler sydsjælland");
+            searchwords.Add("runde fødselsdage lokaler sydsjælland");
+            searchwords.Add("Juletræsfester lokaler Sydsjælland");
+
+            return searchwords;
         }
 
         private void SearchWordListbox_MouseUp(object sender, MouseButtonEventArgs e)
