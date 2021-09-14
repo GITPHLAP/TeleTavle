@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace TeleTavleLibrary
 {
@@ -62,11 +63,8 @@ namespace TeleTavleLibrary
 
                         CheckToken(token);
 
-                        IndexURL(foundSefs.SearchResult.Url);
-
-                        CheckToken(token);
-
                     });
+                var IndexedList = gConsole.IndexBatchURL(finalSEFList.Select(x => x.SearchResult.Url).ToList(), "URL_UPDATED").Result;
 
                 return finalSEFList;
             }
