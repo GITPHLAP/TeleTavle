@@ -1,12 +1,16 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using System;
+using System.Collections.Generic;
 
 namespace TeleTavleLibrary
 {
     public abstract class Bot
     {
         public event EventHandler<LogEventArgs> LogEvent;
+
+        //List of all drivers is used if the application fail and exit
+        public static List<IWebDriver> webdrivers = new List<IWebDriver>();
 
         public IWebDriver GetChromeDriver()
         {
@@ -28,6 +32,8 @@ namespace TeleTavleLibrary
                 co.AddArgument("--log-level=3");
 
                 IWebDriver chromeDriver = new ChromeDriver(cDS, co);
+
+                webdrivers.Add(chromeDriver);
 
                 return chromeDriver;
             }
