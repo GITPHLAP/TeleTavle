@@ -70,9 +70,11 @@ namespace TeleTavleLibrary
 
                     //add the object to the final list
                     searchResults.Add(result);
+
+                    rankCounter++;
+
                 }
 
-                rankCounter++;
             }
             if (searchResults.Count == 0)
             {
