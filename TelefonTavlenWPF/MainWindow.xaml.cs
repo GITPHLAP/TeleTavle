@@ -79,6 +79,9 @@ namespace TelefonTavlenWPF
             //TODO: Use this: consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time + ": " + e.Message) { Foreground = brush }));
             consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time.Minute +" . " + e.Time.Second + " . " +e.Time.Millisecond + ": " + e.Message) { Foreground = brush })); //TODO:remove this
             consoleStatusBox.ScrollToEnd();
+
+            WriteToErrorLog($"{e.Time}: {e.Message}");
+
         }
 
         private void ShowMsgPopUp(LogEventArgs e)
@@ -310,13 +313,16 @@ namespace TelefonTavlenWPF
         {
             string filename = "ErrorLog.txt";
 
-            StreamWriter sw = new StreamWriter(filename, true);
-            //DataTime.Now:G is the same as .ToString("G")
-            sw.WriteLine($"[{DateTime.Now:G}]  {message}");
+            using (StreamWriter sw = new StreamWriter(filename, true))
+            {
+                //DataTime.Now:G is the same as .ToString("G")
+                sw.WriteLine($"[{DateTime.Now:G}]  {message}");
 
-            sw.Flush();
+                sw.Flush();
 
-            sw.Close();
+                sw.Close();
+            }
+                
         }
 
         private void SearchWordListbox_MouseUp(object sender, MouseButtonEventArgs e)
