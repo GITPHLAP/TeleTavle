@@ -16,10 +16,10 @@ namespace TeleTavleLibrary
 
             SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/index.php?option=com_jmap&task=pingomatic.display");
 
-            if (!string.IsNullOrEmpty(searchResultSEF.Header))
-            {
+            //if (!string.IsNullOrEmpty(searchResultSEF.Header))
+            //{
                 CreateAndSavePing(searchResultSEF, chromeDriver);
-            }
+            //}
 
             try
             {
@@ -42,8 +42,12 @@ namespace TeleTavleLibrary
         {
             try
             {
-                //Click new ping
-                chromeDriver.FindElement(By.CssSelector("#toolbar-new > button")).Click();
+                if (!string.IsNullOrEmpty(searchResultSEF.Header))
+                {
+                    searchResultSEF.Header = searchResultSEF.SearchResult.UrlLocation;
+                }
+                    //Click new ping
+                    chromeDriver.FindElement(By.CssSelector("#toolbar-new > button")).Click();
                 //Find the inputs and send title and url
                 chromeDriver.FindElement(By.Id("title")).SendKeys(searchResultSEF.Header);
                 chromeDriver.FindElement(By.Id("linkurl")).SendKeys(searchResultSEF.SearchResult.Url);
