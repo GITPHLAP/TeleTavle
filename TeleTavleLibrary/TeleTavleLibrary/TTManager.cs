@@ -32,6 +32,7 @@ namespace TeleTavleLibrary
                 //List<Task<List<SearchResult>>> tasks = new List<Task<List<SearchResult>>>();
 
                 List<SearchResult> searchResults = new List<SearchResult>();
+
                 CheckToken(token);
                 try
                 {
@@ -51,9 +52,17 @@ namespace TeleTavleLibrary
                 //Find all the sef information and ping and index the result
                 Parallel.ForEach(searchResults, searchResult =>
                     {
-                        CheckToken(token);
+                        if (token.IsCancellationRequested)
+                        {
+                            return;
+                        }
 
                         SearchResultSEF foundSefs = FindSef(searchResult, token);
+
+                        if (token.IsCancellationRequested)
+                        {
+                            return;
+                        }
 
                         //add found sef to final sef list
                         finalSEFList.Add(foundSefs);
@@ -61,9 +70,9 @@ namespace TeleTavleLibrary
                         //Ping and index the results
                         PingSearchResult(foundSefs);
 
-                        CheckToken(token);
-
                     });
+                CheckToken(token);
+
                 var IndexedList = gConsole.IndexBatchURL(finalSEFList.Select(x => x.SearchResult.Url).ToList(), "URL_UPDATED").Result;
 
                 return finalSEFList;

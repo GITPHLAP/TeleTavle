@@ -132,6 +132,7 @@ namespace TelefonTavlenWPF
             try
             {
                 processToken = cancellationTokenSource.Token;
+
                 await Task.Run(() =>
                 {
                     searchResultSEFs = ttManager.StartProcessParallel(searchwords, processToken);
@@ -157,6 +158,7 @@ namespace TelefonTavlenWPF
             }
             restartbtn.IsEnabled = true;
 
+            cancellationTokenSource.Dispose();
         }
 
         private void StartProcessBtns()
