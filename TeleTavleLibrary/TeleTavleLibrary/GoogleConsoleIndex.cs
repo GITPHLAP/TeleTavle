@@ -38,10 +38,10 @@ namespace TeleTavleLibrary
             }
             catch (Exception e)
             {
-                LogEvent?.Invoke(this,new LogEventArgs($"GoogleConsoleIndex kunne ikke finde bruger oplysninger (json filen telefontavlen-c88ce2f3a6b5)...  {e}",
+                LogEvent?.Invoke(this, new LogEventArgs($"GoogleConsoleIndex kunne ikke finde bruger oplysninger (json filen telefontavlen-c88ce2f3a6b5)...  {e}",
                     InformationType.Failed));
             }
-            
+
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace TeleTavleLibrary
             }
             catch (Exception e)
             {
-                LogEvent?.Invoke(this, new LogEventArgs($"GoogleConsoleIndex kunne ikke sende anmodning om indeksering...  {e}",
+                LogEvent?.Invoke(this, new LogEventArgs($"GoogleConsoleIndex kunne ikke sende anmodning om indeksering...URL:{URLToIndex}   {e}",
                     InformationType.Failed));
             }
             return null;
@@ -124,8 +124,27 @@ namespace TeleTavleLibrary
 
 
             }
-            await request.ExecuteAsync();
-            return await Task.FromResult(notificationResponses);
+            try
+            {
+                //Send request
+                await request.ExecuteAsync();
+
+                //Show all the indexed urls
+                string logEventString = "";
+                for (int i = 0; i < URLsToIndex.Count; i++)
+                {
+                    logEventString += URLsToIndex[i] + " \n";
+                }
+
+                LogEvent?.Invoke(this, new LogEventArgs($"{logEventString} , er indexeret", InformationType.Successful));
+                return await Task.FromResult(notificationResponses);
+            }
+            catch (Exception e)
+            {
+                LogEvent?.Invoke(this, new LogEventArgs($"GoogleConsoleIndex kunne ikke sende anmodning om indeksering...URL:  {e}",
+                    InformationType.Failed));
+            }
+            return null;
         }
 
         public GoogleConsoleIndex()
