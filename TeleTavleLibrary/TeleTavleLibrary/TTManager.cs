@@ -80,25 +80,7 @@ namespace TeleTavleLibrary
             CheckToken(token);
             SearchResultSEF sefSearchResult = SEFInformation(searchResult);
 
-            
-            sefSearchResult.Header = "TEST123"; //TODO: This line is for test issue remove it
-
             return sefSearchResult;
-        }
-
-        //TODO: This part is for test issue remove it
-        List<SearchResult> GetSearchInformationTest(string searchWords)
-        {
-            List<SearchResult> test = new List<SearchResult>();
-
-            for (int i = 0; i < 2; i++)
-            {
-                test.Add(new SearchResult { Url = "https://rainbow.simbascorner.dk/", Rank = i, SearchWord = searchWords });
-            }
-            Task.Delay(800);
-
-
-            return test;
         }
 
         List<SearchResult> GetSearchInformation(string searchWords)

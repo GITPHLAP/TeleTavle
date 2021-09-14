@@ -76,8 +76,7 @@ namespace TelefonTavlenWPF
                     break;
             }
             //Write text to the consolebox and add the color.
-            //TODO: Use this: consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time + ": " + e.Message) { Foreground = brush }));
-            consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time.Minute +" . " + e.Time.Second + " . " +e.Time.Millisecond + ": " + e.Message) { Foreground = brush })); //TODO:remove this
+            consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time + ": " + e.Message) { Foreground = brush }));
             consoleStatusBox.ScrollToEnd();
 
             WriteToErrorLog($"{e.Time}: {e.Message}");
@@ -144,7 +143,7 @@ namespace TelefonTavlenWPF
                 MailDraft mailDraft = new MailDraft();
                 MailDraftTextBox.Document = mailDraft.CreateMailDraft(searchResultSEFs, searchwords);
 
-                
+
 
                 //every information events will be add as message
                 MsgPopUpWindow popup = new MsgPopUpWindow(InformationType.Successful, everyinformationEvents);
@@ -322,7 +321,7 @@ namespace TelefonTavlenWPF
 
                 sw.Close();
             }
-                
+
         }
 
         private void SearchWordListbox_MouseUp(object sender, MouseButtonEventArgs e)
