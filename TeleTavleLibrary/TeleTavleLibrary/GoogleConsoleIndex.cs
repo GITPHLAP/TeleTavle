@@ -1,9 +1,13 @@
 ﻿using Google.Apis.Auth.OAuth2;
 using Google.Apis.Indexing.v3;
 using Google.Apis.Indexing.v3.Data;
+using Google.Apis.Requests;
 using Google.Apis.Services;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using static Google.Apis.Indexing.v3.UrlNotificationsResource;
 
 namespace TeleTavleLibrary
 {
@@ -81,6 +85,47 @@ namespace TeleTavleLibrary
                     InformationType.Failed));
             }
             return null;
+        }
+
+
+        public async Task<List<PublishUrlNotificationResponse>> IndexBatchURL(List<string> URLsToIndex, string action)
+        {
+            if (googleCredential == null)
+            {
+                return null;
+            }
+            var credential = googleCredential.UnderlyingCredential;
+            //Adding credentials
+            var googleIndexingApiClientService = new IndexingService(new BaseClientService.Initializer
+            {
+                HttpClientInitializer = credential
+            });
+
+            var request = new BatchRequest(googleIndexingApiClientService);
+
+            List<PublishUrlNotificationResponse> notificationResponses = new List<PublishUrlNotificationResponse>();
+
+            foreach (var URLToIndex in URLsToIndex)
+            {
+
+
+                //The body of the post request
+                var requestBody = new UrlNotification
+                {
+                    Url = URLToIndex,
+                    Type = action
+                };
+
+                request.Queue<PublishUrlNotificationResponse>(
+               new UrlNotificationsResource.PublishRequest(googleIndexingApiClientService, requestBody), (response, error, i, message) =>
+               {
+                   notificationResponses.Add(response);
+               });
+
+
+            }
+            await request.ExecuteAsync();
+            return await Task.FromResult(notificationResponses);
         }
 
         public GoogleConsoleIndex()
