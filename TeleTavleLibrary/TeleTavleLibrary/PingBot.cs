@@ -18,7 +18,7 @@ namespace TeleTavleLibrary
 
             //if (!string.IsNullOrEmpty(searchResultSEF.Header))
             //{
-                CreateAndSavePing(searchResultSEF, chromeDriver);
+            CreateAndSavePing(searchResultSEF, chromeDriver);
             //}
 
             try
@@ -42,12 +42,13 @@ namespace TeleTavleLibrary
         {
             try
             {
-                if (!string.IsNullOrEmpty(searchResultSEF.Header))
+                if (string.IsNullOrEmpty(searchResultSEF.Header))
                 {
                     searchResultSEF.Header = searchResultSEF.SearchResult.UrlLocation;
                 }
-                    //Click new ping
-                    chromeDriver.FindElement(By.CssSelector("#toolbar-new > button")).Click();
+
+                //Click new ping
+                chromeDriver.FindElement(By.CssSelector("#toolbar-new > button")).Click();
                 //Find the inputs and send title and url
                 chromeDriver.FindElement(By.Id("title")).SendKeys(searchResultSEF.Header);
                 chromeDriver.FindElement(By.Id("linkurl")).SendKeys(searchResultSEF.SearchResult.Url);
