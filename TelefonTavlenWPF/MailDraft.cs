@@ -118,11 +118,13 @@ namespace TelefonTavlenWPF
                 }
                 else
                 {
-                    //Add a paragraph for the next cell
-                    par = new Paragraph(new Bold(new Run("Her kommer dine annoncer frem på Google som nr. ")));
+                    
 
                     if (result.Rank.Count > 1)
                     {
+                        //Add a paragraph for the next cell
+                        par = new Paragraph(new Bold(new Run("Her kommer dine annoncer frem på Google som nr. ")));
+
                         //add the first rank
                         par.Inlines.Add(new Bold(new Run(result.Rank[0].ToString())));
                         //remove the first rank
@@ -136,6 +138,10 @@ namespace TelefonTavlenWPF
                     }
                     else
                     {
+
+                        //Add a paragraph for the next cell
+                        par = new Paragraph(new Bold(new Run("Her kommer din annoncer frem på Google som nr. ")));
+
                         //if only one rank then just add it
                         par.Inlines.Add(new Bold(new Run(result.Rank.First().ToString())));
 
