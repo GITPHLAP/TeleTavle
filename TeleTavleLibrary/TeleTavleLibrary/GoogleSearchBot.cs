@@ -57,6 +57,12 @@ namespace TeleTavleLibrary
                         SearchWordWithNum = $"{searchWord}{rankCounter}"
                     };
 
+                    //If the url contains "osdownloads" then tell it to user when its done 
+                    if (searchURL.AbsolutePath.Contains("osdownloads");
+                    {
+                        NewLogEvent(new LogEventArgs($"Url'en indeholder osdownloads... URL: {searchURL}", InformationType.Information));
+                    }
+
                     //If the rank is 1 then check if the result is are featured snippet
                     if (result.Rank == 1)
                     {
