@@ -139,7 +139,7 @@ namespace TelefonTavlenWPF
                 }, processToken);
 
                 //add fb results to FB post list
-                facebookpostList.ItemsSource = searchResultSEFs;
+                facebookpostList.ItemsSource = searchResultSEFs.OrderBy(x => x.SearchResult.SearchWordWithNum);
 
                 //Create and show mail draft
                 MailDraft mailDraft = new MailDraft();
