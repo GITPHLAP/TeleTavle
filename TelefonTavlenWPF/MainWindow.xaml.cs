@@ -197,8 +197,6 @@ namespace TelefonTavlenWPF
         {
             try
             {
-
-
                 //cast to listbox
                 ListBox searchresults = (ListBox)sender;
                 //Remove the item clicked on
@@ -207,9 +205,9 @@ namespace TelefonTavlenWPF
                 {
                     return;
                 }
-
+                SearchResultSEF selectedResult = (SearchResultSEF)searchresults.SelectedItem;
                 //create the text in right format
-                string fbText = ((SearchResultSEF)searchresults.SelectedItem).Header + "\n" + ((SearchResultSEF)searchresults.SelectedItem).Description;
+                string fbText = $"{selectedResult.Header.ToUpper()}\n \n {selectedResult.Description}  \n  LÆS MERE HER: {selectedResult.SearchResult.Url}";
 
                 //set text to clipboard
                 Clipboard.SetText(fbText);
