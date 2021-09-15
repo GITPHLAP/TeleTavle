@@ -58,7 +58,7 @@ namespace TeleTavleLibrary
                     };
 
                     //If the url contains "osdownloads" then tell it to user when its done 
-                    if (searchURL.AbsolutePath.Contains("osdownloads");
+                    if (searchURL.AbsolutePath.Contains("osdownloads"))
                     {
                         NewLogEvent(new LogEventArgs($"Url'en indeholder osdownloads... URL: {searchURL}", InformationType.Information));
                     }
