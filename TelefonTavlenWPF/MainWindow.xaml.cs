@@ -67,7 +67,7 @@ namespace TelefonTavlenWPF
                 case InformationType.Information:
                     brush = Brushes.Black;
                     //add the information event to a list, when the process is done then the whole list will be in details section
-                    everyinformationEvents += e.Message + "\n";
+                    everyinformationEvents += e.Message + "\n \n";
                     break;
                 case InformationType.Warning:
                     brush = Brushes.DarkOrange;
