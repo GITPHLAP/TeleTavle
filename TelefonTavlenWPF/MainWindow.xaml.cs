@@ -207,7 +207,7 @@ namespace TelefonTavlenWPF
                 }
                 SearchResultSEF selectedResult = (SearchResultSEF)searchresults.SelectedItem;
                 //create the text in right format
-                string fbText = $"{selectedResult.Header.ToUpper()}\n \n {selectedResult.Description}  \n LÆS MERE HER: {selectedResult.SearchResult.Url}";
+                string fbText = $"{selectedResult.Header.ToUpper()}\n \n{selectedResult.Description} \nLÆS MERE HER: {selectedResult.SearchResult.Url}";
 
                 //set text to clipboard
                 Clipboard.SetText(fbText);
