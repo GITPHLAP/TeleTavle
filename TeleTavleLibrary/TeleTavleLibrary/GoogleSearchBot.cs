@@ -66,11 +66,12 @@ namespace TeleTavleLibrary
                     //If the rank is 1 then check if the result is are featured snippet
                     if (result.Rank == 1)
                     {
+                        var featuredText = document.DocumentNode.SelectSingleNode("//*[@id='rso']/div[1]/div/div[1]/div/div[1]/div/div[1]/div/span/span");
                         //Get result for featured snippets - xpdopen is a class name for featured snippet
-                        if (document.DocumentNode.SelectSingleNode("//div[@class='xpdopen']") != null)
+                        if (featuredText != null)
                         {
                             //set the Featuredsnippet text on object
-                            result.FeaturedSnippet = document.DocumentNode.SelectSingleNode("//div[@class='wDYxhc']").InnerText;
+                            result.FeaturedSnippet = featuredText.InnerText;
                         }
                     }
 
