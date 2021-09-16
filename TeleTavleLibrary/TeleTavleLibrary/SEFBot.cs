@@ -50,12 +50,33 @@ namespace TeleTavleLibrary
         {
             try
             {
-                //Find title and description from site
-                string header = chromeDriver.FindElement(By.XPath("/html/body/div[2]/section/div/div/div[3]/form/div/div[3]/div[2]/table/tbody/tr[1]/td[4]/div/textarea")).Text;
-                string description = chromeDriver.FindElement(By.XPath("/html/body/div[2]/section/div/div/div[3]/form/div/div[3]/div[2]/table/tbody/tr[1]/td[5]/div/textarea")).Text;
-                //Add information 
-                searchResultSEF.Header = header;
-                searchResultSEF.Description = description;
+                //to select specific row 
+                int rownum = 1;
+                //Get table tbody with all rows 
+                IWebElement table = chromeDriver.FindElement(By.CssSelector("#adminForm > div > div.shl-main-list-wrapper.shl-no-margin-left.span12.shl-main-list-wrapper-padding > div.span10.shl-no-margin-left > table > tbody"));
+                var rows = table.FindElements(By.TagName("tr"));
+
+                foreach (var row in rows)
+                {
+                    var urlTD = row.FindElement(By.XPath($"/html/body/div[2]/section/div/div/div[3]/form/div/div[3]/div[2]/table/tbody/tr[{rownum}]/td[3]"));
+
+                    //need to be a list to avoid error if an a tag could not be found
+                    var a = urlTD.FindElement(By.TagName("a"));
+
+                    //get the first part of the a tag text, its should match with UrlLocation
+                    if (a.Text.Split("(")[0] == searchResultSEF.SearchResult.UrlLocation + "\r\n")
+                    {
+                        //Find title and description from site
+                        string header = chromeDriver.FindElement(By.XPath($"/html/body/div[2]/section/div/div/div[3]/form/div/div[3]/div[2]/table/tbody/tr[{rownum}]/td[4]/div/textarea")).Text;
+                        string description = chromeDriver.FindElement(By.XPath($"/html/body/div[2]/section/div/div/div[3]/form/div/div[3]/div[2]/table/tbody/tr[{rownum}]/td[5]/div/textarea")).Text;
+
+                        //Add information 
+                        searchResultSEF.Header = header;
+                        searchResultSEF.Description = description;
+                    }
+
+                    rownum++;
+                }
             }
             catch (Exception)
             {
