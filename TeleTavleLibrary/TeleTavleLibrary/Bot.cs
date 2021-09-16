@@ -26,8 +26,9 @@ namespace TeleTavleLibrary
                 co.AddArguments("headless");
 
                 //This useragent prevent reCAPTCHAR
-                co.AddArguments("--user-agent=Mozilla / 5.0(Windows NT 10.0; Win64; x64) AppleWebKit / 537.36(KHTML, like Gecko) Chrome / 92.0.4515.131 Safari / 537.36");
-                
+                co.AddArguments("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36");
+
+
                 //does not log so much with this argument
                 co.AddArgument("--log-level=3");
 
