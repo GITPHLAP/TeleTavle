@@ -40,14 +40,13 @@ namespace TeleTavleLibrary
 
             //start from number one
             int rankCounter = 1;
-            int searchwordnum = 1;
             foreach (HtmlNode searchresult in nodes)
             {
                 //the link for searchresult
                 Uri searchURL = new Uri(searchresult.SelectSingleNode(".//a").Attributes["href"].Value);
 
                 //if the result contains telefontavlen.dk 
-                if (searchURL.Host == "telefontavlen.dk") //TODO: this line is for test change it to telefontavlen.dk
+                if (searchURL.Host == "rainbow.simbascorner.dk") //TODO: this line is for test change it to telefontavlen.dk
                 {
                     //Instancer and set some properties
                     SearchResult result = new SearchResult
@@ -55,7 +54,7 @@ namespace TeleTavleLibrary
                         Url = searchURL.ToString(),
                         Rank = rankCounter,
                         SearchWord = searchWord,
-                        SearchWordWithNum = $"{searchWord}{searchwordnum}"
+                        SearchWordWithNum = $"{searchWord}{rankCounter}"
                     };
 
                     //If the url contains "osdownloads" then tell it to user when its done 
@@ -79,9 +78,9 @@ namespace TeleTavleLibrary
                     //add the object to the final list
                     searchResults.Add(result);
 
-                    searchwordnum++;
-                }
                     rankCounter++;
+
+                }
 
             }
             if (searchResults.Count == 0)
