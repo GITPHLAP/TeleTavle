@@ -40,6 +40,7 @@ namespace TeleTavleLibrary
 
             //start from number one
             int rankCounter = 1;
+            int searchwordnum = 1;
             foreach (HtmlNode searchresult in nodes)
             {
                 //the link for searchresult
@@ -54,7 +55,7 @@ namespace TeleTavleLibrary
                         Url = searchURL.ToString(),
                         Rank = rankCounter,
                         SearchWord = searchWord,
-                        SearchWordWithNum = $"{searchWord}{rankCounter}"
+                        SearchWordWithNum = $"{searchWord}{searchwordnum}"
                     };
 
                     //If the url contains "osdownloads" then tell it to user when its done 
@@ -78,9 +79,10 @@ namespace TeleTavleLibrary
                     //add the object to the final list
                     searchResults.Add(result);
 
-                    rankCounter++;
+                    searchwordnum++;
 
                 }
+                rankCounter++;
 
             }
             if (searchResults.Count == 0)
