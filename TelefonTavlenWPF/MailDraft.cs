@@ -158,7 +158,7 @@ namespace TelefonTavlenWPF
                         
                     }
                     //If there is a featured snippet, then it will be shown
-                    if (result.Rank.Where(x => x == 1).FirstOrDefault() == 1 && string.IsNullOrEmpty(featuredSnippet))
+                    if (result.Rank.Where(x => x == 1).FirstOrDefault() == 1 && !string.IsNullOrEmpty(featuredSnippet))
                     {
                         par.Inlines.Add(new Run("\nMed en udvidet reklame som kan ses nedenunder: \n"));
                         par.Inlines.Add(new Run(featuredSnippet));
