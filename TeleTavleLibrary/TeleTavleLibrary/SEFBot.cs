@@ -17,7 +17,7 @@ namespace TeleTavleLibrary
 
             //TODO: This part is for test issue changed it
             //SiteLogin(chromeDriver, "https://telefontavlen.dk/administrator/index.php?option=com_sh404sef&c=metas&layout=default&view=metas");
-            SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/index.php?option=com_sh404sef&c=metas&layout=default&view=metas"); 
+            SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/index.php?option=com_sh404sef&c=metas&layout=default&view=metas");
 
             URLManagerSearch(chromeDriver, input.SearchResult);
 
@@ -80,7 +80,8 @@ namespace TeleTavleLibrary
             }
             catch (Exception)
             {
-                NewLogEvent(new LogEventArgs($"SEFBot kan ikke finde overskrift og beskrivelse til facebook opslaget", InformationType.Failed));
+
+                NewLogEvent(new LogEventArgs($"SEFBot kan ikke finde overskrift og beskrivelse til facebook opslaget URL: {searchResultSEF.SearchResult.Url}", InformationType.Failed));
 
             }
 
