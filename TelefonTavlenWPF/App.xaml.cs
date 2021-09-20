@@ -26,7 +26,7 @@ namespace TelefonTavlenWPF
                 }
             }
 
-            Environment.Exit(1);
+            Current.Shutdown();
         }
     }
 }
