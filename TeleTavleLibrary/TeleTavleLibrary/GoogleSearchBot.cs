@@ -24,7 +24,7 @@ namespace TeleTavleLibrary
             document.LoadHtml(sp);
 
             // Get all search results
-            HtmlNode[] nodes = null;
+            HtmlNode[] nodes;
 
             //Send warning if the bot cant find any results
             try
@@ -43,44 +43,43 @@ namespace TeleTavleLibrary
             int searchwordnum = 1;
             foreach (HtmlNode searchresult in nodes)
             {
-                //the link for searchresult
-                Uri searchURL = new Uri(searchresult.SelectSingleNode(".//a").Attributes["href"].Value);
+                //try to find subnodes 
+                HtmlNodeCollection subnodes = searchresult.SelectNodes(".//div[@class='g jNVrwc Y4pkMc']");
 
-                //if the result contains telefontavlen.dk 
-                if (searchURL.Host == "telefontavlen.dk")
+                if (subnodes != null)
                 {
-                    //Instancer and set some properties
-                    SearchResult result = new SearchResult
+                    foreach (HtmlNode subnode in subnodes)
                     {
-                        Url = searchURL.ToString(),
-                        Rank = rankCounter,
-                        SearchWord = searchWord,
-                        SearchWordWithNum = $"{searchWord}{searchwordnum}"
-                    };
+                        //the link for searchresult
+                        Uri searchURI = new Uri(subnode.SelectSingleNode(".//a").Attributes["href"].Value);
 
-                    //If the url contains "osdownloads" then tell it to user when its done 
-                    if (searchURL.AbsolutePath.Contains("osdownloads"))
-                    {
-                        NewLogEvent(new LogEventArgs($"Url'en indeholder osdownloads... URL: {searchURL}", InformationType.Information));
-                    }
-
-                    //If the rank is 1 then check if the result is are featured snippet
-                    if (result.Rank == 1)
-                    {
-                        var featuredText = document.DocumentNode.SelectSingleNode("//*[@id='rso']/div[1]/div/div[1]/div/div[1]/div/div[1]/div/span/span");
-                        //Get result for featured snippets - xpdopen is a class name for featured snippet
-                        if (featuredText != null)
+                        //if the result contains telefontavlen.dk 
+                        if (searchURI.Host == "rainbow.simbascorner.dk")
                         {
-                            //set the Featuredsnippet text on object
-                            result.FeaturedSnippet = featuredText.InnerText;
+                            //add the object to the final list
+                            searchResults.Add(CreateResultFromNode(document, searchURI, rankCounter, searchWord, searchwordnum));
+
+                            searchwordnum++;
+
                         }
+                        rankCounter++;
                     }
 
-                    //add the object to the final list
-                    searchResults.Add(result);
+                }
+                else
+                {
+                    //the link for searchresult
+                    Uri searchURI = new Uri(searchresult.SelectSingleNode(".//a").Attributes["href"].Value);
 
-                    searchwordnum++;
+                    //if the result contains telefontavlen.dk 
+                    if (searchURI.Host == "rainbow.simbascorner.dk")
+                    {
+                        //add the object to the final list
+                        searchResults.Add(CreateResultFromNode(document, searchURI, rankCounter, searchWord, searchwordnum));
 
+                        searchwordnum++;
+
+                    }
                 }
                 rankCounter++;
 
@@ -95,6 +94,38 @@ namespace TeleTavleLibrary
                 NewLogEvent(new LogEventArgs($"Har fundet søgeresultater fra telefontavlen", InformationType.Successful));
             }
             return searchResults;
+        }
+
+        SearchResult CreateResultFromNode(HtmlDocument document, Uri searchURI, int rankCounter, string searchWord, int searchwordnum)
+        {
+            //Instancer and set some properties
+            SearchResult result = new SearchResult
+            {
+                Url = searchURI.ToString(),
+                Rank = rankCounter,
+                SearchWord = searchWord,
+                SearchWordWithNum = $"{searchWord}{searchwordnum}"
+            };
+
+            //If the url contains "osdownloads" then tell it to user when its done 
+            if (searchURI.AbsolutePath.Contains("osdownloads"))
+            {
+                NewLogEvent(new LogEventArgs($"Url'en indeholder osdownloads... URL: {searchURI}", InformationType.Information));
+            }
+
+            //If the rank is 1 then check if the result is are featured snippet
+            if (result.Rank == 1)
+            {
+                var featuredText = document.DocumentNode.SelectSingleNode("//*[@id='rso']/div[1]/div/div[1]/div/div[1]/div/div[1]/div/span/span");
+                //Get result for featured snippets - xpdopen is a class name for featured snippet
+                if (featuredText != null)
+                {
+                    //set the Featuredsnippet text on object
+                    result.FeaturedSnippet = featuredText.InnerText;
+                }
+            }
+
+            return result;
         }
 
         string GetSearchPage(string searchword)

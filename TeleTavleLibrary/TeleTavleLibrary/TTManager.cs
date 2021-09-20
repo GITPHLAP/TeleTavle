@@ -56,18 +56,22 @@ namespace TeleTavleLibrary
                         {
                             return;
                         }
-
-                        SearchResultSEF foundSefs = FindSef(searchResult, token);
-                        
-                        if (token.IsCancellationRequested)
+                        SearchResultSEF foundSefs = null;
+                        if (!searchResult.Url.EndsWith(".pdf"))
                         {
-                            return;
-                        }
-                        //add found sef to final sef list
-                        finalSEFList.Add(foundSefs);
+                            foundSefs = FindSef(searchResult, token);
 
-                        //Ping and index the results
-                        PingSearchResult(foundSefs);
+                            if (token.IsCancellationRequested)
+                            {
+                                return;
+                            }
+
+                            //add found sef to final sef list
+                            finalSEFList.Add(foundSefs);
+
+                            //Ping and index the results
+                            PingSearchResult(foundSefs);
+                        }
 
                     });
                 CheckToken(token);

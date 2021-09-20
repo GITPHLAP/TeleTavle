@@ -78,7 +78,8 @@ namespace TeleTavleLibrary
             }
             catch (Exception)
             {
-                NewLogEvent(new LogEventArgs($"SEFBot kan ikke finde overskrift og beskrivelse til facebook opslaget", InformationType.Failed));
+
+                NewLogEvent(new LogEventArgs($"SEFBot kan ikke finde overskrift og beskrivelse til facebook opslaget URL: {searchResultSEF.SearchResult.Url}", InformationType.Failed));
 
             }
 
