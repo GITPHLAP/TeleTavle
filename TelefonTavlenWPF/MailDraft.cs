@@ -145,13 +145,6 @@ namespace TelefonTavlenWPF
                             par.Inlines.Add(new Bold(new Run(result.Rank[i].ToString())));
                         }
 
-                        //If there is a featured snippet, then it will be shown
-                        if (featuredSnippet != null)
-                        {
-                            par.Inlines.Add(new Run("\nMed en udvidet reklame som kan ses nedenunder: \n"));
-                            par.Inlines.Add(new Run(featuredSnippet));
-                        }
-
                     }
                     else
                     {
@@ -162,12 +155,13 @@ namespace TelefonTavlenWPF
                         //if only one rank then just add it
                         par.Inlines.Add(new Bold(new Run(result.Rank.First().ToString())));
 
-                        //If there is a featured snippet, then it will be shown
-                        if (featuredSnippet != null)
-                        {
-                            par.Inlines.Add(new Run("Med en udvidet reklame som kan ses nedenunder:"));
-                            par.Inlines.Add(new Run(featuredSnippet));
-                        }
+                        
+                    }
+                    //If there is a featured snippet, then it will be shown
+                    if (result.Rank.Where(x => x == 1).First() == 1 && featuredSnippet != null)
+                    {
+                        par.Inlines.Add(new Run("\nMed en udvidet reklame som kan ses nedenunder: \n"));
+                        par.Inlines.Add(new Run(featuredSnippet));
                     }
                 }
                 
