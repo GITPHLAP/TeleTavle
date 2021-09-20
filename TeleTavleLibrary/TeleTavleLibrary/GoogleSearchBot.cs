@@ -155,7 +155,7 @@ namespace TeleTavleLibrary
 
             page = webDriver.PageSource;
 
-            webDriver.Quit();
+            QuitChromeDriver(webDriver);
             //return page html
             return page;
         }

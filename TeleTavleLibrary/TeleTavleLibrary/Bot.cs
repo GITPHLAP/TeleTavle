@@ -64,6 +64,13 @@ namespace TeleTavleLibrary
             return chromeDriver;
         }
 
+        protected void QuitChromeDriver(IWebDriver webDriver)
+        {
+            webdrivers.Remove(webDriver);
+
+            webDriver.Quit();
+        }
+
         protected virtual void NewLogEvent(LogEventArgs e)
         {
             LogEvent?.Invoke(this, e);
