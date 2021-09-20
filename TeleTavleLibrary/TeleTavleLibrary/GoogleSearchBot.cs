@@ -54,7 +54,7 @@ namespace TeleTavleLibrary
                         Uri searchURI = new Uri(subnode.SelectSingleNode(".//a").Attributes["href"].Value);
 
                         //if the result contains telefontavlen.dk 
-                        if (searchURI.Host == "rainbow.simbascorner.dk")
+                        if (searchURI.Host == "telefontavlen.dk")
                         {
                             //add the object to the final list
                             searchResults.Add(CreateResultFromNode(document, searchURI, rankCounter, searchWord, searchwordnum));
@@ -72,7 +72,7 @@ namespace TeleTavleLibrary
                     Uri searchURI = new Uri(searchresult.SelectSingleNode(".//a").Attributes["href"].Value);
 
                     //if the result contains telefontavlen.dk 
-                    if (searchURI.Host == "rainbow.simbascorner.dk")
+                    if (searchURI.Host == "telefontavlen.dk")
                     {
                         //add the object to the final list
                         searchResults.Add(CreateResultFromNode(document, searchURI, rankCounter, searchWord, searchwordnum));
