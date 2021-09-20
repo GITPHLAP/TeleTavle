@@ -28,7 +28,7 @@ namespace TeleTavleLibrary
                     InformationType.Failed));
             }
 
-            chromeDriver.Quit();
+            QuitChromeDriver(chromeDriver);
 
             NewLogEvent(new LogEventArgs($"Har pinget:  {searchResultSEF.SearchResult.Url}", InformationType.Successful));
 
