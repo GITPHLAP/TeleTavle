@@ -336,23 +336,23 @@ namespace TelefonTavlenWPF
             List<string> searchwords = new List<string>();
 
 
-            searchwords.Add("Private fester Sydsjælland");
-            searchwords.Add("fester private lokaler ”Sydsjælland”");
-            searchwords.Add("festlokaler på Sydsjælland");
-            searchwords.Add("Selskabslokaler på Sydsjælland");
-            searchwords.Add("Lokaler til foredrag Sydsjælland");
-            searchwords.Add("Seminarer lokaler Sydsjælland");
-            searchwords.Add("Kurser lokaler på Sydsjælland");
-            searchwords.Add("Handicapvenlige forsamlingshuse sydsjælland");
-            searchwords.Add("Forretningsmøder på Sydsjælland");
-            searchwords.Add("Lokaler fortrolige møder på sydsjælland");
-            searchwords.Add("Strikkeklubber Sydsjælland");
-            searchwords.Add("lokaler barnedåb på Sydsjælland");
-            searchwords.Add("Lokaler til baby shower på sydsjælland");
-            searchwords.Add("Fortælleraftener lokaler Sydsjælland");
-            searchwords.Add("konfirmation lokaler sydsjælland");
-            searchwords.Add("runde fødselsdage lokaler sydsjælland");
-            searchwords.Add("Juletræsfester lokaler Sydsjælland");
+            searchwords.Add("Handicapscootere hele Danmark");
+            searchwords.Add("el-scootere til handicappede i hele Danmark");
+            searchwords.Add("hjælpemidler scootere på Sjælland");
+            searchwords.Add("Scootere til handicappede fra Top Scooter Nordic");
+            searchwords.Add("TSN HS-520");
+            searchwords.Add("TSN HS-828");
+            searchwords.Add("TSN HS 855");
+            searchwords.Add("TSN HS 895");
+            searchwords.Add("TSN HS 928");
+            searchwords.Add("Handicap crossere");
+            searchwords.Add("Handicap crossere Sjælland");
+            searchwords.Add("Crossere til handicappede");
+            searchwords.Add("Scootere fremvisning Sjælland");
+            searchwords.Add("Scootere til handicappede");
+            searchwords.Add("Scootere til ældre Sjælland");
+            searchwords.Add("Scootere til handicappede hele Danmark");
+            searchwords.Add("Scootere rejsevenlige");
 
             return searchwords;
         }

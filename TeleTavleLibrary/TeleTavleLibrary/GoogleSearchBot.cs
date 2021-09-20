@@ -101,7 +101,8 @@ namespace TeleTavleLibrary
             //Instancer and set some properties
             SearchResult result = new SearchResult
             {
-                Url = searchURI.ToString(),
+                //Url = searchURI.ToString(),
+                Url = $"http://teletavletest.elkok.dk{searchURI.AbsolutePath}",
                 Rank = rankCounter,
                 SearchWord = searchWord,
                 SearchWordWithNum = $"{searchWord}{searchwordnum}"

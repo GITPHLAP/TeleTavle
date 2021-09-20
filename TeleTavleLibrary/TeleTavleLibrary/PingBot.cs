@@ -11,7 +11,7 @@ namespace TeleTavleLibrary
             //Get driver
             IWebDriver chromeDriver = GetChromeDriver();
 
-            SiteLogin(chromeDriver, "https://telefontavlen.dk/administrator/index.php?option=com_jmap&task=pingomatic.display");
+            SiteLogin(chromeDriver, "https://teletavletest.elkok.dk/administrator/index.php?option=com_jmap&task=pingomatic.display");
 
             //if (!string.IsNullOrEmpty(searchResultSEF.Header))
             //{
