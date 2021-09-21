@@ -76,13 +76,16 @@ namespace TeleTavleLibrary
                     });
                 CheckToken(token);
 
-                try
+                if (finalSEFList.Count > 0)
                 {
-                    var IndexedList = gConsole.IndexBatchURL(finalSEFList.Select(x => x.SearchResult.Url).ToList(), "URL_UPDATED").Result;
-                }
-                catch (Exception e)
-                {
-                    NewLogEvent(this, new LogEventArgs($"Kunne ikke indexere siderne...  {e}", InformationType.Failed));
+                    try
+                    {
+                        var IndexedList = gConsole.IndexBatchURL(finalSEFList.Select(x => x.SearchResult.Url).ToList(), "URL_UPDATED").Result;
+                    }
+                    catch (Exception e)
+                    {
+                        NewLogEvent(this, new LogEventArgs($"Kunne ikke indexere siderne...  {e}", InformationType.Failed));
+                    }
                 }
 
                 return finalSEFList;
