@@ -5,16 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TelefonTavlenWPF"
         mc:Ignorable="d"
-        Title="MsgPopUpWindow" MinHeight="250" MinWidth="510" MaxHeight="250" MaxWidth="510" ResizeMode="NoResize"
+        Title="MsgPopUpWindow" MinHeight="250" MinWidth="510" MaxHeight="315" MaxWidth="585" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner">
     <Window.Resources>
         <!--Add all styles for the window-->
-        <Style TargetType="{x:Type TextBox}" x:Key="searchtextbox">
-            <Setter Property="FontSize" Value="20"></Setter>
-        </Style>
-        
-        <Style TargetType="{x:Type Label}" x:Key="headerLabel">
+        <Style TargetType="{x:Type TextBox}">
             <Setter Property="FontSize" Value="16"></Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Label}" x:Key="headerLabel">
+            <Setter Property="FontSize" Value="18"></Setter>
         </Style>
 
         <Style TargetType="{x:Type Button}">
@@ -30,9 +30,9 @@
     <Grid x:Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="4*" />
+            <RowDefinition Height="5*" />
         </Grid.RowDefinitions>
-        
+
         <!--type icon and msg title-->
         <Grid x:Name="TopGrid" Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -44,15 +44,15 @@
 
             <Label Grid.Column="1" x:Name="msgTitle" Margin="5" Style="{StaticResource headerLabel}"></Label>
         </Grid>
-        
+
         <!--details and OK button-->
-        <Grid Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" >
+        <Grid Grid.Column="1" Grid.Row="1" >
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBox Grid.Row="0" x:Name="msgdetailsTextBox"  Margin="5" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed"></TextBox>
-            <Button Grid.Row="1" x:Name="OkBtn" Content="OK" MaxWidth="50" Margin="20" Click="OkBtn_Click" ></Button>
+            <TextBox Grid.Row="0" x:Name="msgdetailsTextBox"  Margin="5,5,5,5" IsReadOnly="True" TextWrapping="WrapWithOverflow" Visibility="Collapsed" HorizontalScrollBarVisibility="Auto"></TextBox>
+            <Button Grid.Row="1" x:Name="OkBtn" Content="OK" MaxWidth="50" Margin="15,0,15,0" Click="OkBtn_Click" VerticalAlignment="Center" Height="31" ></Button>
         </Grid>
 
     </Grid>
