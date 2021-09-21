@@ -34,7 +34,7 @@ namespace TeleTavleLibrary
             }
             catch (Exception ex)
             {
-                NewLogEvent(new LogEventArgs($"Der er ikke fundet nogle søge resultater... {ex.Message}", InformationType.Failed));
+                NewLogEvent(new LogEventArgs($"Der er ikke fundet nogle søge resultater for {searchWord}... {ex.Message}", InformationType.Information));
                 return searchResults;
             }
 
