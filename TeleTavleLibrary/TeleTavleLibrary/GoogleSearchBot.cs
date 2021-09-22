@@ -147,7 +147,6 @@ namespace TeleTavleLibrary
 
             return responseUri;
 
-
         }
 
         string GetSearchPage(string searchword)

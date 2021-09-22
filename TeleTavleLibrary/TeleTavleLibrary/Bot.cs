@@ -21,8 +21,6 @@ namespace TeleTavleLibrary
             //if chromedriver is to old or missing
             catch (WebDriverException we) when (!we.Message.StartsWith("Cannot start the driver service on"))
             {
-                var test = we.TargetSite;
-
                 NewLogEvent(new LogEventArgs($"Kunne ikke oprette chromedriver. Læs i guiden om (hvordan man bruger programmet) og gå under sektionen 'Håndtering af chromedriver fejl'...  {we.Message} : {we.TargetSite}", InformationType.Failed));
                 return null;
             }
