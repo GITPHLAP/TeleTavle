@@ -110,7 +110,16 @@ namespace TeleTavleLibrary
             //If the url contains "osdownloads" then tell it to user when its done 
             if (searchURI.AbsolutePath.Contains("osdownloads"))
             {
-                NewLogEvent(new LogEventArgs($"Url'en indeholder osdownloads... URL: {searchURI}", InformationType.Information));
+                //if it doesn't match then there is a alias for the url and the URL prop should be set to the response 
+                if (ResponseUri(searchURI) is Uri responseUri
+                    && responseUri != searchURI)
+                {
+                    result.Url = responseUri.ToString();
+                }
+                else
+                {
+                    NewLogEvent(new LogEventArgs($"Url'en indeholder osdownloads... URL: {searchURI}", InformationType.Information));
+                }
             }
 
             //If the rank is 1 then check if the result is are featured snippet
@@ -126,6 +135,19 @@ namespace TeleTavleLibrary
             }
 
             return result;
+        }
+
+        private Uri ResponseUri(Uri uri)
+        {
+            HtmlWeb htmlWeb = new HtmlWeb();
+
+            htmlWeb.Load(uri);
+
+            Uri responseUri = htmlWeb.ResponseUri;
+
+            return responseUri;
+
+
         }
 
         string GetSearchPage(string searchword)
