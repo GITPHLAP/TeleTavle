@@ -51,36 +51,50 @@ namespace TeleTavleLibrary
 
                 //Find all the sef information and ping and index the result
                 Parallel.ForEach(searchResults, searchResult =>
+                {
+                    if (token.IsCancellationRequested)
                     {
+                        return;
+                    }
+                    SearchResultSEF foundSefs = null;
+                    if (!searchResult.Url.EndsWith(".pdf"))
+                    {
+                        foundSefs = FindSef(searchResult, token);
+
                         if (token.IsCancellationRequested)
                         {
                             return;
                         }
-                        SearchResultSEF foundSefs = null;
-                        if (!searchResult.Url.EndsWith(".pdf"))
-                        {
-                            foundSefs = FindSef(searchResult, token);
 
-                            if (token.IsCancellationRequested)
-                            {
-                                return;
-                            }
+                        //add found sef to final sef list
+                        finalSEFList.Add(foundSefs);
 
-                            //add found sef to final sef list
-                            finalSEFList.Add(foundSefs);
+                    }
 
-                            //Ping and index the results
-                            PingSearchResult(foundSefs);
-                        }
+                });
 
-                    });
                 CheckToken(token);
 
-                if (finalSEFList.Count > 0)
+                //Make a list with non duplicates
+                var DistinctSEF = finalSEFList
+                    .GroupBy(x => x.SearchResult.Url)
+                    .Select(g => g.First())
+                    .ToList();
+
+                //Ping all links, but only if it is not the same
+                Parallel.ForEach(DistinctSEF, distinctSef =>
+                {
+                    //Ping and index the results
+                    PingSearchResult(distinctSef);
+                });
+
+                CheckToken(token);
+
+                if (DistinctSEF.Count > 0)
                 {
                     try
                     {
-                        var IndexedList = gConsole.IndexBatchURL(finalSEFList.Select(x => x.SearchResult.Url).ToList(), "URL_UPDATED").Result;
+                        var IndexedList = gConsole.IndexBatchURL(DistinctSEF.Select(x => x.SearchResult.Url).ToList(), "URL_UPDATED").Result;
                     }
                     catch (Exception e)
                     {

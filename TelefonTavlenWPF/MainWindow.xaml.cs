@@ -143,14 +143,16 @@ namespace TelefonTavlenWPF
                     searchResultSEFs = ttManager.StartProcessParallel(searchwords, processToken);
                 }, processToken);
 
-                //add fb results to FB post list
-                facebookpostList.ItemsSource = searchResultSEFs.OrderBy(x => x.SearchResult.SearchWordWithNum);
+                //add fb results to FB post list 
+                //add fb results to FB object grouped by the link 
+                facebookpostList.ItemsSource = searchResultSEFs.GroupBy(re => (re.SearchResult.Url, re.Header, re.Description))
+                    .Select(r => new FacebookPost(r.Key.Url, r.Key.Header, r.Key.Description, 
+                        string.Join(", ", r.Select(i => i.SearchResult.SearchWordWithNum))));
+
 
                 //Create and show mail draft
                 MailDraft mailDraft = new MailDraft();
                 MailDraftTextBox.Document = mailDraft.CreateMailDraft(searchResultSEFs, searchwords);
-
-
 
                 //every information events will be add as message
                 MsgPopUpWindow popup = new MsgPopUpWindow(InformationType.Successful, everyinformationEvents);
@@ -210,10 +212,10 @@ namespace TelefonTavlenWPF
                 {
                     return;
                 }
-                SearchResultSEF selectedResult = (SearchResultSEF)searchresults.SelectedItem;
-                //create the text in right format
-                string fbText = $"{selectedResult.Header.ToUpper()}\n \n{selectedResult.Description} \nLÆS MERE HER: {selectedResult.SearchResult.Url}";
+                FacebookPost selectedResult = (FacebookPost)searchresults.SelectedItem;
 
+                //create the text in right format
+                string fbText = $"{selectedResult.Header.ToUpper()}\n \n{selectedResult.Description} \nLÆS MERE HER: {selectedResult.Url}";
                 //set text to clipboard
                 Clipboard.SetText(fbText);
 
