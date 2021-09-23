@@ -93,6 +93,7 @@ namespace TelefonTavlenWPF
                 popup.Owner = this;
             }
             popup.ShowDialog();
+            this.Activate();
         }
 
         private void AddSearchWord_Click(object sender, RoutedEventArgs e)
@@ -153,6 +154,7 @@ namespace TelefonTavlenWPF
                 MsgPopUpWindow popup = new MsgPopUpWindow(InformationType.Successful, everyinformationEvents);
                 popup.Owner = this;
                 popup.ShowDialog();
+                this.Activate();
             }
             catch (OperationCanceledException oe)
             {
