@@ -24,6 +24,12 @@ namespace TeleTavleLibrary
                 NewLogEvent(new LogEventArgs($"Kunne ikke oprette chromedriver. Læs i guiden om (hvordan man bruger programmet) og gå under sektionen 'Håndtering af chromedriver fejl'...  {we.Message} : {we.TargetSite}", InformationType.Failed));
                 return null;
             }
+            //when the driver is to old
+            catch (InvalidOperationException ie) when (ie.Message.StartsWith("session not created: This version of ChromeDriver "))
+            {
+                NewLogEvent(new LogEventArgs($"Kunne ikke oprette chromedriver. Læs i guiden om (hvordan man bruger programmet) og gå under sektionen 'Håndtering af chromedriver fejl'...  {ie.Message} : {ie.TargetSite}", InformationType.Failed));
+                return null;
+            }
             catch (Exception e)
             {
                 NewLogEvent(new LogEventArgs($" Noget gik galt, prøver igen {e}", InformationType.Warning));
