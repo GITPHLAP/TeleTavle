@@ -76,7 +76,7 @@ namespace TeleTavleLibrary
                 CheckToken(token);
 
                 //Make a list with non duplicates
-                var DistinctSEF = finalSEFList
+                List<SearchResultSEF> DistinctSEF = finalSEFList
                     .GroupBy(x => x.SearchResult.Url)
                     .Select(g => g.First())
                     .ToList();
@@ -131,12 +131,6 @@ namespace TeleTavleLibrary
             sefBot.CrawlInformation(sEFResult);
 
             return sEFResult;
-        }
-
-        void IndexURL(string urlstring)
-        {
-            //Send Update for url 
-            gConsole.IndexURL(urlstring, "URL_UPDATED");
         }
 
         void PingSearchResult(SearchResultSEF sefSearchresult)
