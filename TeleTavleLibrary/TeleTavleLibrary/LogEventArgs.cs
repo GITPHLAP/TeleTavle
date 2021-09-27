@@ -6,7 +6,7 @@ namespace TeleTavleLibrary
     {
         public string Message { get;  set; }
         public DateTime Time { get; set; }
-        public InformationType informationType { get; set; }
+        public InformationType InformationType { get; set; }
         public LogEventArgs()
         {
 
@@ -15,7 +15,7 @@ namespace TeleTavleLibrary
         {
             this.Message = message;
             this.Time = DateTime.Now;
-            this.informationType = type;
+            this.InformationType = type;
         }
     }
 }
