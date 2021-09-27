@@ -96,13 +96,12 @@ namespace TeleTavleLibrary
             return searchResults;
         }
 
-        SearchResult CreateResultFromNode(HtmlDocument document, Uri searchURI, int rankCounter, string searchWord, int searchwordnum)
+        private SearchResult CreateResultFromNode(HtmlDocument document, Uri searchURI, int rankCounter, string searchWord, int searchwordnum)
         {
             //Instancer and set some properties
             SearchResult result = new SearchResult
             {
-                //Url = searchURI.ToString(),
-                Url = $"http://teletavletest.elkok.dk{searchURI.AbsolutePath}",
+                Url = searchURI.ToString(),
                 Rank = rankCounter,
                 SearchWord = searchWord,
                 SearchWordWithNum = $"{searchWord}{searchwordnum}"
@@ -126,7 +125,7 @@ namespace TeleTavleLibrary
             //If the rank is 1 then check if the result is are featured snippet
             if (result.Rank == 1)
             {
-                var featuredText = document.DocumentNode.SelectSingleNode("//*[@id='rso']/div[1]/div/div[1]/div/div[1]/div/div[1]/div/span/span");
+                HtmlNode featuredText = document.DocumentNode.SelectSingleNode("//*[@id='rso']/div[1]/div/div[1]/div/div[1]/div/div[1]/div/span/span");
                 //Get result for featured snippets - xpdopen is a class name for featured snippet
                 if (featuredText != null)
                 {
@@ -150,7 +149,7 @@ namespace TeleTavleLibrary
 
         }
 
-        string GetSearchPage(string searchword)
+        private string GetSearchPage(string searchword)
         {
             //google url + search word 
             string url = "https://www.google.com/search?q=" + searchword;
@@ -182,7 +181,7 @@ namespace TeleTavleLibrary
             return page;
         }
 
-        bool CheckForReCaptcha(HtmlDocument document)
+        private bool CheckForReCaptcha(HtmlDocument document)
         {
 
             if (document.DocumentNode.SelectNodes("//iframe[@title='reCAPTCHA']") is HtmlNodeCollection)
