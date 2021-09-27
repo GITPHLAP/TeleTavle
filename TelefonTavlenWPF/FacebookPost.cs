@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TelefonTavlenWPF
+﻿namespace TelefonTavlenWPF
 {
     public class FacebookPost
     {
@@ -23,7 +19,6 @@ namespace TelefonTavlenWPF
         public string Header { get => header; set => header = value; }
         public string Description { get => description; set => description = value; }
         public string Name { get => name; set => name = value; }
-
 
     }
 }

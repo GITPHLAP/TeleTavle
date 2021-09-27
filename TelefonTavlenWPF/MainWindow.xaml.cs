@@ -37,16 +37,10 @@ namespace TelefonTavlenWPF
 
             EnableButtonsForStart();
 
-            //TODO: testData
-            foreach (string item in TestSearcWords())
-            {
-                SearchWordListbox.Items.Add(item);
-            }
         }
 
         private void TTManager_LogEvent(object sender, LogEventArgs e)
         {
-
             //The main thread is the only one to add text to control.
             Dispatcher.Invoke(new Action(() =>
             {
@@ -58,7 +52,7 @@ namespace TelefonTavlenWPF
         private void WriteToConsole(LogEventArgs e)
         {
             var brush = Brushes.Black;
-            switch (e.informationType)
+            switch (e.InformationType)
             {
                 case InformationType.Successful:
                     brush = Brushes.LimeGreen;
@@ -85,13 +79,11 @@ namespace TelefonTavlenWPF
             consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time + ": " + e.Message) { Foreground = brush }));
             consoleStatusBox.ScrollToEnd();
 
-            WriteToErrorLog($"{e.Time}: {e.Message}");
-
         }
 
         private void ShowMsgPopUp(LogEventArgs e)
         {
-            MsgPopUpWindow popup = new MsgPopUpWindow(e.informationType, e.Message);
+            MsgPopUpWindow popup = new MsgPopUpWindow(e.InformationType, e.Message);
             //It will fail if the mainwindow is not shown when trying set owner on popup
             if (this.Visibility == Visibility.Visible)
             {
@@ -144,12 +136,10 @@ namespace TelefonTavlenWPF
                     searchResultSEFs = ttManager.StartProcessParallel(searchwords, processToken);
                 }, processToken);
 
-                //add fb results to FB post list 
                 //add fb results to FB object grouped by the link 
                 facebookpostList.ItemsSource = searchResultSEFs.GroupBy(re => (re.SearchResult.Url, re.Header, re.Description))
-                    .Select(r => new FacebookPost(r.Key.Url, r.Key.Header, r.Key.Description, 
+                    .Select(r => new FacebookPost(r.Key.Url, r.Key.Header, r.Key.Description,
                         string.Join(", ", r.Select(i => i.SearchResult.SearchWordWithNum))));
-
 
                 //Create and show mail draft
                 MailDraft mailDraft = new MailDraft();
@@ -163,7 +153,7 @@ namespace TelefonTavlenWPF
             }
             catch (OperationCanceledException oe)
             {
-                WriteToErrorLog(oe.ToString());
+                WriteToConsole(new LogEventArgs($"Ups, en fejl send beskeden til udviklerne: {oe.Message}", InformationType.Failed));
             }
             restartbtn.IsEnabled = true;
 
@@ -226,57 +216,52 @@ namespace TelefonTavlenWPF
             }
             catch (Exception ee)
             {
-                WriteToErrorLog(ee.ToString());
+                WriteToConsole(new LogEventArgs($"Ups, en fejl send beskeden til udviklerne: {ee.Message}", InformationType.Failed));
             }
         }
 
         private void CopyObjectText(object sender, MouseButtonEventArgs e)
         {
-            try
+
+            if (sender is RichTextBox box)
             {
-                if (sender is RichTextBox box)
+                CreateCopyToolTip(box);
+
+                string rtfText;
+                RichTextBox rtb = box;
+
+                TextRange range = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+
+                //create a empty memory stream where the text can be saved in 
+                MemoryStream stream = new MemoryStream();
+                range.Save(stream, DataFormats.Rtf);
+
+                //Set beginning position for the stream
+                stream.Seek(0, SeekOrigin.Begin);
+
+                //read the memory stream
+                StreamReader reader = new StreamReader(stream);
+                rtfText = reader.ReadToEnd();
+
+                Clipboard.SetText(rtfText, TextDataFormat.Rtf);
+
+            }
+            else
+            {
+                //Get control
+                TextBox textBox = (TextBox)sender;
+                CreateCopyToolTip(textBox);
+
+                try
                 {
-                    CreateCopyToolTip(box);
-
-                    string rtfText;
-                    RichTextBox rtb = box;
-
-                    TextRange range = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
-
-                    //create a empty memory stream where the text can be saved in 
-                    MemoryStream stream = new MemoryStream();
-                    range.Save(stream, DataFormats.Rtf);
-
-                    //Set beginning position for the stream
-                    stream.Seek(0, SeekOrigin.Begin);
-
-                    //read the memory stream
-                    StreamReader reader = new StreamReader(stream);
-                    rtfText = reader.ReadToEnd();
-
-                    Clipboard.SetText(rtfText, TextDataFormat.Rtf);
-
+                    Clipboard.SetText(textBox.Text);
                 }
-                else
+                catch (Exception ex)
                 {
-                    //Get control
-                    TextBox textBox = (TextBox)sender;
-                    CreateCopyToolTip(textBox);
-
-                    try
-                    {
-                        Clipboard.SetText(textBox.Text);
-                    }
-                    catch (Exception ex)
-                    {
-                        WriteToConsole(new LogEventArgs($"problemer med at kopiere {ex.Message}", InformationType.Warning));
-                    }
+                    WriteToConsole(new LogEventArgs($"problemer med at kopiere {ex.Message}", InformationType.Warning));
                 }
             }
-            catch (Exception ee)
-            {
-                WriteToErrorLog(ee.ToString());
-            }
+
         }
 
         private void SearchwordInput_KeyDown(object sender, KeyEventArgs e)
@@ -289,105 +274,51 @@ namespace TelefonTavlenWPF
 
         private async void CreateCopyToolTip(Control box)
         {
-            try
+
+            // ToolTip to show that the text is copied
+            ToolTip toolTip = new ToolTip
             {
-                // ToolTip to show that the text is copied
-                ToolTip toolTip = new ToolTip
-                {
-                    Content = "Kopieret"
-                };
-                if (((ToolTip)box.ToolTip) == null)
-                {
-                    ToolTipService.SetToolTip(box, toolTip);
-
-                    ((ToolTip)box.ToolTip).IsOpen = true;
-
-                    //wait for the task so ToolTip only is visible 2 seconds
-                    await Task.Delay(2000);
-
-                    ((ToolTip)box.ToolTip).IsOpen = false;
-
-                    //Set tooltip to null so its not show when hover over the box
-                    ToolTipService.SetToolTip(box, null);
-                }
-            }
-            catch (Exception e)
+                Content = "Kopieret"
+            };
+            if (((ToolTip)box.ToolTip) == null)
             {
-                WriteToErrorLog(e.ToString());
-            }
-        }
+                ToolTipService.SetToolTip(box, toolTip);
 
-        //TODO: DELETE THIS 
-        private void WriteToErrorLog(string message)
-        {
-            string filename = "ErrorLog.txt";
+                ((ToolTip)box.ToolTip).IsOpen = true;
 
-            using (StreamWriter sw = new StreamWriter(filename, true))
-            {
-                //DataTime.Now:G is the same as .ToString("G")
-                sw.WriteLine($"[{DateTime.Now:G}]  {message}");
+                //wait for the task so ToolTip only is visible 2 seconds
+                await Task.Delay(2000);
 
-                sw.Flush();
+                ((ToolTip)box.ToolTip).IsOpen = false;
 
-                sw.Close();
+                //Set tooltip to null so its not show when hover over the box
+                ToolTipService.SetToolTip(box, null);
             }
 
-        }
-
-        //TODO:TEST data
-        private List<string> TestSearcWords()
-        {
-            List<string> searchwords = new List<string>();
-
-
-            searchwords.Add("Handicapscootere hele Danmark");
-            searchwords.Add("el-scootere til handicappede i hele Danmark");
-            searchwords.Add("hjælpemidler scootere på Sjælland");
-            searchwords.Add("Scootere til handicappede fra Top Scooter Nordic");
-            searchwords.Add("TSN HS-520");
-            searchwords.Add("TSN HS-828");
-            searchwords.Add("TSN HS 855");
-            searchwords.Add("TSN HS 895");
-            searchwords.Add("TSN HS 928");
-            searchwords.Add("Handicap crossere");
-            searchwords.Add("Handicap crossere Sjælland");
-            searchwords.Add("Crossere til handicappede");
-            searchwords.Add("Scootere fremvisning Sjælland");
-            searchwords.Add("Scootere til handicappede");
-            searchwords.Add("Scootere til ældre Sjælland");
-            searchwords.Add("Scootere til handicappede hele Danmark");
-            searchwords.Add("Scootere rejsevenlige");
-
-            return searchwords;
         }
 
         private void SearchWordListbox_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            try
-            {
-                //cast to listbox
-                ListBox searchWords = (ListBox)sender;
-                //Remove the item clicked on
-                //If null dont do anything
-                if (searchWords.SelectedItem == null)
-                {
-                    return;
-                }
-                //Remove selected item
-                searchWords.Items.Remove(searchWords.SelectedItem);
-                //Must wait because event gets fired like 3 times if not.
-                Task.Delay(100).Wait();
 
-                //Disable start button if searchword list is empty 
-                if (searchWords.Items.IsEmpty)
-                {
-                    EnableButtonsForStart();
-                }
-            }
-            catch (Exception ee)
+            //cast to listbox
+            ListBox searchWords = (ListBox)sender;
+            //Remove the item clicked on
+            //If null dont do anything
+            if (searchWords.SelectedItem == null)
             {
-                WriteToErrorLog(ee.ToString());
+                return;
             }
+            //Remove selected item
+            searchWords.Items.Remove(searchWords.SelectedItem);
+            //Must wait because event gets fired like 3 times if not.
+            Task.Delay(100).Wait();
+
+            //Disable start button if searchword list is empty 
+            if (searchWords.Items.IsEmpty)
+            {
+                EnableButtonsForStart();
+            }
+
         }
     }
 }

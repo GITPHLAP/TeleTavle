@@ -96,14 +96,11 @@ namespace TelefonTavlenWPF
 
             //groupe search result by the searchword and the nmake a list of ranks
             var groupedsearchResults = searchResults.GroupBy(re => re.SearchResult.SearchWord, re => re.SearchResult.Rank, (key, r) => new { SearchWord = key, Rank = r.ToList() });
-            
-            
+
             //GroupBy searchword and create a list with rank 
             foreach (string searchword in searchwords)
             {
                 searchwordscount++;
-
-                
 
                 //add row and set the currentrow with the searchwordcounter
                 searchWordTable.RowGroups[0].Rows.Add(new TableRow());
@@ -113,7 +110,7 @@ namespace TelefonTavlenWPF
                 currentRow.Cells.Add(new TableCell(new Paragraph(new Run(searchword))));
 
                 //if search word match the grouped list then it should return the list else it will return null
-                var result = groupedsearchResults.Where(r => r.SearchWord == searchword).FirstOrDefault();
+                var result = groupedsearchResults.FirstOrDefault(r => r.SearchWord == searchword);
 
                 if (result == null)
                 {
@@ -122,8 +119,7 @@ namespace TelefonTavlenWPF
                 else
                 {
                     //Find the featured snippet
-                    var checkSnippet = searchResults.Where(x => x.SearchResult.SearchWord == searchword && x.SearchResult.FeaturedSnippet != null)
-                        .FirstOrDefault();
+                    SearchResultSEF checkSnippet = searchResults.FirstOrDefault(x => x.SearchResult.SearchWord == searchword && x.SearchResult.FeaturedSnippet != null);
                     string featuredSnippet = "";
                     if (checkSnippet != null)
                     {
@@ -155,16 +151,16 @@ namespace TelefonTavlenWPF
                         //if only one rank then just add it
                         par.Inlines.Add(new Bold(new Run(result.Rank.First().ToString())));
 
-                        
+
                     }
                     //If there is a featured snippet, then it will be shown
-                    if (result.Rank.Where(x => x == 1).FirstOrDefault() == 1 && !string.IsNullOrEmpty(featuredSnippet))
+                    if (result.Rank.FirstOrDefault(x => x == 1) == 1 && !string.IsNullOrEmpty(featuredSnippet))
                     {
                         par.Inlines.Add(new Run("\nMed en udvidet reklame som kan ses nedenunder: \n"));
                         par.Inlines.Add(new Run(featuredSnippet));
                     }
                 }
-                
+
                 //add the paragraph to the cell
                 currentRow.Cells.Add(new TableCell(par));
             }
