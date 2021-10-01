@@ -76,8 +76,7 @@ namespace TelefonTavlenWPF
                     break;
             }
             //Write text to the consolebox and add the color.
-            //TODO: Use this: consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time + ": " + e.Message) { Foreground = brush }));
-            consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time.Minute +" . " + e.Time.Second + " . " +e.Time.Millisecond + ": " + e.Message) { Foreground = brush })); //TODO:remove this
+            consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run(e.Time + ": " + e.Message) { Foreground = brush }));
             consoleStatusBox.ScrollToEnd();
 
             WriteToErrorLog($"{e.Time}: {e.Message}");
