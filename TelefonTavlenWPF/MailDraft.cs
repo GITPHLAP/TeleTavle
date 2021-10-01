@@ -114,7 +114,7 @@ namespace TelefonTavlenWPF
 
                 if (result == null)
                 {
-                    par = new Paragraph(new Bold(new Run("Der blev ikke fundet nogle søge resultater, for dette søgeord på Googles side 1 endnu, men jeg arbejder på sagen.")));
+                    par = new Paragraph(new Bold(new Run("Der blev ikke fundet nogle søgeresultater, for dette søgeord på Googles side 1 endnu, men jeg arbejder på sagen.")));
                 }
                 else
                 {
