@@ -70,7 +70,7 @@ namespace TelefonTavlenWPF
             Table searchWordTable = new Table();
             document.Blocks.Add(searchWordTable);
 
-            //searchWordTable.CellSpacing = 10;
+            searchWordTable.CellSpacing = 30;
 
             //Add 2 columns
             int numberOfColumns = 2;
