@@ -40,7 +40,7 @@ namespace TeleTavleLibrary
             }
             catch (Exception)
             {
-                NewLogEvent(new LogEventArgs($"SEFBot kan ikke søge efter url", InformationType.Failed));
+                NewLogEvent(new LogEventArgs($"SEFBot kan ikke søge efter url: {input.SearchWord}", InformationType.Failed));
 
             }
 
