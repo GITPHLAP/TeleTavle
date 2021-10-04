@@ -205,7 +205,16 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Label Grid.Row="0" Content="Søgeord til facebook" Style="{StaticResource headerLabel}" HorizontalAlignment="Center"></Label>
-                    <ListBox Grid.Row="1" x:Name="facebookpostList" Margin="5" SelectionChanged="FacebookpostList_SelectionChanged" ItemsSource="{Binding}" DisplayMemberPath="Name" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                    <ListBox Grid.Row="1" x:Name="facebookpostList" Margin="5" SelectionChanged="FacebookpostList_SelectionChanged" ItemsSource="{Binding FacebookPost}" ScrollViewer.VerticalScrollBarVisibility="Auto" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+
+                                <TextBlock HorizontalAlignment="Stretch" Text="{Binding Name}" TextWrapping="WrapWithOverflow"
+                                               Width="{Binding ElementName=facebookpostList, Path=ActualWidth}"/>
+
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Grid>
             </Border>
             <!--facebook textbox-->
