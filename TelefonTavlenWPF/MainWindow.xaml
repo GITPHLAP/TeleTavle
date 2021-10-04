@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TelefonTavlenWPF"
         mc:Ignorable="d"
-        Title="TeleTavle Hjælperen" MinHeight="500" MinWidth="800">
+        Title="TeleTavle Hjælperen" MinHeight="635" MinWidth="1000">
     <Window.Resources>
         <!--Add all styles for the application-->
 
@@ -191,12 +191,18 @@
 
             <!--status list and restart button-->
             <Border CornerRadius="15" Grid.Column="0" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
-                <StackPanel Grid.Column="0">
-                    <RichTextBox x:Name="consoleStatusBox" Height="150" IsReadOnly="True" Style="{StaticResource TextFields}">
-                    </RichTextBox>
-                    <Button Content="Start forfra" Margin="10,10,10,10" x:Name="restartbtn" Click="Restartbtn_Click" />
-                    <Button Content="Start delvist forfra" Margin="10,5,10,10" x:Name="partlyRestartBtn" Click="PartlyRestartbtn_Click" />
-                </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <RichTextBox x:Name="consoleStatusBox" Grid.Row="0" MinHeight="150" IsReadOnly="True" Style="{StaticResource TextFields}"/>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
+                        <Button Content="Start forfra" Margin="10,10,10,10" x:Name="restartbtn" Click="Restartbtn_Click" />
+                        <Button Content="Start delvist forfra" Margin="10,5,10,10" x:Name="partlyRestartBtn" Click="PartlyRestartbtn_Click" />
+                    </StackPanel>
+
+                </Grid>
             </Border>
             <!--searchwords to facebook post-->
             <Border CornerRadius="15" Grid.Column="1" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
