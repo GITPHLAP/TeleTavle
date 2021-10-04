@@ -141,7 +141,7 @@ namespace TelefonTavlenWPF
                 //add fb results to FB post list 
                 //add fb results to FB object grouped by the link 
                 facebookpostList.ItemsSource = searchResultSEFs.GroupBy(re => (re.SearchResult.Url, re.Header, re.Description))
-                    .Select(r => new FacebookPost(r.Key.Url, r.Key.Header, r.Key.Description, 
+                    .Select(r => new FacebookPost(r.Key.Url, r.Key.Header, r.Key.Description,
                         string.Join(", ", r.Select(i => i.SearchResult.SearchWordWithNum))));
 
 
@@ -159,7 +159,9 @@ namespace TelefonTavlenWPF
             {
                 WriteToErrorLog(oe.ToString());
             }
+
             restartbtn.IsEnabled = true;
+            partlyRestartBtn.IsEnabled = true;
 
             cancellationTokenSource.Dispose();
         }
@@ -174,17 +176,33 @@ namespace TelefonTavlenWPF
 
         private void Restartbtn_Click(object sender, RoutedEventArgs e)
         {
-            //Empty everything
+            //Clear the searchword list on full reset
             SearchWordListbox.Items.Clear();
-            facebookpostList.ItemsSource = null;
-            consoleStatusBox.Document.Blocks.Clear();
-            MailDraftTextBox.Document.Blocks.Clear();
-            everyinformationEvents = "";
-            fbTextBox.Clear();
-            searchwordInput.Clear();
+            PartlyResetLists();
 
             //Enable for input
             EnableButtonsForStart();
+        }
+        private void PartlyRestartbtn_Click(object sender, RoutedEventArgs e)
+        {
+            PartlyResetLists();
+
+            //Enable for input
+            EnableButtonsForStart();
+
+            Startbtn.IsEnabled = true;
+        }
+
+        private void PartlyResetLists()
+        {
+            //Empty everything
+            facebookpostList.ItemsSource = null;
+            consoleStatusBox.Document.Blocks.Clear();
+            MailDraftTextBox.Document.Blocks.Clear();
+            //Empty the earlier events
+            everyinformationEvents = "";
+            fbTextBox.Clear();
+            searchwordInput.Clear();
         }
 
         private void EnableButtonsForStart()
@@ -192,6 +210,7 @@ namespace TelefonTavlenWPF
             SearchWordListbox.IsEnabled = true;
             searchwordInput.IsEnabled = true;
             restartbtn.IsEnabled = false;
+            partlyRestartBtn.IsEnabled = false;
             AddSearchWord.IsEnabled = true;
             Startbtn.IsEnabled = false;
         }
@@ -325,7 +344,7 @@ namespace TelefonTavlenWPF
 
                 sw.Close();
             }
-                
+
         }
 
         private void SearchWordListbox_MouseUp(object sender, MouseButtonEventArgs e)
