@@ -216,7 +216,7 @@ namespace TelefonTavlenWPF
             }
             catch (Exception ee)
             {
-                WriteToConsole(new LogEventArgs($"Ups, en fejl send beskeden til udviklerne: {ee.Message}", InformationType.Failed));
+                WriteToConsole(new LogEventArgs($"Ups, en fejl send beskeden til udviklerne: {ee.Message}", InformationType.Warning));
             }
         }
 
