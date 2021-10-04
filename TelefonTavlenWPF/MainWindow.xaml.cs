@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -36,6 +37,12 @@ namespace TelefonTavlenWPF
             ttManager.SubscribeEvents();
 
             EnableButtonsForStart();
+
+            //Create Eventsource in registry - First time the program needs admin rights 
+            if (!EventLog.SourceExists("TeleTavleHjælperen"))
+            {
+                EventLog.CreateEventSource("TeleTavleHjælperen", "Application");
+            }
         }
 
         private void TTManager_LogEvent(object sender, LogEventArgs e)
@@ -63,6 +70,8 @@ namespace TelefonTavlenWPF
                     consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run("STOPPET") { Foreground = brush }));
 
                     ShowMsgPopUp(e);
+
+                    EventLog.WriteEntry("TeleTavleHjælperen", e.Message, EventLogEntryType.Error);
                     break;
                 case InformationType.Information:
                     brush = Brushes.Black;
