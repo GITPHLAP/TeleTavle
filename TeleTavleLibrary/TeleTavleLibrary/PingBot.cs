@@ -36,11 +36,6 @@ namespace TeleTavleLibrary
         {
             try
             {
-                if (string.IsNullOrEmpty(searchResultSEF.Header))
-                {
-                    searchResultSEF.Header = searchResultSEF.SearchResult.UrlLocation;
-                }
-
                 //Click new ping
                 chromeDriver.FindElement(By.CssSelector("#toolbar-new > button")).Click();
                 //Find the inputs and send title and url

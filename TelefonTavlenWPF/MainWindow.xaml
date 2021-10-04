@@ -195,6 +195,7 @@
                     <RichTextBox x:Name="consoleStatusBox" Height="150" IsReadOnly="True" Style="{StaticResource TextFields}">
                     </RichTextBox>
                     <Button Content="Start forfra" Margin="10,10,10,10" x:Name="restartbtn" Click="Restartbtn_Click" />
+                    <Button Content="Start delvist forfra" Margin="10,5,10,10" x:Name="partlyRestartBtn" Click="PartlyRestartbtn_Click" />
                 </StackPanel>
             </Border>
             <!--searchwords to facebook post-->

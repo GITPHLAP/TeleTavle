@@ -38,7 +38,7 @@ namespace TeleTavleLibrary
             }
             catch (Exception)
             {
-                NewLogEvent(new LogEventArgs($"SEFBot kan ikke søge efter url", InformationType.Failed));
+                NewLogEvent(new LogEventArgs($"SEFBot kan ikke søge efter url: {input.SearchWord}", InformationType.Failed));
 
             }
 
@@ -69,7 +69,7 @@ namespace TeleTavleLibrary
                         string description = chromeDriver.FindElement(By.XPath($"/html/body/div[2]/section/div/div/div[3]/form/div/div[3]/div[2]/table/tbody/tr[{rownum}]/td[5]/div/textarea")).Text;
 
                         //Add information 
-                        searchResultSEF.Header = header;
+                        searchResultSEF.Header = string.IsNullOrEmpty(header) ? searchResultSEF.SearchResult.UrlLocation : header; // ?: operator do the same as if else
                         searchResultSEF.Description = description;
                     }
 

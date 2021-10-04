@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -37,6 +38,11 @@ namespace TelefonTavlenWPF
 
             EnableButtonsForStart();
 
+            //Create Eventsource in registry - First time the program needs admin rights 
+            if (!EventLog.SourceExists("TeleTavleHjælperen"))
+            {
+                EventLog.CreateEventSource("TeleTavleHjælperen", "Application");
+            }
         }
 
         private void TTManager_LogEvent(object sender, LogEventArgs e)
@@ -63,6 +69,8 @@ namespace TelefonTavlenWPF
                     consoleStatusBox.Document.Blocks.Add(new Paragraph(new Run("STOPPET") { Foreground = brush }));
 
                     ShowMsgPopUp(e);
+
+                    EventLog.WriteEntry("TeleTavleHjælperen", e.Message, EventLogEntryType.Error);
                     break;
                 case InformationType.Information:
                     brush = Brushes.Black;
@@ -155,7 +163,9 @@ namespace TelefonTavlenWPF
             {
                 WriteToConsole(new LogEventArgs($"Ups, en fejl send beskeden til udviklerne: {oe.Message}", InformationType.Failed));
             }
+
             restartbtn.IsEnabled = true;
+            partlyRestartBtn.IsEnabled = true;
 
             cancellationTokenSource.Dispose();
         }
@@ -170,17 +180,33 @@ namespace TelefonTavlenWPF
 
         private void Restartbtn_Click(object sender, RoutedEventArgs e)
         {
-            //Empty everything
+            //Clear the searchword list on full reset
             SearchWordListbox.Items.Clear();
-            facebookpostList.ItemsSource = null;
-            consoleStatusBox.Document.Blocks.Clear();
-            MailDraftTextBox.Document.Blocks.Clear();
-            everyinformationEvents = "";
-            fbTextBox.Clear();
-            searchwordInput.Clear();
+            PartlyResetLists();
 
             //Enable for input
             EnableButtonsForStart();
+        }
+        private void PartlyRestartbtn_Click(object sender, RoutedEventArgs e)
+        {
+            PartlyResetLists();
+
+            //Enable for input
+            EnableButtonsForStart();
+
+            Startbtn.IsEnabled = true;
+        }
+
+        private void PartlyResetLists()
+        {
+            //Empty everything
+            facebookpostList.ItemsSource = null;
+            consoleStatusBox.Document.Blocks.Clear();
+            MailDraftTextBox.Document.Blocks.Clear();
+            //Empty the earlier events
+            everyinformationEvents = "";
+            fbTextBox.Clear();
+            searchwordInput.Clear();
         }
 
         private void EnableButtonsForStart()
@@ -188,6 +214,7 @@ namespace TelefonTavlenWPF
             SearchWordListbox.IsEnabled = true;
             searchwordInput.IsEnabled = true;
             restartbtn.IsEnabled = false;
+            partlyRestartBtn.IsEnabled = false;
             AddSearchWord.IsEnabled = true;
             Startbtn.IsEnabled = false;
         }
