@@ -40,7 +40,7 @@ namespace TelefonTavlenWPF
             //to create a empty line
             draftflow.Blocks.Add(new Paragraph(new Run()));
 
-            par = new Paragraph(new Run("Dine søgeresultater via telefontavlen.dk er som følger på Googles gratis annoncer:"));
+            par = new Paragraph(new Run("Dine søgeresultater via telefontavlen.dk er som følger på Googles gratis annoncer på side 1"));
             draftflow.Blocks.Add(par);
 
             //to create a empty line
