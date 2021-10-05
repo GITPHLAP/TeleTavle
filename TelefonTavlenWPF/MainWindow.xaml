@@ -146,7 +146,7 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" x:Name="searchwordGrid" MinWidth="200" Margin="2" MaxHeight="33" >
+                    <Grid Grid.Row="0" x:Name="searchwordGrid" MinWidth="200" Margin="2" MaxHeight="36.6" >
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -154,7 +154,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"></RowDefinition>
                         </Grid.RowDefinitions>
-                        <TextBox Grid.Column="0" x:Name="searchwordInput" Style="{StaticResource TextFields}" KeyDown="SearchwordInput_KeyDown" Margin="10,0,0,0" FontSize="20"></TextBox>
+                        <TextBox Grid.Column="0" x:Name="searchwordInput" Style="{StaticResource TextFields}" KeyDown="SearchwordInput_KeyDown" Margin="10,0,0,0" FontSize="20" VerticalContentAlignment="Center"></TextBox>
 
 
                         <Button x:Name="AddSearchWord" Grid.Column="1" Margin="8,0,10,0" Content="Tilføj" Click="AddSearchWord_Click"></Button>
@@ -193,8 +193,8 @@
             <Border CornerRadius="15" Grid.Column="0" Background="{StaticResource BackgroundSecondaryBrush}" Margin="10,10,10,10">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="2*"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="31*"/>
+                        <RowDefinition Height="18*"/>
                     </Grid.RowDefinitions>
                     <RichTextBox x:Name="consoleStatusBox" Grid.Row="0" MinHeight="150" IsReadOnly="True" Style="{StaticResource TextFields}"/>
                     <StackPanel Grid.Row="1" VerticalAlignment="Bottom">
