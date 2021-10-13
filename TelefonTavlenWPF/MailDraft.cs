@@ -24,7 +24,7 @@ namespace TelefonTavlenWPF
             //to create a empty line
             draftflow.Blocks.Add(new Paragraph(new Run()));
 
-            par = new Paragraph(new Run("Jeg vil også gerne gøre dig opmærksom på, at jeg bruger både Google, Facebook samt Instagram med relevante søgeord og billeder for at markedsføre [Virksomheds_Navn]. Hvis [Virksomheds_Navn] har nogle nyheder, som i gerne vil have frem både på Google, Facebook og Instagram, så send mig nogle billeder og noget beskrivelse."));
+            par = new Paragraph(new Run("Jeg vil også gerne gøre dig opmærksom på, at jeg bruger både Google, Facebook, flere forskellige Facebook grupper samt Instagram med relevante søgeord og billeder for at markedsføre [Virksomheds_Navn]. Hvis [Virksomheds_Navn] har nogle nyheder, som i gerne vil have frem både på Google, Facebook og Instagram, så send mig nogle billeder og noget beskrivelse."));
             draftflow.Blocks.Add(par);
 
 
