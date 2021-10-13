@@ -75,11 +75,15 @@ namespace TeleTavleLibrary
 
                     rownum++;
                 }
+                if (string.IsNullOrEmpty( searchResultSEF.Header))
+                {
+                    NewLogEvent(new LogEventArgs($"Overskriften kan ikke findes til facebook opslaget URL: {searchResultSEF.SearchResult.Url}", InformationType.Failed));
+                }
             }
             catch (Exception)
             {
 
-                NewLogEvent(new LogEventArgs($"SEFBot kan ikke finde overskrift og beskrivelse til facebook opslaget URL: {searchResultSEF.SearchResult.Url}", InformationType.Failed));
+                NewLogEvent(new LogEventArgs($"SEFBot kan ikke finde overskrift og/eller beskrivelse til facebook opslaget URL: {searchResultSEF.SearchResult.Url}", InformationType.Failed));
 
             }
 
